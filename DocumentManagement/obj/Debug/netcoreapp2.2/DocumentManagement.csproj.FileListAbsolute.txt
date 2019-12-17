@@ -1,0 +1,14 @@
+C:\Users\Asus\Desktop\Project\DocumentManagement\DocumentManagement\bin\Debug\netcoreapp2.2\DocumentManagement.deps.json
+C:\Users\Asus\Desktop\Project\DocumentManagement\DocumentManagement\bin\Debug\netcoreapp2.2\DocumentManagement.runtimeconfig.json
+C:\Users\Asus\Desktop\Project\DocumentManagement\DocumentManagement\bin\Debug\netcoreapp2.2\DocumentManagement.runtimeconfig.dev.json
+C:\Users\Asus\Desktop\Project\DocumentManagement\DocumentManagement\bin\Debug\netcoreapp2.2\DocumentManagement.dll
+C:\Users\Asus\Desktop\Project\DocumentManagement\DocumentManagement\obj\Debug\netcoreapp2.2\DocumentManagement.csprojAssemblyReference.cache
+C:\Users\Asus\Desktop\Project\DocumentManagement\DocumentManagement\obj\Debug\netcoreapp2.2\DocumentManagement.csproj.CoreCompileInputs.cache
+C:\Users\Asus\Desktop\Project\DocumentManagement\DocumentManagement\obj\Debug\netcoreapp2.2\DocumentManagement.RazorAssemblyInfo.cache
+C:\Users\Asus\Desktop\Project\DocumentManagement\DocumentManagement\obj\Debug\netcoreapp2.2\DocumentManagement.RazorAssemblyInfo.cs
+C:\Users\Asus\Desktop\Project\DocumentManagement\DocumentManagement\obj\Debug\netcoreapp2.2\DocumentManagement.AssemblyInfoInputs.cache
+C:\Users\Asus\Desktop\Project\DocumentManagement\DocumentManagement\obj\Debug\netcoreapp2.2\DocumentManagement.AssemblyInfo.cs
+C:\Users\Asus\Desktop\Project\DocumentManagement\DocumentManagement\obj\Debug\netcoreapp2.2\DocumentManagement.RazorTargetAssemblyInfo.cache
+C:\Users\Asus\Desktop\Project\DocumentManagement\DocumentManagement\bin\Debug\netcoreapp2.2\DocumentManagement.pdb
+C:\Users\Asus\Desktop\Project\DocumentManagement\DocumentManagement\obj\Debug\netcoreapp2.2\DocumentManagement.dll
+C:\Users\Asus\Desktop\Project\DocumentManagement\DocumentManagement\obj\Debug\netcoreapp2.2\DocumentManagement.pdb
