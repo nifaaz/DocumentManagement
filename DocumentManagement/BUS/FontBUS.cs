@@ -24,5 +24,35 @@ namespace DocumentManagement.BUS
             var result = FontDAL.GetAllFont();
             return result;
         }
+        public ReturnResult<Font> GetFontByID(int fontID)
+        {
+            var rs = FontDAL.GetFontByID(fontID);
+            return rs;
+        }
+        public ReturnResult<Font> GetFontByCoQuanID(int coQuanID)
+        {
+            var rs = FontDAL.GetFontByCoQuanID(coQuanID);
+            return rs;
+        }
+        public ReturnResult<Font> FontSearch(string searchStr)
+        {
+            var rs = FontDAL.FontSearch(searchStr);
+            return rs;
+        }
+        public ReturnResult<Font> DeleteFont(int fontID)
+        {
+            var rs = FontDAL.DeleteFont(fontID);
+            return rs;
+        }
+        public ReturnResult<Font> UpdateFont(Font font)
+        {
+            var rs = FontDAL.UpdateFont(font);
+            return rs;
+        }
+        public ReturnResult<Font> InsertFont(Font font)
+        {
+            var rs = FontDAL.InsertFont(font);
+            return rs;
+        }
     }
 }
