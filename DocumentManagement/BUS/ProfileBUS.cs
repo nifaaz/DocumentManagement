@@ -24,7 +24,21 @@ namespace DocumentManagement.BUS
             var result = ProfileDAL.GetAllProfile();
             return result;
         }
-
+        public ReturnResult<Profile> ProfileSearch(string serachStr)
+        {
+            var result = ProfileDAL.SearchProfile(serachStr);
+            return result;
+        }
+        public ReturnResult<Profile> GetProfileByID(int profileID)
+        {
+            var result = ProfileDAL.GetProfileByID(profileID);
+            return result;
+        }
+        public ReturnResult<Profile> GetProfileByGearBoxID(int gearBoxID)
+        {
+            var result = ProfileDAL.GetProfileByGearBoxID(gearBoxID);
+            return result;
+        }
         public ReturnResult<Profile> CreateProfile(Profile profile)
         {
             var result = ProfileDAL.CreateProfile(profile);

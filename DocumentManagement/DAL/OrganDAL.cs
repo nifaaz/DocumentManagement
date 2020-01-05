@@ -1,6 +1,7 @@
 ﻿using DocumentManagement.Common;
 using DocumentManagement.Model;
-using DocumentManagement.Model.Entity;
+using DocumentManagement.Model.Entity.Organ;
+using DocumentManagement.Model.Entity.Repository;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,181 +10,202 @@ using System.Threading.Tasks;
 
 namespace DocumentManagement.DAL
 {
-    public class FontDAL
+    public class OrganDAL
     {
-        public ReturnResult<Font> GetAllFont()
+        public ReturnResult<Organ> GetAllOrgan()
         {
-            List<Font> fontList = new List<Font>();
+            List<Organ> OrganList = new List<Organ>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
-            dbProvider.SetQuery("FONT_GET_ALL", CommandType.StoredProcedure)
+            dbProvider.SetQuery("Organ_GET_ALL", CommandType.StoredProcedure)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)                
-                .GetList<Font>(out fontList)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetList<Organ>(out OrganList)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
-                       
-            return new ReturnResult<Font>()
+
+            return new ReturnResult<Organ>()
             {
-                ItemList = fontList,
+                ItemList = OrganList,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Font> FontSearch(string searchStr)
+        public ReturnResult<Organ> OrganSearch(string searchStr)
         {
-            List<Font> fontList = new List<Font>();
+            List<Organ> OrganList = new List<Organ>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
-            dbProvider.SetQuery("FONT_GET_ALL", CommandType.StoredProcedure)
+            dbProvider.SetQuery("Organ_SEARCH", CommandType.StoredProcedure)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<Font>(out fontList)
+                .GetList<Organ>(out OrganList)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Font>()
+            return new ReturnResult<Organ>()
             {
-                ItemList = fontList,
+                ItemList = OrganList,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Font> GetFontByID(int PhongID)
+        public ReturnResult<Organ> GetOrganByID(int organID)
         {
-            List<Font> fontList = new List<Font>();
+            List<Organ> OrganList = new List<Organ>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
-            dbProvider.SetQuery("FONT_GET_BY_ID", CommandType.StoredProcedure)
-                .SetParameter("PhongID", SqlDbType.Int, PhongID, ParameterDirection.Input)
+            dbProvider.SetQuery("Organ_GET_BY_ID", CommandType.StoredProcedure)
+                .SetParameter("CoQuanID", SqlDbType.Int, organID, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<Font>(out fontList)
+                .GetList<Organ>(out OrganList)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Font>()
+            return new ReturnResult<Organ>()
             {
-                ItemList = fontList,
+                ItemList = OrganList,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Font> GetFontByCoQuanID(int coQuanID)
+        public ReturnResult<Organ> GetOrganByAddressID(int addressID)
         {
-            List<Font> fontList = new List<Font>();
+            List<Organ> OrganList = new List<Organ>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
-            dbProvider.SetQuery("FONT_GET_BY_COQUANID", CommandType.StoredProcedure)
-                .SetParameter("CoQuanID", SqlDbType.Int, coQuanID, ParameterDirection.Input)
+            dbProvider.SetQuery("Organ_GET_BY_ADDRESSID", CommandType.StoredProcedure)
+                .SetParameter("DiaChiID", SqlDbType.Int, addressID, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<Font>(out fontList)
+                .GetList<Organ>(out OrganList)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Font>()
+            return new ReturnResult<Organ>()
             {
-                ItemList = fontList,
+                ItemList = OrganList,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Font> DeleteFont(int PhongID)
+        public ReturnResult<Organ> GetOrganByOrganTypeID(int organTypeID)
         {
-            List<Font> fontList = new List<Font>();
+            List<Organ> OrganList = new List<Organ>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
-            dbProvider.SetQuery("FONT_DELETE", CommandType.StoredProcedure)
-                .SetParameter("PhongID",SqlDbType.Int,PhongID,ParameterDirection.Input)
+            dbProvider.SetQuery("Organ_GET_BY_ORGANTYPEID", CommandType.StoredProcedure)
+                .SetParameter("LoaiCoQuan", SqlDbType.Int, organTypeID, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<Font>(out fontList)
+                .GetList<Organ>(out OrganList)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Font>()
+            return new ReturnResult<Organ>()
             {
-                ItemList = fontList,
+                ItemList = OrganList,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Font> UpdateFont(Font font)
+        public ReturnResult<Organ> DeleteOrgan(int organID)
         {
-            List<Font> fontList = new List<Font>();
+            List<Organ> OrganList = new List<Organ>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
-            dbProvider.SetQuery("FONT_EDIT", CommandType.StoredProcedure)
-                .SetParameter("PhongID", SqlDbType.Int, font.FontID, ParameterDirection.Input)
-                .SetParameter("PhongSo", SqlDbType.NChar, font.FontNumber, 10, ParameterDirection.Input)
-                .SetParameter("CoQuanID", SqlDbType.Int, font.OrganID, ParameterDirection.Input)
-                .SetParameter("TenPhong", SqlDbType.NVarChar,font.FontName, 50, ParameterDirection.Input)
-                .SetParameter("LichSu", SqlDbType.NVarChar, font.History, 500, ParameterDirection.Input)
-                .SetParameter("NgonNgu", SqlDbType.NVarChar, font.Lang, 50, ParameterDirection.Input)
-                .SetParameter("NgayCapNhat", SqlDbType.DateTime, font.UpdateTime, ParameterDirection.Input)
+            dbProvider.SetQuery("Organ_DELETE", CommandType.StoredProcedure)
+                .SetParameter("CoQuanID", SqlDbType.Int, organID, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<Font>(out fontList)
+                .GetList<Organ>(out OrganList)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Font>()
+            return new ReturnResult<Organ>()
             {
-                ItemList = fontList,
+                ItemList = OrganList,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Font> InsertFont(Font font)
+        public ReturnResult<Organ> UpdateOrgan(Organ Organ)
         {
-            List<Font> fontList = new List<Font>();
+            List<Organ> OrganList = new List<Organ>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
-            dbProvider.SetQuery("FONT_CREATE", CommandType.StoredProcedure)
-                .SetParameter("PhongSo", SqlDbType.NChar, font.FontNumber, 10, ParameterDirection.Input)
-                .SetParameter("CoQuanID", SqlDbType.Int, font.OrganID, ParameterDirection.Input)
-                .SetParameter("TenPhong", SqlDbType.NVarChar, font.FontName, 50, ParameterDirection.Input)
-                .SetParameter("LichSu", SqlDbType.NVarChar, font.History, 500, ParameterDirection.Input)
-                .SetParameter("NgonNgu", SqlDbType.NVarChar, font.Lang, 50, ParameterDirection.Input)
-                .SetParameter("NgayCapNhat", SqlDbType.DateTime, font.UpdateTime, ParameterDirection.Input)
-                .SetParameter("NgayTao", SqlDbType.DateTime, font.CreateTime, ParameterDirection.Input)
+            dbProvider.SetQuery("Organ_EDIT", CommandType.StoredProcedure)
+                .SetParameter("CoQuanID", SqlDbType.Int, Organ.OrganID, ParameterDirection.Input)
+                .SetParameter("TenCoQuan", SqlDbType.NVarChar, Organ.OrganName, 50, ParameterDirection.Input)
+                .SetParameter("DiaChiID", SqlDbType.Int, Organ.AddressID, ParameterDirection.Input)
+                .SetParameter("OrganType", SqlDbType.Int, Organ.OrganTypeID, ParameterDirection.Input)
+                .SetParameter("NgayCapNhat", SqlDbType.Int, Organ.UpdateTime, ParameterDirection.Input)
+                .SetParameter("Status", SqlDbType.Int, Organ.Status, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<Font>(out fontList)
+                .GetList<Organ>(out OrganList)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Font>()
+            return new ReturnResult<Organ>()
             {
-                ItemList = fontList,
+                ItemList = OrganList,
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+                TotalRows = totalRows
+            };
+        }
+        public ReturnResult<Organ> InsertOrgan(Organ Organ)
+        {
+            List<Organ> OrganList = new List<Organ>();
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            int totalRows = 0;
+            dbProvider.SetQuery("Organ_INSERT", CommandType.StoredProcedure)
+                .SetParameter("TenCoQuan", SqlDbType.NVarChar, Organ.OrganName, 50, ParameterDirection.Input)
+                .SetParameter("DiaChiID", SqlDbType.Int, Organ.AddressID, ParameterDirection.Input)
+                .SetParameter("OrganType", SqlDbType.Int, Organ.OrganTypeID, ParameterDirection.Input)
+                .SetParameter("NgayCapNhat", SqlDbType.Int, Organ.UpdateTime, ParameterDirection.Input)
+                .SetParameter("Status", SqlDbType.Int, Organ.Status, ParameterDirection.Input)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetList<Organ>(out OrganList)
+                .Complete();
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<Organ>()
+            {
+                ItemList = OrganList,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
                 TotalRows = totalRows

@@ -14,10 +14,31 @@ namespace DocumentManagement.Controllers
     public class ProfileController : ControllerBase
     {
         [HttpGet]
+        public IActionResult SearchProfile(string searchStr)
+        {
+            ProfileBUS profileBUS = new ProfileBUS();
+            var result = profileBUS.ProfileSearch(searchStr);
+            return Ok(result);
+        }
+        [HttpGet]
         public IActionResult GetALlProfile()
         {
             ProfileBUS profileBUS = new ProfileBUS();
             var result = profileBUS.GetAllProfile();
+            return Ok(result);
+        }
+        [HttpGet]
+        public IActionResult GetProfileByID(int profileID)
+        {
+            ProfileBUS profileBUS = new ProfileBUS();
+            var result = profileBUS.GetProfileByID(profileID);
+            return Ok(result);
+        }
+        [HttpGet]
+        public IActionResult GetProfileByGeaBoxID(int gearboxID)
+        {
+            ProfileBUS profileBUS = new ProfileBUS();
+            var result = profileBUS.GetProfileByGearBoxID(gearboxID);
             return Ok(result);
         }
 
