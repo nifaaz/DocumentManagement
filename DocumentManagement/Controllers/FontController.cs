@@ -51,15 +51,36 @@ namespace DocumentManagement.Controlleresult
         [HttpPost]
         public IActionResult UpdateFont(Font font)
         {
+            Font fontModify = new Font();
+            fontModify.FontID = font.FontID;
+            fontModify.FontNumber = font.FontNumber;
+            fontModify.FontName = font.FontName;
+            fontModify.History = font.History;
+            fontModify.Lang = font.Lang;
+            fontModify.Updated = font.Updated;
+            fontModify.OrganID = font.OrganID;
+            DateTime currentDate = new DateTime();
+            currentDate = DateTime.Now;
+            fontModify.UpdateTime = currentDate;
             FontBUS fontBUS = new FontBUS();
-            var result = fontBUS.UpdateFont(font);
+            var result = fontBUS.UpdateFont(fontModify);
             return Ok(result);
         }
         [HttpPost]
         public IActionResult InsertFont(Font font)
         {
             FontBUS fontBUS = new FontBUS();
-            var result = fontBUS.InsertFont(font);
+            Font fontModify = new Font();
+            fontModify.FontNumber = font.FontNumber;
+            fontModify.FontName = font.FontName;
+            fontModify.History = font.History;
+            fontModify.Lang = font.Lang;
+            fontModify.Created = font.Created;
+            fontModify.OrganID = font.OrganID;
+            DateTime currentDate = new DateTime();
+            currentDate = DateTime.Now;
+            fontModify.CreateTime = currentDate;
+            var result = fontBUS.InsertFont(fontModify);
             return Ok(result);
         }
     }

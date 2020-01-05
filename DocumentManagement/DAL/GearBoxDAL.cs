@@ -1,6 +1,6 @@
 ﻿using DocumentManagement.Common;
 using DocumentManagement.Model;
-using DocumentManagement.Model.Entity;
+using DocumentManagement.Model.Entity.GearBox;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,181 +9,179 @@ using System.Threading.Tasks;
 
 namespace DocumentManagement.DAL
 {
-    public class FontDAL
+    public class GearBoxDAL
     {
-        public ReturnResult<Font> GetAllFont()
+        public ReturnResult<GearBox> GetAllGearBox()
         {
-            List<Font> fontList = new List<Font>();
+            List<GearBox> GearBoxList = new List<GearBox>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
-            dbProvider.SetQuery("FONT_GET_ALL", CommandType.StoredProcedure)
+            dbProvider.SetQuery("GearBox_GET_ALL", CommandType.StoredProcedure)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)                
-                .GetList<Font>(out fontList)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetList<GearBox>(out GearBoxList)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
-                       
-            return new ReturnResult<Font>()
+
+            return new ReturnResult<GearBox>()
             {
-                ItemList = fontList,
+                ItemList = GearBoxList,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Font> FontSearch(string searchStr)
+        public ReturnResult<GearBox> GearBoxSearch(string searchStr)
         {
-            List<Font> fontList = new List<Font>();
+            List<GearBox> GearBoxList = new List<GearBox>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
-            dbProvider.SetQuery("FONT_GET_ALL", CommandType.StoredProcedure)
+            dbProvider.SetQuery("GearBox_SEARCH", CommandType.StoredProcedure)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<Font>(out fontList)
+                .GetList<GearBox>(out GearBoxList)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Font>()
+            return new ReturnResult<GearBox>()
             {
-                ItemList = fontList,
+                ItemList = GearBoxList,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Font> GetFontByID(int PhongID)
+        public ReturnResult<GearBox> GetGearBoxByID(int gearBoxID)
         {
-            List<Font> fontList = new List<Font>();
+            List<GearBox> GearBoxList = new List<GearBox>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
-            dbProvider.SetQuery("FONT_GET_BY_ID", CommandType.StoredProcedure)
-                .SetParameter("PhongID", SqlDbType.Int, PhongID, ParameterDirection.Input)
+            dbProvider.SetQuery("GearBox_GET_BY_ID", CommandType.StoredProcedure)
+                .SetParameter("HopSoID", SqlDbType.Int, gearBoxID, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<Font>(out fontList)
+                .GetList<GearBox>(out GearBoxList)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Font>()
+            return new ReturnResult<GearBox>()
             {
-                ItemList = fontList,
+                ItemList = GearBoxList,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Font> GetFontByCoQuanID(int coQuanID)
+        public ReturnResult<GearBox> GetGearBoxByTableOfContentsID(int tabOfContID)
         {
-            List<Font> fontList = new List<Font>();
+            List<GearBox> GearBoxList = new List<GearBox>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
-            dbProvider.SetQuery("FONT_GET_BY_COQUANID", CommandType.StoredProcedure)
-                .SetParameter("CoQuanID", SqlDbType.Int, coQuanID, ParameterDirection.Input)
+            dbProvider.SetQuery("GearBox_GET_BY_TABLEOFCONTID", CommandType.StoredProcedure)
+                .SetParameter("MucLucHoSoID", SqlDbType.Int, tabOfContID, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<Font>(out fontList)
+                .GetList<GearBox>(out GearBoxList)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Font>()
+            return new ReturnResult<GearBox>()
             {
-                ItemList = fontList,
+                ItemList = GearBoxList,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Font> DeleteFont(int PhongID)
+        public ReturnResult<GearBox> DeleteGearBox(int gearBoxID)
         {
-            List<Font> fontList = new List<Font>();
+            List<GearBox> GearBoxList = new List<GearBox>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
-            dbProvider.SetQuery("FONT_DELETE", CommandType.StoredProcedure)
-                .SetParameter("PhongID",SqlDbType.Int,PhongID,ParameterDirection.Input)
+            dbProvider.SetQuery("GearBox_DELETE", CommandType.StoredProcedure)
+                .SetParameter("HopSoID", SqlDbType.Int, gearBoxID, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<Font>(out fontList)
+                .GetList<GearBox>(out GearBoxList)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Font>()
+            return new ReturnResult<GearBox>()
             {
-                ItemList = fontList,
+                ItemList = GearBoxList,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Font> UpdateFont(Font font)
+        public ReturnResult<GearBox> UpdateGearBox(GearBox GearBox)
         {
-            List<Font> fontList = new List<Font>();
+            List<GearBox> GearBoxList = new List<GearBox>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
-            dbProvider.SetQuery("FONT_EDIT", CommandType.StoredProcedure)
-                .SetParameter("PhongID", SqlDbType.Int, font.FontID, ParameterDirection.Input)
-                .SetParameter("PhongSo", SqlDbType.NChar, font.FontNumber, 10, ParameterDirection.Input)
-                .SetParameter("CoQuanID", SqlDbType.Int, font.OrganID, ParameterDirection.Input)
-                .SetParameter("TenPhong", SqlDbType.NVarChar,font.FontName, 50, ParameterDirection.Input)
-                .SetParameter("LichSu", SqlDbType.NVarChar, font.History, 500, ParameterDirection.Input)
-                .SetParameter("NgonNgu", SqlDbType.NVarChar, font.Lang, 50, ParameterDirection.Input)
-                .SetParameter("NgayCapNhat", SqlDbType.DateTime, font.UpdateTime, ParameterDirection.Input)
+            dbProvider.SetQuery("GearBox_EDIT", CommandType.StoredProcedure)
+                .SetParameter("HopSoID", SqlDbType.Int, GearBox.GearBoxID, ParameterDirection.Input)
+                .SetParameter("MaHopSo", SqlDbType.NVarChar, GearBox.GearBoxName, 50, ParameterDirection.Input)
+                .SetParameter("TieuDeHopSo", SqlDbType.NVarChar, GearBox.GearBoxTitle, 50, ParameterDirection.Input)
+                .SetParameter("MucLucHoSoID", SqlDbType.Int, GearBox.TabOfContID, ParameterDirection.Input)
+                .SetParameter("NgayBatDau", SqlDbType.DateTime, GearBox.StartDate, ParameterDirection.Input)
+                .SetParameter("NgayKetThuc", SqlDbType.DateTime, GearBox.EndDate, ParameterDirection.Input)
+                .SetParameter("NgayCapNhat", SqlDbType.DateTime, GearBox.UpdateTime, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<Font>(out fontList)
+                .GetList<GearBox>(out GearBoxList)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Font>()
+            return new ReturnResult<GearBox>()
             {
-                ItemList = fontList,
+                ItemList = GearBoxList,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Font> InsertFont(Font font)
+        public ReturnResult<GearBox> InsertGearBox(GearBox GearBox)
         {
-            List<Font> fontList = new List<Font>();
+            List<GearBox> GearBoxList = new List<GearBox>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
-            dbProvider.SetQuery("FONT_CREATE", CommandType.StoredProcedure)
-                .SetParameter("PhongSo", SqlDbType.NChar, font.FontNumber, 10, ParameterDirection.Input)
-                .SetParameter("CoQuanID", SqlDbType.Int, font.OrganID, ParameterDirection.Input)
-                .SetParameter("TenPhong", SqlDbType.NVarChar, font.FontName, 50, ParameterDirection.Input)
-                .SetParameter("LichSu", SqlDbType.NVarChar, font.History, 500, ParameterDirection.Input)
-                .SetParameter("NgonNgu", SqlDbType.NVarChar, font.Lang, 50, ParameterDirection.Input)
-                .SetParameter("NgayCapNhat", SqlDbType.DateTime, font.UpdateTime, ParameterDirection.Input)
-                .SetParameter("NgayTao", SqlDbType.DateTime, font.CreateTime, ParameterDirection.Input)
+            dbProvider.SetQuery("GearBox_INSERT", CommandType.StoredProcedure)
+                .SetParameter("MaHopSo", SqlDbType.NVarChar, GearBox.GearBoxName, 50, ParameterDirection.Input)
+                .SetParameter("TieuDeHopSo", SqlDbType.NVarChar, GearBox.GearBoxTitle, 50, ParameterDirection.Input)
+                .SetParameter("MucLucHoSoID", SqlDbType.Int, GearBox.TabOfContID, ParameterDirection.Input)
+                .SetParameter("NgayBatDau", SqlDbType.DateTime, GearBox.StartDate, ParameterDirection.Input)
+                .SetParameter("NgayKetThuc", SqlDbType.DateTime, GearBox.EndDate, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<Font>(out fontList)
+                .GetList<GearBox>(out GearBoxList)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Font>()
+            return new ReturnResult<GearBox>()
             {
-                ItemList = fontList,
+                ItemList = GearBoxList,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
                 TotalRows = totalRows

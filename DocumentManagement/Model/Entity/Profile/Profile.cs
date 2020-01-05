@@ -8,19 +8,19 @@ namespace DocumentManagement.Model.Entity.Profile
     public class Profile
     {
         // Hồ sơ ID
-        public int ProfileId { get; set; }
+        public int ProfileID { get; set; }
         // Hộp số ID
-        public int GearBoxId { get; set; }
+        public int GearBoxID { get; set; }
+        //Mã hồ sơ
+        public string ProfileCode { get; set; }
         // Tiêu đề hồ sơ
         public string ProfileTitle { get; set; }
         // Tên hồ sơ
         public string ProfileName { get; set; }
-        // Số lượng văn bản
-        public int NumberOfDocs { get; set; }
         // Ngày tạo
-        public DateTime CreatedDate { get; set; }
-        // Ngày udpate
-        public DateTime UpdatedDate { get; set; }
+        public DateTime CreateTime { get; set; }
+        // Ngày Cập nhật
+        public DateTime UpdateTime { get; set; }
 
     }
 }
