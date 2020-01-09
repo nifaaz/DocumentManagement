@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Asus\\Desktop\\Project\\DocumentManagement\\DocumentManagement\\DocumentManagement.csproj": {}
+    "C:\\Users\\TuND18\\Desktop\\DocumentManagement\\DocumentManagement\\DocumentManagement.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Asus\\Desktop\\Project\\DocumentManagement\\DocumentManagement\\DocumentManagement.csproj": {
+    "C:\\Users\\TuND18\\Desktop\\DocumentManagement\\DocumentManagement\\DocumentManagement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Asus\\Desktop\\Project\\DocumentManagement\\DocumentManagement\\DocumentManagement.csproj",
+        "projectUniqueName": "C:\\Users\\TuND18\\Desktop\\DocumentManagement\\DocumentManagement\\DocumentManagement.csproj",
         "projectName": "DocumentManagement",
-        "projectPath": "C:\\Users\\Asus\\Desktop\\Project\\DocumentManagement\\DocumentManagement\\DocumentManagement.csproj",
-        "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Asus\\Desktop\\Project\\DocumentManagement\\DocumentManagement\\obj\\",
+        "projectPath": "C:\\Users\\TuND18\\Desktop\\DocumentManagement\\DocumentManagement\\DocumentManagement.csproj",
+        "packagesPath": "C:\\Users\\TuND18\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\TuND18\\Desktop\\DocumentManagement\\DocumentManagement\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\TuND18\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -64,10 +61,16 @@
             }
           },
           "imports": [
-            "net461"
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
