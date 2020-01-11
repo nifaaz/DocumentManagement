@@ -9,5 +9,6 @@ namespace DocumentManagement.Model.Entity.Address
     {
         public int ProvincialID { get; set; }
         public string ProvincialName { get; set; }
+        public string Level { get; set; }
     }
 }

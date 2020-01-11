@@ -19,6 +19,11 @@ namespace DocumentManagement.BUS
                 return _GearBoxDAL;
             }
         }
+        public ReturnResult<GearBox> GearBoxExport()
+        {
+            var result = GearBoxDAL.GearBoxExport();
+            return result;
+        }
         public ReturnResult<GearBox> GetAllGearBox()
         {
             var result = GearBoxDAL.GetAllGearBox();

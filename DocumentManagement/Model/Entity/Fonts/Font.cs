@@ -9,8 +9,9 @@ namespace DocumentManagement.Model.Entity
     {
         public int FontID { get; set; }
         public string FontName { get; set; }
-        public int FontNumber { get; set; }
+        public string FontNumber { get; set; }
         public int OrganID { get; set; }
+        public string OrganName { get; set; }
         public string History { get; set; }
         public string Lang { get; set; }
         public DateTime CreateTime { get; set; }
@@ -18,6 +19,7 @@ namespace DocumentManagement.Model.Entity
         public DateTime UpdateTime { get; set; }
         public int Updated { get; set; }
         public int Status { get; set; }
+        public string Note { get; set; }
 
     }
 }

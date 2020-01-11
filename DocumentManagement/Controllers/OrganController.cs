@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentManagement.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class OrganController : ControllerBase
     {
@@ -28,11 +28,11 @@ namespace DocumentManagement.Controllers
             var result = organBUS.OrganSearch(searchStr);
             return Ok(result);
         }
-        [HttpGet]
-        public IActionResult GetOrganByID(int OrganID)
+        [HttpGet("{organID}")]
+        public IActionResult GetOrganByID(int organID)
         {
             OrganBUS organBUS = new OrganBUS();
-            var result = organBUS.GetOrganByID(OrganID);
+            var result = organBUS.GetOrganByID(organID);
             return Ok(result);
         }
         [HttpGet]

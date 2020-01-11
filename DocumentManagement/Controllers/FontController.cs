@@ -27,7 +27,7 @@ namespace DocumentManagement.Controlleresult
             var result = fontBUS.FontSearch(searchStr);
             return Ok(result);
         }
-        [HttpGet]
+        [HttpGet("{fontID}")]
         public IActionResult GetFontByID(int fontID)
         {
             FontBUS fontBUS = new FontBUS();

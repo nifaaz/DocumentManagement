@@ -21,6 +21,12 @@ namespace DocumentManagement.Model.Entity.Profile
         public DateTime CreateTime { get; set; }
         // Ngày Cập nhật
         public DateTime UpdateTime { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public string Note { get; set; }
+        public int ShelfLife {get;set;}
+        public string ProfileTypeName { get; set; }
+        public string GearBoxCode { get; set; }
 
     }
 }

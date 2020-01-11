@@ -27,14 +27,14 @@ namespace DocumentManagement.Controllers
             var result = profileBUS.GetAllProfile();
             return Ok(result);
         }
-        [HttpGet]
+        [HttpGet("{profileID}")]
         public IActionResult GetProfileByID(int profileID)
         {
             ProfileBUS profileBUS = new ProfileBUS();
             var result = profileBUS.GetProfileByID(profileID);
             return Ok(result);
         }
-        [HttpGet]
+        [HttpGet("{gearboxID}")]
         public IActionResult GetProfileByGeaBoxID(int gearboxID)
         {
             ProfileBUS profileBUS = new ProfileBUS();

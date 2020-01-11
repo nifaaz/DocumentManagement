@@ -24,6 +24,11 @@ namespace DocumentManagement.BUS
             var result = FontDAL.GetAllFont();
             return result;
         }
+        public ReturnResult<Font> FontExport()
+        {
+            var result = FontDAL.FontExport();
+            return result;
+        }
         public ReturnResult<Font> GetFontByID(int fontID)
         {
             var rs = FontDAL.GetFontByID(fontID);

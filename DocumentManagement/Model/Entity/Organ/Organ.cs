@@ -9,6 +9,9 @@ namespace DocumentManagement.Model.Entity.Organ
     {
         public int OrganID { get; set; }
         public int AddressID { get; set; }
+        public int ProvincialID { get; set; }
+        public int DistrictID { get; set; }
+        public int WardsID { get; set; }
         public string OrganName { get; set; }
         public int OrganTypeID { get; set; }
         public DateTime CreateTime { get; set; }

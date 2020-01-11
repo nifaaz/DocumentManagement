@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentManagement.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class TableOfContentsController : ControllerBase
     {
@@ -27,28 +27,28 @@ namespace DocumentManagement.Controllers
             var result = tableOfContentsBUS.TableOfContentsSearch(searchStr);
             return Ok(result);
         }
-        [HttpGet]
-        public IActionResult GetTableOfContentsByID(int TableOfContentsID)
+        [HttpGet("{tableOfContentsID}")]
+        public IActionResult GetTableOfContentsByID(int tableOfContentsID)
         {
             TableOfContentsBUS tableOfContentsBUS = new TableOfContentsBUS();
-            var result = tableOfContentsBUS.GetTableOfContentsByID(TableOfContentsID);
+            var result = tableOfContentsBUS.GetTableOfContentsByID(tableOfContentsID);
             return Ok(result);
         }
-        [HttpGet]
+        [HttpGet("{storageID}")]
         public IActionResult GetTableOfContentsByStorageID(int storageID)
         {
             TableOfContentsBUS tableOfContentsBUS = new TableOfContentsBUS();
             var result = tableOfContentsBUS.GetTableOfContentsByStorageID(storageID);
             return Ok(result);
         }
-        [HttpGet]
+        [HttpGet("{fontID}")]
         public IActionResult GetTableOfContentsByFontID(int fontID)
         {
             TableOfContentsBUS tableOfContentsBUS = new TableOfContentsBUS();
             var result = tableOfContentsBUS.GetTableOfContentsByFontID(fontID);
             return Ok(result);
         }
-        [HttpGet]
+        [HttpGet("{repoID}")]
         public IActionResult GetTableOfContentsByRepositoryID(int repoID)
         {
             TableOfContentsBUS tableOfContentsBUS = new TableOfContentsBUS();
@@ -56,10 +56,10 @@ namespace DocumentManagement.Controllers
             return Ok(result);
         }
         [HttpPost]
-        public IActionResult DeleteTableOfContents(int TableOfContentsID)
+        public IActionResult DeleteTableOfContents(int tableOfContentsID)
         {
             TableOfContentsBUS tableOfContentsBUS = new TableOfContentsBUS();
-            var result = tableOfContentsBUS.DeleteTableOfContents(TableOfContentsID);
+            var result = tableOfContentsBUS.DeleteTableOfContents(tableOfContentsID);
             return Ok(result);
         }
         [HttpPost]

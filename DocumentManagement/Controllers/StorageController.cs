@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentManagement.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class StorageController : ControllerBase
     {
@@ -27,21 +27,21 @@ namespace DocumentManagement.Controllers
             var result = storageBUS.GetAllStorage();
             return Ok(result);
         }
-        [HttpGet]
+        [HttpGet("{storageID}")]
         public IActionResult GetStorageByID(int storageID)
         {
             StorageBUS storageBUS = new StorageBUS();
             var result = storageBUS.GetStorageByID(storageID);
             return Ok(result);
         }
-        [HttpGet]
+        [HttpGet("{fontID}")]
         public IActionResult GetStorageByFontID(int fontID)
         {
             StorageBUS storageBUS = new StorageBUS();
             var result = storageBUS.GetStorageByFontID(fontID);
             return Ok(result);
         }
-        [HttpGet]
+        [HttpGet("{repoID}")]
         public IActionResult GetStorageByRepoID(int repoID)
         {
             StorageBUS storageBUS = new StorageBUS();

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentManagement.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class AddressController : ControllerBase
     {
