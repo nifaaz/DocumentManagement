@@ -10,11 +10,15 @@ namespace DocumentManagement.Models.Entity.Document
         public int DocumentId { get; set; }
         public int FolderID { get; set; }
         public string DocumentTitle { get; set; }
-        // Số văn bản
-        public string DocumentNo { get; set; }
-        // STT Van Ban
+        /// <summary>
+        /// Số văn bản
+        /// </summary>
+        public string DocumentNumber { get; set; }
+        /// <summary>
+        /// Số thứ tự văn bản
+        /// </summary>
         public float DocumentOrderNum { get; set; }
-        public float NumberOfDocuments { get; set; }
+        public int NumberOfPapers { get; set; }
         public string DocumentContent { get; set; }
         public string DocumentStatusId { get; set; }
         public DateTime StartingDate { get; set; }
@@ -25,5 +29,7 @@ namespace DocumentManagement.Models.Entity.Document
         public DateTime UpdatedDate { get; set; }
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }
+        public int TrustLevelId { get; set; }
+        public int FileId { get; set; }
     }
 }
