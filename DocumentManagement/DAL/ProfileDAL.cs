@@ -34,6 +34,29 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
+        public ReturnResult<Profile> ExportProfile()
+        {
+            List<Profile> profileList = new List<Profile>();
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            int totalRows = 0;
+            dbProvider.SetQuery("PROFILE_EXPORT", CommandType.StoredProcedure)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 255, ParameterDirection.Output)
+                .GetList<Profile>(out profileList)
+                .Complete();
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<Profile>()
+            {
+                ItemList = profileList,
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+                TotalRows = totalRows
+            };
+        }
         public ReturnResult<Profile> GetProfileByID(int profileID)
         {
             List<Profile> profileList = new List<Profile>();
