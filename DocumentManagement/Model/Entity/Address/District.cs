@@ -10,5 +10,6 @@ namespace DocumentManagement.Model.Entity.Address
         public int DistrictID { get; set; }
         public int ProvincialID { get; set; }
         public string DistrictName { get; set; }
+        public string Level { get; set; }
     }
 }

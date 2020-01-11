@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentManagement.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class GearBoxController : ControllerBase
     {
@@ -21,13 +21,13 @@ namespace DocumentManagement.Controllers
             return Ok(result);
         }
         [HttpGet]
-        public IActionResult GetALlGearBox()
+        public IActionResult GetAllGearBox()
         {
             GearBoxBUS gearBoxBUS = new GearBoxBUS();
             var result = gearBoxBUS.GetAllGearBox();
             return Ok(result);
         }
-        [HttpGet]
+        [HttpGet("{gearBoxID}")]
         public IActionResult GetGearBoxByID(int gearBoxID)
         {
             GearBoxBUS gearBoxBUS = new GearBoxBUS();

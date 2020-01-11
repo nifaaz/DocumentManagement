@@ -154,58 +154,62 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Organ> UpdateOrgan(Organ Organ)
+        public ReturnResult<Organ> UpdateOrgan(Organ organ)
         {
-            List<Organ> OrganList = new List<Organ>();
+            List<Organ> organList = new List<Organ>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
             dbProvider.SetQuery("Organ_EDIT", CommandType.StoredProcedure)
-                .SetParameter("CoQuanID", SqlDbType.Int, Organ.OrganID, ParameterDirection.Input)
-                .SetParameter("TenCoQuan", SqlDbType.NVarChar, Organ.OrganName, 50, ParameterDirection.Input)
-                .SetParameter("DiaChiID", SqlDbType.Int, Organ.AddressID, ParameterDirection.Input)
-                .SetParameter("OrganType", SqlDbType.Int, Organ.OrganTypeID, ParameterDirection.Input)
-                .SetParameter("NgayCapNhat", SqlDbType.Int, Organ.UpdateTime, ParameterDirection.Input)
-                .SetParameter("Status", SqlDbType.Int, Organ.Status, ParameterDirection.Input)
+                .SetParameter("CoQuanID", SqlDbType.Int, organ.OrganID, ParameterDirection.Input)
+                .SetParameter("TenCoQuan", SqlDbType.NVarChar, organ.OrganName, 50, ParameterDirection.Input)
+                .SetParameter("DiaChiID", SqlDbType.Int, organ.AddressID, ParameterDirection.Input)
+                .SetParameter("TinhID", SqlDbType.Int, organ.ProvincialID, ParameterDirection.Input)
+                .SetParameter("HuyenID", SqlDbType.Int, organ.DistrictID, ParameterDirection.Input)
+                .SetParameter("XaPhuongID", SqlDbType.Int, organ.WardsID, ParameterDirection.Input)
+                .SetParameter("LoaiCoQuan", SqlDbType.Int, organ.OrganTypeID, ParameterDirection.Input)
+                .SetParameter("NgayCapNhat", SqlDbType.Int, organ.UpdateTime, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<Organ>(out OrganList)
+                .GetList<Organ>(out organList)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
             return new ReturnResult<Organ>()
             {
-                ItemList = OrganList,
+                ItemList = organList,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Organ> InsertOrgan(Organ Organ)
+        public ReturnResult<Organ> InsertOrgan(Organ organ)
         {
-            List<Organ> OrganList = new List<Organ>();
+            List<Organ> organList = new List<Organ>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
             dbProvider.SetQuery("Organ_INSERT", CommandType.StoredProcedure)
-                .SetParameter("TenCoQuan", SqlDbType.NVarChar, Organ.OrganName, 50, ParameterDirection.Input)
-                .SetParameter("DiaChiID", SqlDbType.Int, Organ.AddressID, ParameterDirection.Input)
-                .SetParameter("OrganType", SqlDbType.Int, Organ.OrganTypeID, ParameterDirection.Input)
-                .SetParameter("NgayCapNhat", SqlDbType.Int, Organ.UpdateTime, ParameterDirection.Input)
-                .SetParameter("Status", SqlDbType.Int, Organ.Status, ParameterDirection.Input)
+                .SetParameter("TenCoQuan", SqlDbType.NVarChar, organ.OrganName, 50, ParameterDirection.Input)
+                .SetParameter("DiaChiID", SqlDbType.Int, organ.AddressID, ParameterDirection.Input)
+                .SetParameter("TinhID", SqlDbType.Int, organ.ProvincialID, ParameterDirection.Input)
+                .SetParameter("HuyenID", SqlDbType.Int, organ.DistrictID, ParameterDirection.Input)
+                .SetParameter("XaPhuongID", SqlDbType.Int, organ.WardsID, ParameterDirection.Input)
+                .SetParameter("LoaiCoQuan", SqlDbType.Int, organ.OrganTypeID, ParameterDirection.Input)
+                .SetParameter("NgayCapNhat", SqlDbType.Int, organ.UpdateTime, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<Organ>(out OrganList)
+                .GetList<Organ>(out organList)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
             return new ReturnResult<Organ>()
             {
-                ItemList = OrganList,
+                ItemList = organList,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
                 TotalRows = totalRows

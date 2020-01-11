@@ -24,6 +24,11 @@ namespace DocumentManagement.BUS
             var result = ProfileDAL.GetAllProfile();
             return result;
         }
+        public ReturnResult<Profile> ExportProfile()
+        {
+            var result = ProfileDAL.ExportProfile();
+            return result;
+        }
         public ReturnResult<Profile> ProfileSearch(string serachStr)
         {
             var result = ProfileDAL.SearchProfile(serachStr);

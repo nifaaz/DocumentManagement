@@ -11,6 +11,29 @@ namespace DocumentManagement.DAL
 {
     public class GearBoxDAL
     {
+        public ReturnResult<GearBox> GearBoxExport()
+        {
+            List<GearBox> GearBoxList = new List<GearBox>();
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            int totalRows = 0;
+            dbProvider.SetQuery("GearBox_EXPORT", CommandType.StoredProcedure)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetList<GearBox>(out GearBoxList)
+                .Complete();
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<GearBox>()
+            {
+                ItemList = GearBoxList,
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+                TotalRows = totalRows
+            };
+        } 
         public ReturnResult<GearBox> GetAllGearBox()
         {
             List<GearBox> GearBoxList = new List<GearBox>();
