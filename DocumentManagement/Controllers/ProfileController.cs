@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DocumentManagement.BUS;
-using DocumentManagement.Model.Entity.Profile;
+
+using DocumentManagement.Models.Entity.Profile;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,14 +15,7 @@ namespace DocumentManagement.Controllers
     public class ProfileController : ControllerBase
     {
         [HttpGet]
-        public IActionResult SearchProfile(string searchStr)
-        {
-            ProfileBUS profileBUS = new ProfileBUS();
-            var result = profileBUS.ProfileSearch(searchStr);
-            return Ok(result);
-        }
-        [HttpGet]
-        public IActionResult GetALlProfile()
+        public IActionResult GetAllProfile()
         {
             ProfileBUS profileBUS = new ProfileBUS();
             var result = profileBUS.GetAllProfile();

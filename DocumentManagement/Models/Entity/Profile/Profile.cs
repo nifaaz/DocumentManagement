@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DocumentManagement.Model.Entity.Profile
+namespace DocumentManagement.Models.Entity.Profile
 {
     public class Profile
     {

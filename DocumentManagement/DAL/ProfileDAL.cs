@@ -1,6 +1,7 @@
 ﻿using DocumentManagement.Common;
 using DocumentManagement.Model;
-using DocumentManagement.Model.Entity.Profile;
+
+using DocumentManagement.Models.Entity.Profile;
 using System;
 using System.Collections.Generic;
 using System.Data;

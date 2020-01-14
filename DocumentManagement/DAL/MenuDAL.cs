@@ -1,6 +1,7 @@
 ﻿using DocumentManagement.Common;
 using DocumentManagement.Model;
-using DocumentManagement.Model.Entity;
+using DocumentManagement.Models.Entity.Role;
+using DocumentManagement.Models.Menu;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,29 +10,28 @@ using System.Threading.Tasks;
 
 namespace DocumentManagement.DAL
 {
-    public class FontDAL
+    public class MenuDAL
     {
-        public ReturnResult<Font> GetAllFont()
+        public ReturnResult<Menu> GetMenuByRoleId(Role role)
         {
-            List<Font> fontList = new List<Font>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
-            int totalRows = 0;
-            dbProvider.SetQuery("FONT_GET_ALL", CommandType.StoredProcedure)
+            var result = new List<Menu>();
+            dbProvider.SetQuery("MENU_GET_MENU_BY_ROLE_ID", CommandType.StoredProcedure)
+                .SetParameter("RoleId", SqlDbType.Int, role.RoleId, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)                
-                .GetList<Font>(out fontList)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetList<Menu>(out result)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
-                       
-            return new ReturnResult<Font>()
+
+            return new ReturnResult<Menu>()
             {
-                ItemList = fontList,
+                ItemList = result,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
-                TotalRows = totalRows
             };
         }
         public ReturnResult<Font> FontExport()
