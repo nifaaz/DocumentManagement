@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "32372025827a6905b9be4c39ca534552f222aceb"
+    "signature": "058dc560980a8335126b578a4ec90d1986da9c0d"
   },
   "compilationOptions": {
     "defines": [
@@ -24,6 +24,7 @@
     ".NETCoreApp,Version=v2.2": {
       "DocumentManagement/1.0.0": {
         "dependencies": {
+          "EPPlus": "4.5.3.2",
           "Microsoft.AspNetCore.App": "2.2.0",
           "Microsoft.AspNetCore.Razor.Design": "2.2.0",
           "Microsoft.NETCore.App": "2.2.0",
@@ -34,6 +35,24 @@
         },
         "compile": {
           "DocumentManagement.dll": {}
+        }
+      },
+      "EPPlus/4.5.3.2": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Json": "2.2.0",
+          "System.Drawing.Common": "4.6.0-preview6.19303.8",
+          "System.Security.Cryptography.Pkcs": "4.5.2",
+          "System.Security.Cryptography.X509Certificates": "4.3.2",
+          "System.Text.Encoding.CodePages": "4.5.1"
+        },
+        "runtime": {
+          "lib/netcoreapp2.1/EPPlus.dll": {
+            "assemblyVersion": "4.5.3.2",
+            "fileVersion": "4.5.3.2"
+          }
+        },
+        "compile": {
+          "lib/netcoreapp2.1/EPPlus.dll": {}
         }
       },
       "Microsoft.CodeAnalysis.CSharp.Workspaces/2.8.0": {
@@ -71,6 +90,7 @@
           "lib/netstandard1.3/Microsoft.CodeAnalysis.Workspaces.dll": {}
         }
       },
+      "Microsoft.NETCore.Platforms/3.0.0-preview6.19303.8": {},
       "Microsoft.VisualStudio.Web.CodeGeneration/2.2.4": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "2.2.0",
@@ -191,6 +211,25 @@
           "lib/netstandard2.0/Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll": {}
         }
       },
+      "Microsoft.Win32.SystemEvents/4.6.0-preview6.19303.8": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Win32.SystemEvents.dll": {
+            "assemblyVersion": "4.0.1.0",
+            "fileVersion": "4.700.19.30308"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/netcoreapp2.0/Microsoft.Win32.SystemEvents.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "4.0.1.0",
+            "fileVersion": "4.700.19.30308"
+          }
+        }
+      },
       "NuGet.Frameworks/4.7.0": {
         "dependencies": {
           "NETStandard.Library": "2.0.3"
@@ -203,6 +242,100 @@
         },
         "compile": {
           "lib/netstandard1.6/NuGet.Frameworks.dll": {}
+        }
+      },
+      "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+        "runtimeTargets": {
+          "runtime/debian.8-x64/native/_._": {
+            "rid": "debian.8-x64",
+            "assetType": "native"
+          }
+        }
+      },
+      "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+        "runtimeTargets": {
+          "runtime/fedora.23-x64/native/_._": {
+            "rid": "fedora.23-x64",
+            "assetType": "native"
+          }
+        }
+      },
+      "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+        "runtimeTargets": {
+          "runtime/fedora.24-x64/native/_._": {
+            "rid": "fedora.24-x64",
+            "assetType": "native"
+          }
+        }
+      },
+      "runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+        "dependencies": {
+          "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl": "4.3.2",
+          "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl": "4.3.2",
+          "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl": "4.3.2",
+          "runtime.opensuse.13.2-x64.runtime.native.System.Security.Cryptography.OpenSsl": "4.3.2",
+          "runtime.opensuse.42.1-x64.runtime.native.System.Security.Cryptography.OpenSsl": "4.3.2",
+          "runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.OpenSsl": "4.3.2",
+          "runtime.rhel.7-x64.runtime.native.System.Security.Cryptography.OpenSsl": "4.3.2",
+          "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl": "4.3.2",
+          "runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography.OpenSsl": "4.3.2",
+          "runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl": "4.3.2"
+        }
+      },
+      "runtime.opensuse.13.2-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+        "runtimeTargets": {
+          "runtime/opensuse.13.2-x64/native/_._": {
+            "rid": "opensuse.13.2-x64",
+            "assetType": "native"
+          }
+        }
+      },
+      "runtime.opensuse.42.1-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+        "runtimeTargets": {
+          "runtime/opensuse.42.1-x64/native/_._": {
+            "rid": "opensuse.42.1-x64",
+            "assetType": "native"
+          }
+        }
+      },
+      "runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+        "runtimeTargets": {
+          "runtime/osx.10.10-x64/native/_._": {
+            "rid": "osx.10.10-x64",
+            "assetType": "native"
+          }
+        }
+      },
+      "runtime.rhel.7-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+        "runtimeTargets": {
+          "runtime/rhel.7-x64/native/_._": {
+            "rid": "rhel.7-x64",
+            "assetType": "native"
+          }
+        }
+      },
+      "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+        "runtimeTargets": {
+          "runtime/ubuntu.14.04-x64/native/_._": {
+            "rid": "ubuntu.14.04-x64",
+            "assetType": "native"
+          }
+        }
+      },
+      "runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+        "runtimeTargets": {
+          "runtime/ubuntu.16.04-x64/native/_._": {
+            "rid": "ubuntu.16.04-x64",
+            "assetType": "native"
+          }
+        }
+      },
+      "runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+        "runtimeTargets": {
+          "runtime/ubuntu.16.10-x64/native/_._": {
+            "rid": "ubuntu.16.10-x64",
+            "assetType": "native"
+          }
         }
       },
       "System.Composition/1.0.31": {
@@ -328,6 +461,43 @@
           "lib/netstandard1.0/System.Composition.TypedParts.dll": {}
         }
       },
+      "System.Drawing.Common/4.6.0-preview6.19303.8": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
+          "Microsoft.Win32.SystemEvents": "4.6.0-preview6.19303.8"
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Drawing.Common.dll": {
+            "assemblyVersion": "4.0.1.0",
+            "fileVersion": "4.700.19.30308"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/unix/lib/netcoreapp2.0/System.Drawing.Common.dll": {
+            "rid": "unix",
+            "assetType": "runtime",
+            "assemblyVersion": "4.0.1.0",
+            "fileVersion": "4.700.19.30308"
+          },
+          "runtimes/win/lib/netcoreapp2.0/System.Drawing.Common.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "4.0.1.0",
+            "fileVersion": "4.700.19.30308"
+          }
+        },
+        "compile": {
+          "ref/netstandard2.0/System.Drawing.Common.dll": {}
+        }
+      },
+      "System.Globalization.Calendars/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
+          "Microsoft.NETCore.Targets": "2.0.0",
+          "System.Globalization": "4.3.0",
+          "System.Runtime": "4.3.0"
+        }
+      },
       "System.Linq.Parallel/4.3.0": {
         "dependencies": {
           "System.Collections": "4.3.0",
@@ -340,6 +510,128 @@
           "System.Runtime.Extensions": "4.3.0",
           "System.Threading": "4.3.0",
           "System.Threading.Tasks": "4.3.0"
+        }
+      },
+      "System.Runtime.CompilerServices.Unsafe/4.5.2": {
+        "runtime": {
+          "lib/netcoreapp2.0/System.Runtime.CompilerServices.Unsafe.dll": {
+            "assemblyVersion": "4.0.4.1",
+            "fileVersion": "4.6.26919.2"
+          }
+        },
+        "compile": {
+          "ref/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll": {}
+        }
+      },
+      "System.Security.Cryptography.Csp/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
+          "System.IO": "4.3.0",
+          "System.Reflection": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Runtime.Handles": "4.3.0",
+          "System.Runtime.InteropServices": "4.3.0",
+          "System.Security.Cryptography.Algorithms": "4.3.0",
+          "System.Security.Cryptography.Encoding": "4.3.0",
+          "System.Security.Cryptography.Primitives": "4.3.0",
+          "System.Text.Encoding": "4.3.0",
+          "System.Threading": "4.3.0"
+        },
+        "runtimeTargets": {
+          "runtime/unix/lib/_._": {
+            "rid": "unix",
+            "assetType": "runtime"
+          },
+          "runtime/win/lib/_._": {
+            "rid": "win",
+            "assetType": "runtime"
+          }
+        }
+      },
+      "System.Security.Cryptography.Pkcs/4.5.2": {
+        "dependencies": {
+          "System.Security.Cryptography.Cng": "4.5.0"
+        },
+        "runtime": {
+          "lib/netcoreapp2.1/System.Security.Cryptography.Pkcs.dll": {
+            "assemblyVersion": "4.0.3.2",
+            "fileVersion": "4.6.27129.4"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/netcoreapp2.1/System.Security.Cryptography.Pkcs.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "4.0.3.2",
+            "fileVersion": "4.6.27129.4"
+          }
+        },
+        "compile": {
+          "ref/netcoreapp2.1/System.Security.Cryptography.Pkcs.dll": {}
+        }
+      },
+      "System.Security.Cryptography.X509Certificates/4.3.2": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
+          "System.Collections": "4.3.0",
+          "System.Diagnostics.Debug": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.Globalization.Calendars": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.IO.FileSystem": "4.3.0",
+          "System.IO.FileSystem.Primitives": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Runtime.Handles": "4.3.0",
+          "System.Runtime.InteropServices": "4.3.0",
+          "System.Runtime.Numerics": "4.3.0",
+          "System.Security.Cryptography.Algorithms": "4.3.0",
+          "System.Security.Cryptography.Cng": "4.5.0",
+          "System.Security.Cryptography.Csp": "4.3.0",
+          "System.Security.Cryptography.Encoding": "4.3.0",
+          "System.Security.Cryptography.OpenSsl": "4.3.0",
+          "System.Security.Cryptography.Primitives": "4.3.0",
+          "System.Text.Encoding": "4.3.0",
+          "System.Threading": "4.3.0",
+          "runtime.native.System": "4.3.0",
+          "runtime.native.System.Net.Http": "4.3.0",
+          "runtime.native.System.Security.Cryptography.OpenSsl": "4.3.2"
+        },
+        "runtimeTargets": {
+          "runtime/unix/lib/_._": {
+            "rid": "unix",
+            "assetType": "runtime"
+          },
+          "runtime/win/lib/_._": {
+            "rid": "win",
+            "assetType": "runtime"
+          }
+        }
+      },
+      "System.Text.Encoding.CodePages/4.5.1": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
+          "System.Runtime.CompilerServices.Unsafe": "4.5.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Text.Encoding.CodePages.dll": {
+            "assemblyVersion": "4.1.1.0",
+            "fileVersion": "4.6.27129.4"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/netcoreapp2.0/System.Text.Encoding.CodePages.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "4.1.1.0",
+            "fileVersion": "4.6.27129.4"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/System.Text.Encoding.CodePages.dll": {}
         }
       },
       "Microsoft.AspNet.WebApi.Client/5.2.6": {
@@ -1400,7 +1692,7 @@
           "System.IO.Pipelines": "4.5.2",
           "System.Memory": "4.5.1",
           "System.Numerics.Vectors": "4.5.0",
-          "System.Runtime.CompilerServices.Unsafe": "4.5.1",
+          "System.Runtime.CompilerServices.Unsafe": "4.5.2",
           "System.Security.Principal.Windows": "4.5.0"
         },
         "compile": {
@@ -1432,7 +1724,7 @@
           "Microsoft.Net.Http.Headers": "2.2.0",
           "System.Memory": "4.5.1",
           "System.Numerics.Vectors": "4.5.0",
-          "System.Runtime.CompilerServices.Unsafe": "4.5.1",
+          "System.Runtime.CompilerServices.Unsafe": "4.5.2",
           "System.Security.Cryptography.Cng": "4.5.0",
           "System.Threading.Tasks.Extensions": "4.5.1"
         },
@@ -1620,9 +1912,9 @@
           "System.Runtime.Numerics": "4.3.0",
           "System.Security.Cryptography.Algorithms": "4.3.0",
           "System.Security.Cryptography.Encoding": "4.3.0",
-          "System.Security.Cryptography.X509Certificates": "4.3.0",
+          "System.Security.Cryptography.X509Certificates": "4.3.2",
           "System.Text.Encoding": "4.3.0",
-          "System.Text.Encoding.CodePages": "4.5.0",
+          "System.Text.Encoding.CodePages": "4.5.1",
           "System.Text.Encoding.Extensions": "4.3.0",
           "System.Threading": "4.3.0",
           "System.Threading.Tasks": "4.3.0",
@@ -2170,7 +2462,7 @@
       "Microsoft.Extensions.Primitives/2.2.0": {
         "dependencies": {
           "System.Memory": "4.5.1",
-          "System.Runtime.CompilerServices.Unsafe": "4.5.1"
+          "System.Runtime.CompilerServices.Unsafe": "4.5.2"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.Extensions.Primitives.dll": {}
@@ -2261,7 +2553,7 @@
           "System.Runtime.Serialization.Xml": "4.3.0",
           "System.Security.Claims": "4.3.0",
           "System.Security.Cryptography.Algorithms": "4.3.0",
-          "System.Security.Cryptography.X509Certificates": "4.3.0",
+          "System.Security.Cryptography.X509Certificates": "4.3.2",
           "System.Text.RegularExpressions": "4.3.0",
           "System.Threading": "4.3.0"
         },
@@ -2302,7 +2594,7 @@
       "Microsoft.NETCore.App/2.2.0": {
         "dependencies": {
           "Microsoft.NETCore.DotNetHostPolicy": "2.2.0",
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0",
           "NETStandard.Library": "2.0.3"
         },
@@ -2468,9 +2760,6 @@
         },
         "compileOnly": true
       },
-      "Microsoft.NETCore.Platforms/2.2.0": {
-        "compileOnly": true
-      },
       "Microsoft.NETCore.Targets/2.0.0": {
         "compileOnly": true
       },
@@ -2486,7 +2775,7 @@
       },
       "NETStandard.Library/2.0.3": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0"
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8"
         },
         "compileOnly": true
       },
@@ -2525,18 +2814,9 @@
         },
         "compileOnly": true
       },
-      "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-        "compileOnly": true
-      },
-      "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-        "compileOnly": true
-      },
-      "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-        "compileOnly": true
-      },
       "runtime.native.System/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0"
         },
         "compileOnly": true
@@ -2551,14 +2831,14 @@
       },
       "runtime.native.System.IO.Compression/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0"
         },
         "compileOnly": true
       },
       "runtime.native.System.Net.Http/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0"
         },
         "compileOnly": true
@@ -2569,43 +2849,7 @@
         },
         "compileOnly": true
       },
-      "runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-        "dependencies": {
-          "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl": "4.3.0",
-          "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl": "4.3.0",
-          "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl": "4.3.0",
-          "runtime.opensuse.13.2-x64.runtime.native.System.Security.Cryptography.OpenSsl": "4.3.0",
-          "runtime.opensuse.42.1-x64.runtime.native.System.Security.Cryptography.OpenSsl": "4.3.0",
-          "runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.OpenSsl": "4.3.0",
-          "runtime.rhel.7-x64.runtime.native.System.Security.Cryptography.OpenSsl": "4.3.0",
-          "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl": "4.3.0",
-          "runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography.OpenSsl": "4.3.0",
-          "runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl": "4.3.0"
-        },
-        "compileOnly": true
-      },
-      "runtime.opensuse.13.2-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-        "compileOnly": true
-      },
-      "runtime.opensuse.42.1-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-        "compileOnly": true
-      },
       "runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.Apple/4.3.0": {
-        "compileOnly": true
-      },
-      "runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-        "compileOnly": true
-      },
-      "runtime.rhel.7-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-        "compileOnly": true
-      },
-      "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-        "compileOnly": true
-      },
-      "runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-        "compileOnly": true
-      },
-      "runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
         "compileOnly": true
       },
       "runtime.win-arm64.runtime.native.System.Data.SqlClient.sni/4.4.0": {
@@ -2628,7 +2872,7 @@
       },
       "System.Collections/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0",
           "System.Runtime": "4.3.0"
         },
@@ -2680,7 +2924,7 @@
       },
       "System.Console/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0",
           "System.IO": "4.3.0",
           "System.Runtime": "4.3.0",
@@ -2692,7 +2936,7 @@
         "dependencies": {
           "Microsoft.Win32.Registry": "4.5.0",
           "System.Security.Principal.Windows": "4.5.0",
-          "System.Text.Encoding.CodePages": "4.5.0",
+          "System.Text.Encoding.CodePages": "4.5.1",
           "runtime.native.System.Data.SqlClient.sni": "4.5.0"
         },
         "compile": {
@@ -2708,7 +2952,7 @@
       },
       "System.Diagnostics.Debug/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0",
           "System.Runtime": "4.3.0"
         },
@@ -2719,7 +2963,7 @@
       },
       "System.Diagnostics.FileVersionInfo/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "System.Globalization": "4.3.0",
           "System.IO": "4.3.0",
           "System.IO.FileSystem": "4.3.0",
@@ -2742,7 +2986,7 @@
       },
       "System.Diagnostics.Tools/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0",
           "System.Runtime": "4.3.0"
         },
@@ -2750,7 +2994,7 @@
       },
       "System.Diagnostics.Tracing/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0",
           "System.Runtime": "4.3.0"
         },
@@ -2777,24 +3021,15 @@
       },
       "System.Globalization/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0",
-          "System.Runtime": "4.3.0"
-        },
-        "compileOnly": true
-      },
-      "System.Globalization.Calendars/4.3.0": {
-        "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
-          "Microsoft.NETCore.Targets": "2.0.0",
-          "System.Globalization": "4.3.0",
           "System.Runtime": "4.3.0"
         },
         "compileOnly": true
       },
       "System.Globalization.Extensions/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "System.Globalization": "4.3.0",
           "System.Resources.ResourceManager": "4.3.0",
           "System.Runtime": "4.3.0",
@@ -2822,7 +3057,7 @@
       },
       "System.IO/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0",
           "System.Runtime": "4.3.0",
           "System.Text.Encoding": "4.3.0",
@@ -2832,7 +3067,7 @@
       },
       "System.IO.Compression/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "System.Buffers": "4.5.0",
           "System.Collections": "4.3.0",
           "System.Diagnostics.Debug": "4.3.0",
@@ -2852,7 +3087,7 @@
       },
       "System.IO.FileSystem/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0",
           "System.IO": "4.3.0",
           "System.IO.FileSystem.Primitives": "4.3.0",
@@ -2925,7 +3160,7 @@
       },
       "System.Net.Http/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "System.Collections": "4.3.0",
           "System.Diagnostics.Debug": "4.3.0",
           "System.Diagnostics.DiagnosticSource": "4.5.0",
@@ -2944,19 +3179,19 @@
           "System.Security.Cryptography.Encoding": "4.3.0",
           "System.Security.Cryptography.OpenSsl": "4.3.0",
           "System.Security.Cryptography.Primitives": "4.3.0",
-          "System.Security.Cryptography.X509Certificates": "4.3.0",
+          "System.Security.Cryptography.X509Certificates": "4.3.2",
           "System.Text.Encoding": "4.3.0",
           "System.Threading": "4.3.0",
           "System.Threading.Tasks": "4.3.0",
           "runtime.native.System": "4.3.0",
           "runtime.native.System.Net.Http": "4.3.0",
-          "runtime.native.System.Security.Cryptography.OpenSsl": "4.3.0"
+          "runtime.native.System.Security.Cryptography.OpenSsl": "4.3.2"
         },
         "compileOnly": true
       },
       "System.Net.Primitives/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0",
           "System.Runtime": "4.3.0",
           "System.Runtime.Handles": "4.3.0"
@@ -3014,7 +3249,7 @@
       },
       "System.Reflection/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0",
           "System.IO": "4.3.0",
           "System.Reflection.Primitives": "4.3.0",
@@ -3051,7 +3286,7 @@
       },
       "System.Reflection.Extensions/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0",
           "System.Reflection": "4.3.0",
           "System.Runtime": "4.3.0"
@@ -3063,7 +3298,7 @@
       },
       "System.Reflection.Primitives/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0",
           "System.Runtime": "4.3.0"
         },
@@ -3078,7 +3313,7 @@
       },
       "System.Resources.ResourceManager/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0",
           "System.Globalization": "4.3.0",
           "System.Reflection": "4.3.0",
@@ -3088,20 +3323,14 @@
       },
       "System.Runtime/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0"
-        },
-        "compileOnly": true
-      },
-      "System.Runtime.CompilerServices.Unsafe/4.5.1": {
-        "compile": {
-          "ref/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll": {}
         },
         "compileOnly": true
       },
       "System.Runtime.Extensions/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0",
           "System.Runtime": "4.3.0"
         },
@@ -3109,7 +3338,7 @@
       },
       "System.Runtime.Handles/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0",
           "System.Runtime": "4.3.0"
         },
@@ -3117,7 +3346,7 @@
       },
       "System.Runtime.InteropServices/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0",
           "System.Reflection": "4.3.0",
           "System.Reflection.Primitives": "4.3.0",
@@ -3167,7 +3396,7 @@
       },
       "System.Security.AccessControl/4.5.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "System.Security.Principal.Windows": "4.5.0"
         },
         "compile": {
@@ -3189,7 +3418,7 @@
       },
       "System.Security.Cryptography.Algorithms/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "System.Collections": "4.3.0",
           "System.IO": "4.3.0",
           "System.Resources.ResourceManager": "4.3.0",
@@ -3202,7 +3431,7 @@
           "System.Security.Cryptography.Primitives": "4.3.0",
           "System.Text.Encoding": "4.3.0",
           "runtime.native.System.Security.Cryptography.Apple": "4.3.0",
-          "runtime.native.System.Security.Cryptography.OpenSsl": "4.3.0"
+          "runtime.native.System.Security.Cryptography.OpenSsl": "4.3.2"
         },
         "compileOnly": true
       },
@@ -3212,27 +3441,9 @@
         },
         "compileOnly": true
       },
-      "System.Security.Cryptography.Csp/4.3.0": {
-        "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
-          "System.IO": "4.3.0",
-          "System.Reflection": "4.3.0",
-          "System.Resources.ResourceManager": "4.3.0",
-          "System.Runtime": "4.3.0",
-          "System.Runtime.Extensions": "4.3.0",
-          "System.Runtime.Handles": "4.3.0",
-          "System.Runtime.InteropServices": "4.3.0",
-          "System.Security.Cryptography.Algorithms": "4.3.0",
-          "System.Security.Cryptography.Encoding": "4.3.0",
-          "System.Security.Cryptography.Primitives": "4.3.0",
-          "System.Text.Encoding": "4.3.0",
-          "System.Threading": "4.3.0"
-        },
-        "compileOnly": true
-      },
       "System.Security.Cryptography.Encoding/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "System.Collections": "4.3.0",
           "System.Collections.Concurrent": "4.3.0",
           "System.Linq": "4.3.0",
@@ -3243,7 +3454,7 @@
           "System.Runtime.InteropServices": "4.3.0",
           "System.Security.Cryptography.Primitives": "4.3.0",
           "System.Text.Encoding": "4.3.0",
-          "runtime.native.System.Security.Cryptography.OpenSsl": "4.3.0"
+          "runtime.native.System.Security.Cryptography.OpenSsl": "4.3.2"
         },
         "compileOnly": true
       },
@@ -3261,13 +3472,7 @@
           "System.Security.Cryptography.Encoding": "4.3.0",
           "System.Security.Cryptography.Primitives": "4.3.0",
           "System.Text.Encoding": "4.3.0",
-          "runtime.native.System.Security.Cryptography.OpenSsl": "4.3.0"
-        },
-        "compileOnly": true
-      },
-      "System.Security.Cryptography.Pkcs/4.5.0": {
-        "dependencies": {
-          "System.Security.Cryptography.Cng": "4.5.0"
+          "runtime.native.System.Security.Cryptography.OpenSsl": "4.3.2"
         },
         "compileOnly": true
       },
@@ -3283,39 +3488,9 @@
         },
         "compileOnly": true
       },
-      "System.Security.Cryptography.X509Certificates/4.3.0": {
-        "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
-          "System.Collections": "4.3.0",
-          "System.Diagnostics.Debug": "4.3.0",
-          "System.Globalization": "4.3.0",
-          "System.Globalization.Calendars": "4.3.0",
-          "System.IO": "4.3.0",
-          "System.IO.FileSystem": "4.3.0",
-          "System.IO.FileSystem.Primitives": "4.3.0",
-          "System.Resources.ResourceManager": "4.3.0",
-          "System.Runtime": "4.3.0",
-          "System.Runtime.Extensions": "4.3.0",
-          "System.Runtime.Handles": "4.3.0",
-          "System.Runtime.InteropServices": "4.3.0",
-          "System.Runtime.Numerics": "4.3.0",
-          "System.Security.Cryptography.Algorithms": "4.3.0",
-          "System.Security.Cryptography.Cng": "4.5.0",
-          "System.Security.Cryptography.Csp": "4.3.0",
-          "System.Security.Cryptography.Encoding": "4.3.0",
-          "System.Security.Cryptography.OpenSsl": "4.3.0",
-          "System.Security.Cryptography.Primitives": "4.3.0",
-          "System.Text.Encoding": "4.3.0",
-          "System.Threading": "4.3.0",
-          "runtime.native.System": "4.3.0",
-          "runtime.native.System.Net.Http": "4.3.0",
-          "runtime.native.System.Security.Cryptography.OpenSsl": "4.3.0"
-        },
-        "compileOnly": true
-      },
       "System.Security.Cryptography.Xml/4.5.0": {
         "dependencies": {
-          "System.Security.Cryptography.Pkcs": "4.5.0",
+          "System.Security.Cryptography.Pkcs": "4.5.2",
           "System.Security.Permissions": "4.5.0"
         },
         "compile": {
@@ -3340,7 +3515,7 @@
       },
       "System.Security.Principal.Windows/4.5.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0"
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8"
         },
         "compile": {
           "ref/netstandard2.0/System.Security.Principal.Windows.dll": {}
@@ -3349,22 +3524,15 @@
       },
       "System.Text.Encoding/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0",
           "System.Runtime": "4.3.0"
         },
         "compileOnly": true
       },
-      "System.Text.Encoding.CodePages/4.5.0": {
-        "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
-          "System.Runtime.CompilerServices.Unsafe": "4.5.1"
-        },
-        "compileOnly": true
-      },
       "System.Text.Encoding.Extensions/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0",
           "System.Runtime": "4.3.0",
           "System.Text.Encoding": "4.3.0"
@@ -3398,7 +3566,7 @@
       },
       "System.Threading.Tasks/4.3.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.2.0",
+          "Microsoft.NETCore.Platforms": "3.0.0-preview6.19303.8",
           "Microsoft.NETCore.Targets": "2.0.0",
           "System.Runtime": "4.3.0"
         },
@@ -3544,6 +3712,13 @@
       "serviceable": false,
       "sha512": ""
     },
+    "EPPlus/4.5.3.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JoEDkHEcYio3uV8T9+anjfB6x6hirEW9zdO4Ibyd8BDrct0tCp6vMqvKFpAcPNE6TVRG03y1bskFlJXbXiCJxg==",
+      "path": "epplus/4.5.3.2",
+      "hashPath": "epplus.4.5.3.2.nupkg.sha512"
+    },
     "Microsoft.CodeAnalysis.CSharp.Workspaces/2.8.0": {
       "type": "package",
       "serviceable": true,
@@ -3557,6 +3732,13 @@
       "sha512": "sha512-tJlJ99SD8bHBAXShOG/pXQ1K118cnsF01obEf9aAtdgLbw3yEPahZ7qvWeGMjrheUhvOsSkv/wTKYg9euKa8MQ==",
       "path": "microsoft.codeanalysis.workspaces.common/2.8.0",
       "hashPath": "microsoft.codeanalysis.workspaces.common.2.8.0.nupkg.sha512"
+    },
+    "Microsoft.NETCore.Platforms/3.0.0-preview6.19303.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9nE9InmtkWL1ZIAvzZPoe8zzr8JNrmyofR5++0NCLomrLSbR70b60hLXFE/7vXIVgbKdTo3CTsCcFTOSZoOIEw==",
+      "path": "microsoft.netcore.platforms/3.0.0-preview6.19303.8",
+      "hashPath": "microsoft.netcore.platforms.3.0.0-preview6.19303.8.nupkg.sha512"
     },
     "Microsoft.VisualStudio.Web.CodeGeneration/2.2.4": {
       "type": "package",
@@ -3614,12 +3796,96 @@
       "path": "microsoft.visualstudio.web.codegenerators.mvc/2.2.4",
       "hashPath": "microsoft.visualstudio.web.codegenerators.mvc.2.2.4.nupkg.sha512"
     },
+    "Microsoft.Win32.SystemEvents/4.6.0-preview6.19303.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-IuyieAKZeCDGoOoIFhWMFAcdo6EledhjXxUw/g46azLzrNXo9kIlfiEVkQZsAeKtWmgy0FwLnvEQ6Rt9Z/RbHw==",
+      "path": "microsoft.win32.systemevents/4.6.0-preview6.19303.8",
+      "hashPath": "microsoft.win32.systemevents.4.6.0-preview6.19303.8.nupkg.sha512"
+    },
     "NuGet.Frameworks/4.7.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-qbXaB76XYUVLocLBs8Z9TS/ERGK2wm797feO+0JEPFvT7o7MRadOR77mqaSD4J1k8G+DlZQyq+MlkCuxrkr3ag==",
       "path": "nuget.frameworks/4.7.0",
       "hashPath": "nuget.frameworks.4.7.0.nupkg.sha512"
+    },
+    "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7VSGO0URRKoMEAq0Sc9cRz8mb6zbyx/BZDEWhgPdzzpmFhkam3fJ1DAGWFXBI4nGlma+uPKpfuMQP5LXRnOH5g==",
+      "path": "runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl/4.3.2",
+      "hashPath": "runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512"
+    },
+    "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0oAaTAm6e2oVH+/Zttt0cuhGaePQYKII1dY8iaqP7CvOpVKgLybKRFvQjXR2LtxXOXTVPNv14j0ot8uV+HrUmw==",
+      "path": "runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl/4.3.2",
+      "hashPath": "runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512"
+    },
+    "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-G24ibsCNi5Kbz0oXWynBoRgtGvsw5ZSVEWjv13/KiCAM8C6wz9zzcCniMeQFIkJ2tasjo2kXlvlBZhplL51kGg==",
+      "path": "runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl/4.3.2",
+      "hashPath": "runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512"
+    },
+    "runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-QR1OwtwehHxSeQvZKXe+iSd+d3XZNkEcuWMFYa2i0aG1l+lR739HPicKMlTbJst3spmeekDVBUS7SeS26s4U/g==",
+      "path": "runtime.native.system.security.cryptography.openssl/4.3.2",
+      "hashPath": "runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512"
+    },
+    "runtime.opensuse.13.2-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-I+GNKGg2xCHueRd1m9PzeEW7WLbNNLznmTuEi8/vZX71HudUbx1UTwlGkiwMri7JLl8hGaIAWnA/GONhu+LOyQ==",
+      "path": "runtime.opensuse.13.2-x64.runtime.native.system.security.cryptography.openssl/4.3.2",
+      "hashPath": "runtime.opensuse.13.2-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512"
+    },
+    "runtime.opensuse.42.1-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1Z3TAq1ytS1IBRtPXJvEUZdVsfWfeNEhBkbiOCGEl9wwAfsjP2lz3ZFDx5tq8p60/EqbS0HItG5piHuB71RjoA==",
+      "path": "runtime.opensuse.42.1-x64.runtime.native.system.security.cryptography.openssl/4.3.2",
+      "hashPath": "runtime.opensuse.42.1-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512"
+    },
+    "runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6mU/cVmmHtQiDXhnzUImxIcDL48GbTk+TsptXyJA+MIOG9LRjPoAQC/qBFB7X+UNyK86bmvGwC8t+M66wsYC8w==",
+      "path": "runtime.osx.10.10-x64.runtime.native.system.security.cryptography.openssl/4.3.2",
+      "hashPath": "runtime.osx.10.10-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512"
+    },
+    "runtime.rhel.7-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-vjwG0GGcTW/PPg6KVud8F9GLWYuAV1rrw1BKAqY0oh4jcUqg15oYF1+qkGR2x2ZHM4DQnWKQ7cJgYbfncz/lYg==",
+      "path": "runtime.rhel.7-x64.runtime.native.system.security.cryptography.openssl/4.3.2",
+      "hashPath": "runtime.rhel.7-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512"
+    },
+    "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7KMFpTkHC/zoExs+PwP8jDCWcrK9H6L7soowT80CUx3e+nxP/AFnq0AQAW5W76z2WYbLAYCRyPfwYFG6zkvQRw==",
+      "path": "runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl/4.3.2",
+      "hashPath": "runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512"
+    },
+    "runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xrlmRCnKZJLHxyyLIqkZjNXqgxnKdZxfItrPkjI+6pkRo5lHX8YvSZlWrSI5AVwLMi4HbNWP7064hcAWeZKp5w==",
+      "path": "runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl/4.3.2",
+      "hashPath": "runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512"
+    },
+    "runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-leXiwfiIkW7Gmn7cgnNcdtNAU70SjmKW3jxGj1iKHOvdn0zRWsgv/l2OJUO5zdGdiv2VRFnAsxxhDgMzofPdWg==",
+      "path": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl/4.3.2",
+      "hashPath": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512"
     },
     "System.Composition/1.0.31": {
       "type": "package",
@@ -3663,12 +3929,61 @@
       "path": "system.composition.typedparts/1.0.31",
       "hashPath": "system.composition.typedparts.1.0.31.nupkg.sha512"
     },
+    "System.Drawing.Common/4.6.0-preview6.19303.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JthhU920Ja1/61F3pHSWhQ6tsiGv8/LOdkk+BcFNlV7CAUYrUDYbOinuwpmTMD0Th1wZy366cUyGPV5HHRav1g==",
+      "path": "system.drawing.common/4.6.0-preview6.19303.8",
+      "hashPath": "system.drawing.common.4.6.0-preview6.19303.8.nupkg.sha512"
+    },
+    "System.Globalization.Calendars/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0wv+g0kTzR1mJJBD9LlLuiGusd1FcLDM+YJJDwvqwVq7Y/WAuQJANmTtuHH2tD02ooRpN+BP8nqHaiRYjFuMaA==",
+      "path": "system.globalization.calendars/4.3.0",
+      "hashPath": "system.globalization.calendars.4.3.0.nupkg.sha512"
+    },
     "System.Linq.Parallel/4.3.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-jf3vZvImRoRLmkup2YG/ph4OMkTQ3wBMn3/LkUakwaeuK+rZNLWcXZI3klkYjzejrCMBZ8AEH89Q/2eo//DmiQ==",
       "path": "system.linq.parallel/4.3.0",
       "hashPath": "system.linq.parallel.4.3.0.nupkg.sha512"
+    },
+    "System.Runtime.CompilerServices.Unsafe/4.5.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wprSFgext8cwqymChhrBLu62LMg/1u92bU+VOwyfBimSPVFXtsNqEWC92Pf9ofzJFlk4IHmJA75EDJn1b2goAQ==",
+      "path": "system.runtime.compilerservices.unsafe/4.5.2",
+      "hashPath": "system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512"
+    },
+    "System.Security.Cryptography.Csp/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/c/0HOLw3ZVgSDjUvXwiONeM5vyKC6Hrl4cqjIKq3WKcbdWn63kLo2ZcNSdPempRzMrARpvnVooU/0iaAGmshw==",
+      "path": "system.security.cryptography.csp/4.3.0",
+      "hashPath": "system.security.cryptography.csp.4.3.0.nupkg.sha512"
+    },
+    "System.Security.Cryptography.Pkcs/4.5.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lIo52x0AAsZs8r1L58lPXaqN6PP51Z/XJts0kZtbZRNYcMguupxqRGjvc/GoqSKTbYa+aBwbkT4xoqQ7EsfN0A==",
+      "path": "system.security.cryptography.pkcs/4.5.2",
+      "hashPath": "system.security.cryptography.pkcs.4.5.2.nupkg.sha512"
+    },
+    "System.Security.Cryptography.X509Certificates/4.3.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uwlfOnvJd7rXRvP3aV126Q9XebIIEGEaZ245Rd5/ZwOg7U7AU+AmpE0vRh2F0DFjfOTuk7MAexv4nYiNP/RYnQ==",
+      "path": "system.security.cryptography.x509certificates/4.3.2",
+      "hashPath": "system.security.cryptography.x509certificates.4.3.2.nupkg.sha512"
+    },
+    "System.Text.Encoding.CodePages/4.5.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-4J2JQXbftjPMppIHJ7IC+VXQ9XfEagN92vZZNoG12i+zReYlim5dMoXFC1Zzg7tsnKDM7JPo5bYfFK4Jheq44w==",
+      "path": "system.text.encoding.codepages/4.5.1",
+      "hashPath": "system.text.encoding.codepages.4.5.1.nupkg.sha512"
     },
     "Microsoft.AspNet.WebApi.Client/5.2.6": {
       "type": "package",
@@ -4846,13 +5161,6 @@
       "path": "microsoft.netcore.dotnethostresolver/2.2.0",
       "hashPath": "microsoft.netcore.dotnethostresolver.2.2.0.nupkg.sha512"
     },
-    "Microsoft.NETCore.Platforms/2.2.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-T/J+XZo+YheFTJh8/4uoeJDdz5qOmOMkjg6/VL8mHJ9AnP8+fmV/kcbxeXsob0irRNiChf+V0ig1MCRLp/+Kog==",
-      "path": "microsoft.netcore.platforms/2.2.0",
-      "hashPath": "microsoft.netcore.platforms.2.2.0.nupkg.sha512"
-    },
     "Microsoft.NETCore.Targets/2.0.0": {
       "type": "package",
       "serviceable": true,
@@ -4895,27 +5203,6 @@
       "path": "remotion.linq/2.2.0",
       "hashPath": "remotion.linq.2.2.0.nupkg.sha512"
     },
-    "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-53v0RFqEPNxHfKhY1Ww991+lI4Oa7Jh4NfO9nM7HSOvHGl+DxNByGNbKRkqSSvw7EifhDnWtbkpl5fpPDCyrfg==",
-      "path": "runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
-      "hashPath": "runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512"
-    },
-    "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-PX64pZf5Ke5gYyjm9A6QBIgIyaLbfr5BmhONllspWRQvzPGAd/gemwYTCoQrnk6w0mgQLpDwE9FpXFDgvQRrgg==",
-      "path": "runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
-      "hashPath": "runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512"
-    },
-    "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-1xkm+MSzBJVwmezqI324T35WZPNHf3DlTYGZC4cS96Sd+4//rziK3bN749+eYqtNV2oy2ykrqXmr34Jx3WeyYQ==",
-      "path": "runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
-      "hashPath": "runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512"
-    },
     "runtime.native.System/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -4951,68 +5238,12 @@
       "path": "runtime.native.system.security.cryptography.apple/4.3.0",
       "hashPath": "runtime.native.system.security.cryptography.apple.4.3.0.nupkg.sha512"
     },
-    "runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-t86rjhNB41BE/E26mU2t9Dq9FX5aL8uOeCmItiXNXSVo37q7nzXPzMaIefNgxQf75Q6vvNJl2CJoFwNymB7SBg==",
-      "path": "runtime.native.system.security.cryptography.openssl/4.3.0",
-      "hashPath": "runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512"
-    },
-    "runtime.opensuse.13.2-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-SsMcrOoUwXO4oHY0kCWzqn6Ghd47uPkAYfkDDrs2qE2c6pmAQ3PqtN+DytGFkihzaqZw5GLcwQqSwMcQGWu2vg==",
-      "path": "runtime.opensuse.13.2-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
-      "hashPath": "runtime.opensuse.13.2-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512"
-    },
-    "runtime.opensuse.42.1-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-Zn/y+QokhDwb0QspKBCEMC7kHCj8NZVzQEX2pTMRlQtwAVYhZwHaTgXb6SmVFhcOmYLWbhVgpzXrVbt8ZyrPnA==",
-      "path": "runtime.opensuse.42.1-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
-      "hashPath": "runtime.opensuse.42.1-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512"
-    },
     "runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.Apple/4.3.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-T/UDnJbxnmSPKrG5cdniO1nd44df+qXMOGmMDsS4MSiULLvEbXW1OUDNjQhSQeMKQJMpHA8erVRLCgXA5Q1Txw==",
       "path": "runtime.osx.10.10-x64.runtime.native.system.security.cryptography.apple/4.3.0",
       "hashPath": "runtime.osx.10.10-x64.runtime.native.system.security.cryptography.apple.4.3.0.nupkg.sha512"
-    },
-    "runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-OZGR6YQi7rUct1r7yhaAmN+IPkk+pfDh2SLIHBbsyiMZr9RtBpSYzVHQ0VkmBe7LNcFnrjqc+i1vRzU43qM00A==",
-      "path": "runtime.osx.10.10-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
-      "hashPath": "runtime.osx.10.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512"
-    },
-    "runtime.rhel.7-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-bYjbubrIzRPtLHKR53sUqqT9MqFAj0il9eY8yDZJH6Qz1OgcTKzI3JRwGvVFWdwZWb/iVMmOsp08LISX529sDQ==",
-      "path": "runtime.rhel.7-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
-      "hashPath": "runtime.rhel.7-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512"
-    },
-    "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-OCKE2PHAHpEavi4cTXdQVjfZ/oE+Os4A13/hQjo9chscRdpObhYbyEQB3g6q655J2QVejqNAzukIHlQ0LHC/MA==",
-      "path": "runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
-      "hashPath": "runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512"
-    },
-    "runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-44gz9SPdV1vrXF44XKHs9iZHNj+5fGeO2xvsUZ/acpKM4wTODUcCwjSee++H1+NEE77vV8x/qAVjc0yQxI6rXQ==",
-      "path": "runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
-      "hashPath": "runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512"
-    },
-    "runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-rOYjX0T3L2SChpKI8+pYkp85hM4OEgueWtxGu07t6kQkh9ueBHdKvFz8/ck91i4w8/NLnRACAnf9cKHhvDDRSA==",
-      "path": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
-      "hashPath": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512"
     },
     "runtime.win-arm64.runtime.native.System.Data.SqlClient.sni/4.4.0": {
       "type": "package",
@@ -5167,13 +5398,6 @@
       "sha512": "sha512-eTgv7cX3YDf5P3fn3taH4a9bKVqJvrpNfJmb83f5j/LiX/e4Iz9usSXMMa+D0SDxOB2Zn3MvtuYACvurf7h4Kw==",
       "path": "system.globalization/4.3.0",
       "hashPath": "system.globalization.4.3.0.nupkg.sha512"
-    },
-    "System.Globalization.Calendars/4.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-0wv+g0kTzR1mJJBD9LlLuiGusd1FcLDM+YJJDwvqwVq7Y/WAuQJANmTtuHH2tD02ooRpN+BP8nqHaiRYjFuMaA==",
-      "path": "system.globalization.calendars/4.3.0",
-      "hashPath": "system.globalization.calendars.4.3.0.nupkg.sha512"
     },
     "System.Globalization.Extensions/4.3.0": {
       "type": "package",
@@ -5371,13 +5595,6 @@
       "path": "system.runtime/4.3.0",
       "hashPath": "system.runtime.4.3.0.nupkg.sha512"
     },
-    "System.Runtime.CompilerServices.Unsafe/4.5.1": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-Zh8t8oqolRaFa9vmOZfdQm/qKejdqz0J9kr7o2Fu0vPeoH3BL1EOXipKWwkWtLT1JPzjByrF19fGuFlNbmPpiw==",
-      "path": "system.runtime.compilerservices.unsafe/4.5.1",
-      "hashPath": "system.runtime.compilerservices.unsafe.4.5.1.nupkg.sha512"
-    },
     "System.Runtime.Extensions/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -5455,13 +5672,6 @@
       "path": "system.security.cryptography.cng/4.5.0",
       "hashPath": "system.security.cryptography.cng.4.5.0.nupkg.sha512"
     },
-    "System.Security.Cryptography.Csp/4.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-/c/0HOLw3ZVgSDjUvXwiONeM5vyKC6Hrl4cqjIKq3WKcbdWn63kLo2ZcNSdPempRzMrARpvnVooU/0iaAGmshw==",
-      "path": "system.security.cryptography.csp/4.3.0",
-      "hashPath": "system.security.cryptography.csp.4.3.0.nupkg.sha512"
-    },
     "System.Security.Cryptography.Encoding/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -5476,26 +5686,12 @@
       "path": "system.security.cryptography.openssl/4.3.0",
       "hashPath": "system.security.cryptography.openssl.4.3.0.nupkg.sha512"
     },
-    "System.Security.Cryptography.Pkcs/4.5.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-TGQX51gxpY3K3I6LJlE2LAftVlIMqJf0cBGhz68Y89jjk3LJCB6SrwiD+YN1fkqemBvWGs+GjyMJukl6d6goyQ==",
-      "path": "system.security.cryptography.pkcs/4.5.0",
-      "hashPath": "system.security.cryptography.pkcs.4.5.0.nupkg.sha512"
-    },
     "System.Security.Cryptography.Primitives/4.3.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-yvc3X4p75h1v2hA4dFCAdTHjxtKV30i5d0tuDK1fDPu0wVt04RPItFSBcHHhKWu7TkzzV1NSXORVRzwsFieuZQ==",
       "path": "system.security.cryptography.primitives/4.3.0",
       "hashPath": "system.security.cryptography.primitives.4.3.0.nupkg.sha512"
-    },
-    "System.Security.Cryptography.X509Certificates/4.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-0QMBE2+uGqqAMPHw7Z2KFYEjV4r5tw4gp0FtyzVg8NRepT5kwaztg1ES+jh3As1KTNtbLrViOqZClFtOO0qiSw==",
-      "path": "system.security.cryptography.x509certificates/4.3.0",
-      "hashPath": "system.security.cryptography.x509certificates.4.3.0.nupkg.sha512"
     },
     "System.Security.Cryptography.Xml/4.5.0": {
       "type": "package",
@@ -5531,13 +5727,6 @@
       "sha512": "sha512-0KT468Ed6WSCGxjXO2tT7nZq8uF4Q+4x2K7xuU8YICg7qYC+06uQWv1c2ePyLlMrpQa482JjhKEhtIm8rFY3Zg==",
       "path": "system.text.encoding/4.3.0",
       "hashPath": "system.text.encoding.4.3.0.nupkg.sha512"
-    },
-    "System.Text.Encoding.CodePages/4.5.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-S0wEUiKcLvRlkFUXca8uio1UQ5bYQzYgOmOKtCqaBQC3GR9AJjh43otcM32IGsAyvadFTaAMw9Irm6dS4Evfng==",
-      "path": "system.text.encoding.codepages/4.5.0",
-      "hashPath": "system.text.encoding.codepages.4.5.0.nupkg.sha512"
     },
     "System.Text.Encoding.Extensions/4.3.0": {
       "type": "package",

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DocumentManagement.BUS;
 using DocumentManagement.Common.CoreExport;
-using DocumentManagement.Model.Entity.Profile;
+using DocumentManagement.Models.Entity.Profile;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

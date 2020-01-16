@@ -2,6 +2,7 @@
 using DocumentManagement.Common;
 using DocumentManagement.Model;
 using DocumentManagement.Models.Entity.Document;
+using DocumentManagement.Models.Entity.Profile;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -149,6 +150,28 @@ namespace DocumentManagement.DAL
 
             return new ReturnResult<Document>()
             {
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+            };
+        }
+
+        public ReturnResult<Document> GetListByProfileId(Profile profile) {
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            var resultList = new List<Document>();
+            dbProvider.SetQuery("DOCUMENT_GET_LIST_BY_PROFILE_ID", CommandType.StoredProcedure)
+                .SetParameter("ProfileId", SqlDbType.Int, profile.ProfileID, ParameterDirection.Input)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetList(out resultList)
+                .Complete();
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<Document>()
+            {
+                ItemList = resultList,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
             };
