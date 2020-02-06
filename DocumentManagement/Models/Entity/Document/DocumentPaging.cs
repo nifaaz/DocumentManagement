@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DocumentManagement.Models.Entity.Document
 {
-    public class Document
+    public class DocumentPaging
     {
         public int DocumentId { get; set; }
         /// <summary>
@@ -17,10 +17,13 @@ namespace DocumentManagement.Models.Entity.Document
         /// </summary>
         public int DocOrdinal { get; set; }
         /// <summary>
+        /// Tên loại văn bản
+        /// </summary>
+        public string DocumentType { get; set; }
+        /// <summary>
         /// Mã hồ sơ
         /// </summary>
         public int FileId { get; set; }
-        public int DocTypeId { get; set; }
         /// <summary>
         /// Số của văn bản
         /// </summary>
@@ -37,7 +40,10 @@ namespace DocumentManagement.Models.Entity.Document
         /// Nội dung
         /// </summary>
         public string Subject { get; set; }
-        public int LanguageId { get; set; }
+        /// <summary>
+        /// Tên ngôn ngữ
+        /// </summary>
+        public string Language { get; set; }
         /// <summary>
         /// Số lượng trang văn bản
         /// </summary>
@@ -58,7 +64,10 @@ namespace DocumentManagement.Models.Entity.Document
         /// Chế độ sử dụng
         /// </summary>
         public string Mode { get; set; }
-        public int ConfidenceLevelId { get; set; }
+        /// <summary>
+        /// Mức độ tin cậy
+        /// </summary>
+        public int ConfidenceLevel { get; set; }
         /// <summary>
         /// Bút tích
         /// </summary>
@@ -67,12 +76,11 @@ namespace DocumentManagement.Models.Entity.Document
         /// Tình trạng vật lý
         /// </summary>
         public string Format { get; set; }
-        public int ComputerFileId { get; set; }
+        public string FileUrl { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }
-        
     }
 }
