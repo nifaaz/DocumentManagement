@@ -17,6 +17,7 @@ namespace DocumentManagement.Controllers.Export
     [ApiController]
     public class ExportGearBoxController : ControllerBase
     {
+        private static GearBoxBUS gearBoxBUS = GearBoxBUS.GetGearBoxBUSInstance;
         private IHostingEnvironment _hostingEnvironment;
 
         public ExportGearBoxController(IHostingEnvironment environment)
@@ -52,7 +53,6 @@ namespace DocumentManagement.Controllers.Export
         private List<GearBox> GetData()
         {
             List<GearBox> lstGearBox = new List<GearBox>();
-            GearBoxBUS gearBoxBUS = new GearBoxBUS();
             var result = gearBoxBUS.GearBoxExport();
             if(result.ItemList != null)
             {

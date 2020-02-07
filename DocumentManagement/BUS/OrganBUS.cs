@@ -10,53 +10,71 @@ namespace DocumentManagement.BUS
 {
     public class OrganBUS
     {
-        private OrganDAL _OrganDAL;
-        private OrganDAL OrganDAL
+        private static OrganDAL organDAL = OrganDAL.GetOrganDALInstance;
+        private OrganBUS() { }
+
+        private static volatile OrganBUS _instance;
+
+        static object key = new object();
+
+        public static OrganBUS GetOrganBUSInstance
         {
             get
             {
-                _OrganDAL = new OrganDAL();
-                return _OrganDAL;
+                lock (key)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new OrganBUS();
+                    }
+                }
+
+                return _instance;
+            }
+
+            private set
+            {
+                _instance = value;
             }
         }
         public ReturnResult<Organ> GetAllOrgan()
         {
-            var result = OrganDAL.GetAllOrgan();
+            var result = organDAL.GetAllOrgan();
             return result;
         }
         public ReturnResult<Organ> GetOrganByID(int OrganID)
         {
-            var rs = OrganDAL.GetOrganByID(OrganID);
+            var rs = organDAL.GetOrganByID(OrganID);
             return rs;
         }
         public ReturnResult<Organ> GetOrganByAddressID(int addressID)
         {
-            var rs = OrganDAL.GetOrganByAddressID(addressID);
+            var rs = organDAL.GetOrganByAddressID(addressID);
             return rs;
         }
         public ReturnResult<Organ> GetOrganByOrganTypeID(int organTypeID)
         {
-            var rs = OrganDAL.GetOrganByOrganTypeID(organTypeID);
+            var rs = organDAL.GetOrganByOrganTypeID(organTypeID);
             return rs;
         }
         public ReturnResult<Organ> OrganSearch(string searchStr)
         {
-            var rs = OrganDAL.OrganSearch(searchStr);
+            var rs = organDAL.OrganSearch(searchStr);
             return rs;
         }
         public ReturnResult<Organ> DeleteOrgan(int OrganID)
         {
-            var rs = OrganDAL.DeleteOrgan(OrganID);
+            var rs = organDAL.DeleteOrgan(OrganID);
             return rs;
         }
         public ReturnResult<Organ> UpdateOrgan(Organ Organ)
         {
-            var rs = OrganDAL.UpdateOrgan(Organ);
+            var rs = organDAL.UpdateOrgan(Organ);
             return rs;
         }
         public ReturnResult<Organ> InsertOrgan(Organ Organ)
         {
-            var rs = OrganDAL.InsertOrgan(Organ);
+            var rs = organDAL.InsertOrgan(Organ);
             return rs;
         }
     }

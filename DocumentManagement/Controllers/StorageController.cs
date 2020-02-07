@@ -13,6 +13,8 @@ namespace DocumentManagement.Controllers
     [ApiController]
     public class StorageController : ControllerBase
     {
+        private static StorageBUS storageBUS = StorageBUS.GetStorageBUSInstance;
+        [HttpGet]
         //[HttpGet]
         //public IActionResult SearchStorage(string searchStr)
         //{
@@ -23,35 +25,30 @@ namespace DocumentManagement.Controllers
         [HttpGet]
         public IActionResult GetALlStorage()
         {
-            StorageBUS storageBUS = new StorageBUS();
             var result = storageBUS.GetAllStorage();
             return Ok(result);
         }
         [HttpGet("{storageID}")]
         public IActionResult GetStorageByID(int storageID)
         {
-            StorageBUS storageBUS = new StorageBUS();
             var result = storageBUS.GetStorageByID(storageID);
             return Ok(result);
         }
         [HttpGet("{fontID}")]
         public IActionResult GetStorageByFontID(int fontID)
         {
-            StorageBUS storageBUS = new StorageBUS();
             var result = storageBUS.GetStorageByFontID(fontID);
             return Ok(result);
         }
         [HttpGet("{repoID}")]
         public IActionResult GetStorageByRepoID(int repoID)
         {
-            StorageBUS storageBUS = new StorageBUS();
             var result = storageBUS.GetStorageByRepoID(repoID);
             return Ok(result);
         }
         [HttpPost]
         public IActionResult CreateStorage(Storage storage)
         {
-            StorageBUS storageBUS = new StorageBUS();
             var result = storageBUS.CreateStorage(storage);
             return Ok(result);
         }
@@ -59,7 +56,6 @@ namespace DocumentManagement.Controllers
         [HttpPost]
         public IActionResult UpdateStorage(Storage storage)
         {
-            StorageBUS storageBUS = new StorageBUS();
             var result = storageBUS.UpdateStorage(storage);
             return Ok(result);
         }
@@ -67,7 +63,6 @@ namespace DocumentManagement.Controllers
         [HttpPost]
         public IActionResult DeleteStorage(int storageId)
         {
-            StorageBUS storageBUS = new StorageBUS();
             var result = storageBUS.DeleteStorage(storageId);
             return Ok(result);
         }

@@ -10,53 +10,71 @@ namespace DocumentManagement.BUS
 {
     public class GearBoxBUS
     {
-        private GearBoxDAL _GearBoxDAL;
-        private GearBoxDAL GearBoxDAL
+        private static GearBoxDAL gearBoxDAL = GearBoxDAL.GetGearBoxDALInstance;
+        private GearBoxBUS() { }
+
+        private static volatile GearBoxBUS _instance;
+
+        static object key = new object();
+
+        public static GearBoxBUS GetGearBoxBUSInstance
         {
             get
             {
-                _GearBoxDAL = new GearBoxDAL();
-                return _GearBoxDAL;
+                lock (key)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new GearBoxBUS();
+                    }
+                }
+
+                return _instance;
+            }
+
+            private set
+            {
+                _instance = value;
             }
         }
         public ReturnResult<GearBox> GearBoxExport()
         {
-            var result = GearBoxDAL.GearBoxExport();
+            var result = gearBoxDAL.GearBoxExport();
             return result;
         }
         public ReturnResult<GearBox> GetAllGearBox()
         {
-            var result = GearBoxDAL.GetAllGearBox();
+            var result = gearBoxDAL.GetAllGearBox();
             return result;
         }
         public ReturnResult<GearBox> GearBoxSearch(string serachStr)
         {
-            var result = GearBoxDAL.GearBoxSearch(serachStr);
+            var result = gearBoxDAL.GearBoxSearch(serachStr);
             return result;
         }
         public ReturnResult<GearBox> GetGearBoxByID(int gearBoxID)
         {
-            var result = GearBoxDAL.GetGearBoxByID(gearBoxID);
+            var result = gearBoxDAL.GetGearBoxByID(gearBoxID);
             return result;
         }
         public ReturnResult<GearBox> GetGearBoxByTabOfContID(int tabOfContID)
         {
-            var result = GearBoxDAL.GetGearBoxByTableOfContentsID(tabOfContID);
+            var result = gearBoxDAL.GetGearBoxByTableOfContentsID(tabOfContID);
             return result;
         }
         public ReturnResult<GearBox> CreateGearBox(GearBox gearBox)
         {
-            var result = GearBoxDAL.InsertGearBox(gearBox);
+            var result = gearBoxDAL.InsertGearBox(gearBox);
             return result;
         }
         public ReturnResult<GearBox> DeleteGearBox(int gearBoxId)
         {
-            var result = GearBoxDAL.DeleteGearBox(gearBoxId);
+            var result = gearBoxDAL.DeleteGearBox(gearBoxId);
             return result;
         }
         public ReturnResult<GearBox> UpdateGearBox(GearBox gearBox)
         {
-            var result = GearBoxDAL.UpdateGearBox(gearBox);
+            var result = gearBoxDAL.UpdateGearBox(gearBox);
             return result;
         }
     }

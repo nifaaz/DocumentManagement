@@ -10,18 +10,36 @@ namespace DocumentManagement.BUS
 {
     public class StorageBUS
     {
-        private StorageDAL _StorageDAL;
-        private StorageDAL StorageDAL
+        private static StorageDAL storageDAL = StorageDAL.GetStorageDALInstance;
+        private StorageBUS() { }
+
+        private static volatile StorageBUS _instance;
+
+        static object key = new object();
+
+        public static StorageBUS GetStorageBUSInstance
         {
             get
             {
-                _StorageDAL = new StorageDAL();
-                return _StorageDAL;
+                lock (key)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new StorageBUS();
+                    }
+                }
+
+                return _instance;
+            }
+
+            private set
+            {
+                _instance = value;
             }
         }
         public ReturnResult<Storage> GetAllStorage()
         {
-            var result = StorageDAL.GetAllStorage();
+            var result = storageDAL.GetAllStorage();
             return result;
         }
         //public ReturnResult<Storage> StorageSearch(string serachStr)
@@ -31,32 +49,32 @@ namespace DocumentManagement.BUS
         //}
         public ReturnResult<Storage> GetStorageByID(int storageID)
         {
-            var result = StorageDAL.GetStorageByID(storageID);
+            var result = storageDAL.GetStorageByID(storageID);
             return result;
         }
         public ReturnResult<Storage> GetStorageByFontID(int fontID)
         {
-            var result = StorageDAL.GetStorageByFontID(fontID);
+            var result = storageDAL.GetStorageByFontID(fontID);
             return result;
         }
         public ReturnResult<Storage> GetStorageByRepoID(int frepoID)
         {
-            var result = StorageDAL.GetStorageByRepoID(frepoID);
+            var result = storageDAL.GetStorageByRepoID(frepoID);
             return result;
         }
         public ReturnResult<Storage> CreateStorage(Storage Storage)
         {
-            var result = StorageDAL.CreateStorage(Storage);
+            var result = storageDAL.CreateStorage(Storage);
             return result;
         }
         public ReturnResult<Storage> DeleteStorage(int StorageId)
         {
-            var result = StorageDAL.DeleteStorage(StorageId);
+            var result = storageDAL.DeleteStorage(StorageId);
             return result;
         }
         public ReturnResult<Storage> UpdateStorage(Storage Storage)
         {
-            var result = StorageDAL.UpdateStorage(Storage);
+            var result = storageDAL.UpdateStorage(Storage);
             return result;
         }
     }

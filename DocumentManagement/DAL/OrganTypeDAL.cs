@@ -9,8 +9,34 @@ using System.Threading.Tasks;
 
 namespace DocumentManagement.DAL
 {
-    public class OrganTypeTypeDAL
+    public class OrganTypeDAL
     {
+        private OrganTypeDAL() { }
+
+        private static volatile OrganTypeDAL _instance;
+
+        static object key = new object();
+
+        public static OrganTypeDAL GetOrganTypeDALInstance
+        {
+            get
+            {
+                lock (key)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new OrganTypeDAL();
+                    }
+                }
+
+                return _instance;
+            }
+
+            private set
+            {
+                _instance = value;
+            }
+        }
         public ReturnResult<OrganType> GetAllOrganType()
         {
             List<OrganType> OrganTypeList = new List<OrganType>();

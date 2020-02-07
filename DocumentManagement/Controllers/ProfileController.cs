@@ -14,24 +14,22 @@ namespace DocumentManagement.Controllers
     [ApiController]
     public class ProfileController : ControllerBase
     {
+        private static ProfileBUS profileBUS = ProfileBUS.GetProfileBUSInstance;
         [HttpGet]
         public IActionResult GetAllProfile()
         {
-            ProfileBUS profileBUS = new ProfileBUS();
             var result = profileBUS.GetAllProfile();
             return Ok(result);
         }
         [HttpGet("{profileID}")]
         public IActionResult GetProfileByID(int profileID)
         {
-            ProfileBUS profileBUS = new ProfileBUS();
             var result = profileBUS.GetProfileByID(profileID);
             return Ok(result);
         }
         [HttpGet("{gearboxID}")]
         public IActionResult GetProfileByGeaBoxID(int gearboxID)
         {
-            ProfileBUS profileBUS = new ProfileBUS();
             var result = profileBUS.GetProfileByGearBoxID(gearboxID);
             return Ok(result);
         }
@@ -39,7 +37,6 @@ namespace DocumentManagement.Controllers
         [HttpPost]
         public IActionResult CreateProfile(Profile profile)
         {
-            ProfileBUS profileBUS = new ProfileBUS();
             var result = profileBUS.CreateProfile(profile);
             return Ok(result);
         }
@@ -47,7 +44,6 @@ namespace DocumentManagement.Controllers
         [HttpPost]
         public IActionResult UpdateProfile(Profile profile)
         {
-            ProfileBUS profileBUS = new ProfileBUS();
             var result = profileBUS.UpdateProfile(profile);
             return Ok(result);
         }
@@ -55,7 +51,6 @@ namespace DocumentManagement.Controllers
         [HttpPost]
         public IActionResult DeleteProfile(int profileId)
         {
-            ProfileBUS profileBUS = new ProfileBUS();
             var result = profileBUS.DeleteProfile(profileId);
             return Ok(result);
         }

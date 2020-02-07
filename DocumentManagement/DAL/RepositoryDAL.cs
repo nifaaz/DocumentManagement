@@ -11,6 +11,32 @@ namespace DocumentManagement.DAL
 {
     public class RepositoryDAL
     {
+        private RepositoryDAL() { }
+
+        private static volatile RepositoryDAL _instance;
+
+        static object key = new object();
+
+        public static RepositoryDAL GetRepositoryDALInstance
+        {
+            get
+            {
+                lock (key)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new RepositoryDAL();
+                    }
+                }
+
+                return _instance;
+            }
+
+            private set
+            {
+                _instance = value;
+            }
+        }
         public ReturnResult<Repository> GetAllRepository()
         {
             List<Repository> repositoryList = new List<Repository>();

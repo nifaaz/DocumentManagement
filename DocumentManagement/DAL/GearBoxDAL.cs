@@ -11,6 +11,32 @@ namespace DocumentManagement.DAL
 {
     public class GearBoxDAL
     {
+        private GearBoxDAL() { }
+
+        private static volatile GearBoxDAL _instance;
+
+        static object key = new object();
+
+        public static GearBoxDAL GetGearBoxDALInstance
+        {
+            get
+            {
+                lock (key)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new GearBoxDAL();
+                    }
+                }
+
+                return _instance;
+            }
+
+            private set
+            {
+                _instance = value;
+            }
+        }
         public ReturnResult<GearBox> GearBoxExport()
         {
             List<GearBox> GearBoxList = new List<GearBox>();
