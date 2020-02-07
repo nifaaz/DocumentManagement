@@ -11,6 +11,32 @@ namespace DocumentManagement.DAL
 {
     public class StorageDAL
     {
+        private StorageDAL() { }
+
+        private static volatile StorageDAL _instance;
+
+        static object key = new object();
+
+        public static StorageDAL GetStorageDALInstance
+        {
+            get
+            {
+                lock (key)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new StorageDAL();
+                    }
+                }
+
+                return _instance;
+            }
+
+            private set
+            {
+                _instance = value;
+            }
+        }
         public ReturnResult<Storage> GetAllStorage()
         {
             List<Storage> storageList = new List<Storage>();

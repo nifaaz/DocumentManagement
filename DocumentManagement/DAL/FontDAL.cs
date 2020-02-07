@@ -11,6 +11,32 @@ namespace DocumentManagement.DAL
 {
     public class FontDAL
     {
+        private FontDAL() { }
+
+        private static volatile FontDAL _instance;
+
+        static object key = new object();
+
+        public static FontDAL GetFontDALInstance
+        {
+            get
+            {
+                lock (key)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new FontDAL();
+                    }
+                }
+
+                return _instance;
+            }
+
+            private set
+            {
+                _instance = value;
+            }
+        }
         public ReturnResult<Font> GetAllFont()
         {
             List<Font> fontList = new List<Font>();

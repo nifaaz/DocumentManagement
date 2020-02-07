@@ -11,6 +11,32 @@ namespace DocumentManagement.DAL
 {
     public class TableOfContentsDAL
     {
+        private TableOfContentsDAL() { }
+
+        private static volatile TableOfContentsDAL _instance;
+
+        static object key = new object();
+
+        public static TableOfContentsDAL GetTableOfContentsDALInstance
+        {
+            get
+            {
+                lock (key)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new TableOfContentsDAL();
+                    }
+                }
+
+                return _instance;
+            }
+
+            private set
+            {
+                _instance = value;
+            }
+        }
         public ReturnResult<TableOfContents> GetAllTableOfContents()
         {
             List<TableOfContents> TableOfContentsList = new List<TableOfContents>();

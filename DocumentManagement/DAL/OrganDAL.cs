@@ -12,6 +12,32 @@ namespace DocumentManagement.DAL
 {
     public class OrganDAL
     {
+        private OrganDAL() { }
+
+        private static volatile OrganDAL _instance;
+
+        static object key = new object();
+
+        public static OrganDAL GetOrganDALInstance
+        {
+            get
+            {
+                lock (key)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new OrganDAL();
+                    }
+                }
+
+                return _instance;
+            }
+
+            private set
+            {
+                _instance = value;
+            }
+        }
         public ReturnResult<Organ> GetAllOrgan()
         {
             List<Organ> OrganList = new List<Organ>();

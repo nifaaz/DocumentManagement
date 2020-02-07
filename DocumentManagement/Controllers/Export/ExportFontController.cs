@@ -17,6 +17,7 @@ namespace DocumentManagement.Controllers.Export
     [ApiController]
     public class ExportFontController : ControllerBase
     {
+        private static FontBUS fontBUS = FontBUS.GetFontBUSInstance;
         private IHostingEnvironment _hostingEnvironment;
 
         public ExportFontController(IHostingEnvironment environment)
@@ -51,7 +52,6 @@ namespace DocumentManagement.Controllers.Export
         private List<Font> GetData()
         {
             List<Font> lstFont = new List<Font>();
-            FontBUS fontBUS = new FontBUS();
             var result = fontBUS.FontExport();
             if (result.ItemList != null)
             {

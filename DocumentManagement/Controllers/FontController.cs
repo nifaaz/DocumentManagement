@@ -13,38 +13,34 @@ namespace DocumentManagement.Controlleresult
     [ApiController]
     public class FontController : ControllerBase
     {
+        private FontBUS fontBUS = FontBUS.GetFontBUSInstance;
         [HttpGet]
         public IActionResult GetAllFont()
         {
-            FontBUS fontBUS = new FontBUS();
             var result = fontBUS.GetAllFont();
             return Ok(result);
         }
         [HttpGet]
         public IActionResult Search(string searchStr)
         {
-            FontBUS fontBUS = new FontBUS();
             var result = fontBUS.FontSearch(searchStr);
             return Ok(result);
         }
         [HttpGet("{fontID}")]
         public IActionResult GetFontByID(int fontID)
         {
-            FontBUS fontBUS = new FontBUS();
             var result = fontBUS.GetFontByID(fontID);
             return Ok(result);
         }
         [HttpGet]
         public IActionResult GetFontByCoQuanID(int CoQuanID)
         {
-            FontBUS fontBUS = new FontBUS();
             var result = fontBUS.GetFontByCoQuanID(CoQuanID);
             return Ok(result);
         }
         [HttpPost]
         public IActionResult DeleteFont(int FontID)
         {
-            FontBUS fontBUS = new FontBUS();
             var result = fontBUS.DeleteFont(FontID);
             return Ok(result);
         }
@@ -62,14 +58,12 @@ namespace DocumentManagement.Controlleresult
             DateTime currentDate = new DateTime();
             currentDate = DateTime.Now;
             fontModify.UpdateTime = currentDate;
-            FontBUS fontBUS = new FontBUS();
             var result = fontBUS.UpdateFont(fontModify);
             return Ok(result);
         }
         [HttpPost]
         public IActionResult InsertFont(Font font)
         {
-            FontBUS fontBUS = new FontBUS();
             Font fontModify = new Font();
             fontModify.FontNumber = font.FontNumber;
             fontModify.FontName = font.FontName;

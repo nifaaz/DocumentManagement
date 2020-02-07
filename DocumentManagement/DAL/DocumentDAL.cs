@@ -13,6 +13,8 @@ namespace DocumentManagement.DAL
 {
     public class DocumentDAL
     {
+
+
         public ReturnResult<Document> GetPagingWithSearchResults(BaseCondition<Document> condition)
         {
             DbProvider dbProvider = new DbProvider();

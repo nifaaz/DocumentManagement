@@ -12,6 +12,32 @@ namespace DocumentManagement.DAL
 {
     public class ProfileDAL
     {
+        private ProfileDAL() { }
+
+        private static volatile ProfileDAL _instance;
+
+        static object key = new object();
+
+        public static ProfileDAL GetProfileDALInstance
+        {
+            get
+            {
+                lock (key)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new ProfileDAL();
+                    }
+                }
+
+                return _instance;
+            }
+
+            private set
+            {
+                _instance = value;
+            }
+        }
         public ReturnResult<Profile> GetAllProfile()
         {
             List<Profile> profileList = new List<Profile>();

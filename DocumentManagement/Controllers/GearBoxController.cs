@@ -13,31 +13,28 @@ namespace DocumentManagement.Controllers
     [ApiController]
     public class GearBoxController : ControllerBase
     {
+        private static GearBoxBUS gearBoxBUS = GearBoxBUS.GetGearBoxBUSInstance;
         [HttpGet]
         public IActionResult SearchGearBox(string searchStr)
         {
-            GearBoxBUS gearBoxBUS = new GearBoxBUS();
             var result = gearBoxBUS.GearBoxSearch(searchStr);
             return Ok(result);
         }
         [HttpGet]
         public IActionResult GetAllGearBox()
         {
-            GearBoxBUS gearBoxBUS = new GearBoxBUS();
             var result = gearBoxBUS.GetAllGearBox();
             return Ok(result);
         }
         [HttpGet("{gearBoxID}")]
         public IActionResult GetGearBoxByID(int gearBoxID)
         {
-            GearBoxBUS gearBoxBUS = new GearBoxBUS();
             var result = gearBoxBUS.GetGearBoxByID(gearBoxID);
             return Ok(result);
         }
         [HttpGet]
         public IActionResult GetGearBoxByTabOfContID(int tabOfContID)
         {
-            GearBoxBUS gearBoxBUS = new GearBoxBUS();
             var result = gearBoxBUS.GetGearBoxByTabOfContID(tabOfContID);
             return Ok(result);
         }
@@ -45,7 +42,6 @@ namespace DocumentManagement.Controllers
         [HttpPost]
         public IActionResult CreateGearBox(GearBox gearBox)
         {
-            GearBoxBUS gearBoxBUS = new GearBoxBUS();
             var result = gearBoxBUS.CreateGearBox(gearBox);
             return Ok(result);
         }
@@ -53,7 +49,6 @@ namespace DocumentManagement.Controllers
         [HttpPost]
         public IActionResult UpdateGearBox(GearBox gearBox)
         {
-            GearBoxBUS gearBoxBUS = new GearBoxBUS();
             var result = gearBoxBUS.UpdateGearBox(gearBox);
             return Ok(result);
         }
@@ -61,7 +56,6 @@ namespace DocumentManagement.Controllers
         [HttpPost]
         public IActionResult DeleteGearBox(int gearBoxId)
         {
-            GearBoxBUS gearBoxBUS = new GearBoxBUS();
             var result = gearBoxBUS.DeleteGearBox(gearBoxId);
             return Ok(result);
         }
