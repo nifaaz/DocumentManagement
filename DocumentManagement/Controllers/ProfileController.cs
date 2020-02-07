@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Common;
 using DocumentManagement.BUS;
 
 using DocumentManagement.Models.Entity.Profile;
@@ -15,6 +16,15 @@ namespace DocumentManagement.Controllers
     public class ProfileController : ControllerBase
     {
         private static ProfileBUS profileBUS = ProfileBUS.GetProfileBUSInstance;
+
+
+        [HttpGet]
+        public IActionResult GetPagingWithSearchResults(BaseCondition<Profile> condition)
+        {
+            var result = profileBUS.GetPagingWithSearchResults(condition);
+            return Ok(result);
+        }
+
         [HttpGet]
         public IActionResult GetAllProfile()
         {

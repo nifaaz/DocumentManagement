@@ -1,4 +1,5 @@
-﻿using DocumentManagement.Common;
+﻿using Common.Common;
+using DocumentManagement.Common;
 using DocumentManagement.DAL;
 using DocumentManagement.Model.Entity.Organ;
 using System;
@@ -36,6 +37,11 @@ namespace DocumentManagement.BUS
             {
                 _instance = value;
             }
+        }
+        public ReturnResult<Organ> GetPagingWithSearchResults(BaseCondition<Organ> condition)
+        {
+            var result = organDAL.GetPagingWithSearchResults(condition);
+            return result;
         }
         public ReturnResult<Organ> GetAllOrgan()
         {

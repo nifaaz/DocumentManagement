@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Common;
 using DocumentManagement.BUS;
 using DocumentManagement.Model.Entity.Repository;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +15,14 @@ namespace DocumentManagement.Controllers
     public class RepositoryController : ControllerBase
     {
         private static RepositoryBUS repositoryBUS = RepositoryBUS.GetRepositoryBUSInstance;
+
+        [HttpGet]
+        public IActionResult GetPagingWithSearchResults(BaseCondition<Repository> condition)
+        {
+            var result = repositoryBUS.GetPagingWithSearchResults(condition);
+            return Ok(result);
+        }
+
         [HttpGet]
         public IActionResult GetALlRepository()
         {

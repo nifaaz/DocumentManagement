@@ -1,4 +1,5 @@
-﻿using DocumentManagement.Common;
+﻿using Common.Common;
+using DocumentManagement.Common;
 using DocumentManagement.DAL;
 using DocumentManagement.Model.Entity.Repository;
 using System;
@@ -36,6 +37,11 @@ namespace DocumentManagement.BUS
             {
                 _instance = value;
             }
+        }
+        public ReturnResult<Repository> GetPagingWithSearchResults(BaseCondition<Repository> condition)
+        {
+            var result = repositoryDAL.GetPagingWithSearchResults(condition);
+            return result;
         }
         public ReturnResult<Repository> GetAllRepository()
         {

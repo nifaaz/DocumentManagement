@@ -1,4 +1,5 @@
-﻿using DocumentManagement.Common;
+﻿using Common.Common;
+using DocumentManagement.Common;
 using DocumentManagement.DAL;
 using DocumentManagement.Model.Entity.Storage;
 using System;
@@ -36,6 +37,11 @@ namespace DocumentManagement.BUS
             {
                 _instance = value;
             }
+        }
+        public ReturnResult<Storage> GetPagingWithSearchResults(BaseCondition<Storage> condition)
+        {
+            var result = storageDAL.GetPagingWithSearchResults(condition);
+            return result;
         }
         public ReturnResult<Storage> GetAllStorage()
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Common;
 using DocumentManagement.BUS;
 using DocumentManagement.Model.Entity.GearBox;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +15,14 @@ namespace DocumentManagement.Controllers
     public class GearBoxController : ControllerBase
     {
         private static GearBoxBUS gearBoxBUS = GearBoxBUS.GetGearBoxBUSInstance;
+
+        [HttpGet]
+        public IActionResult GetPagingWithSearchResults(BaseCondition<GearBox> condition)
+        {
+            var result = gearBoxBUS.GetPagingWithSearchResults(condition);
+            return Ok(result);
+        }
+
         [HttpGet]
         public IActionResult SearchGearBox(string searchStr)
         {
