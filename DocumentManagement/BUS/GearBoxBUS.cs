@@ -1,4 +1,5 @@
-﻿using DocumentManagement.Common;
+﻿using Common.Common;
+using DocumentManagement.Common;
 using DocumentManagement.DAL;
 using DocumentManagement.Model.Entity.GearBox;
 using System;
@@ -36,6 +37,11 @@ namespace DocumentManagement.BUS
             {
                 _instance = value;
             }
+        }
+        public ReturnResult<GearBox> GetPagingWithSearchResults(BaseCondition<GearBox> condition)
+        {
+            var result = gearBoxDAL.GetPagingWithSearchResults(condition);
+            return result;
         }
         public ReturnResult<GearBox> GearBoxExport()
         {

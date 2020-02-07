@@ -1,4 +1,5 @@
-﻿using DocumentManagement.Common;
+﻿using Common.Common;
+using DocumentManagement.Common;
 using DocumentManagement.DAL;
 using DocumentManagement.Model.Entity.TableOfContens;
 using System;
@@ -36,6 +37,11 @@ namespace DocumentManagement.BUS
             {
                 _instance = value;
             }
+        }
+        public ReturnResult<TableOfContents> GetPagingWithSearchResults(BaseCondition<TableOfContents> condition)
+        {
+            var result = tableOfContentsDAL.GetPagingWithSearchResults(condition);
+            return result;
         }
         public ReturnResult<TableOfContents> GetAllTableOfContents()
         {

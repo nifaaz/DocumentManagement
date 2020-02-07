@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Common;
 using DocumentManagement.BUS;
 using DocumentManagement.Model.Entity;
 using Microsoft.AspNetCore.Http;
@@ -13,7 +14,16 @@ namespace DocumentManagement.Controlleresult
     [ApiController]
     public class FontController : ControllerBase
     {
+
         private FontBUS fontBUS = FontBUS.GetFontBUSInstance;
+
+        [HttpGet]
+        public IActionResult GetPagingWithSearchResults(BaseCondition<Font> condition)
+        {
+            var result = fontBUS.GetPagingWithSearchResults(condition);
+            return Ok(result);
+        }
+
         [HttpGet]
         public IActionResult GetAllFont()
         {

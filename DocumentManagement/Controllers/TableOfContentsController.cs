@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Common;
 using DocumentManagement.BUS;
 using DocumentManagement.Model.Entity.TableOfContens;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +15,14 @@ namespace DocumentManagement.Controllers
     public class TableOfContentsController : ControllerBase
     {
         private static TableOfContentsBUS tableOfContentsBUS = TableOfContentsBUS.GetTableOfContentsBUSInstance;
+
+        [HttpGet]
+        public IActionResult GetPagingWithSearchResults(BaseCondition<TableOfContents> condition)
+        {
+            var result = tableOfContentsBUS.GetPagingWithSearchResults(condition);
+            return Ok(result);
+        }
+
         [HttpGet]
         public IActionResult GetAllTableOfContents()
         {

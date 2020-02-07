@@ -1,4 +1,5 @@
-﻿using DocumentManagement.Common;
+﻿using Common.Common;
+using DocumentManagement.Common;
 using DocumentManagement.DAL;
 
 using DocumentManagement.Models.Entity.Profile;
@@ -37,6 +38,11 @@ namespace DocumentManagement.BUS
             {
                 _instance = value;
             }
+        }
+        public ReturnResult<Profile> GetPagingWithSearchResults(BaseCondition<Profile> condition)
+        {
+            var result = profileDAL.GetPagingWithSearchResults(condition);
+            return result;
         }
         public ReturnResult<Profile> GetAllProfile()
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Common;
 using DocumentManagement.BUS;
 using DocumentManagement.Model.Entity.Storage;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +15,14 @@ namespace DocumentManagement.Controllers
     public class StorageController : ControllerBase
     {
         private static StorageBUS storageBUS = StorageBUS.GetStorageBUSInstance;
+
+        [HttpGet]
+        public IActionResult GetPagingWithSearchResults(BaseCondition<Storage> condition)
+        {
+            var result = storageBUS.GetPagingWithSearchResults(condition);
+            return Ok(result);
+        }
+
         [HttpGet]
         //[HttpGet]
         //public IActionResult SearchStorage(string searchStr)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Common;
 using DocumentManagement.BUS;
 using DocumentManagement.Model.Entity.Organ;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +15,14 @@ namespace DocumentManagement.Controllers
     public class OrganController : ControllerBase
     {
         private static OrganBUS organBUS = OrganBUS.GetOrganBUSInstance;
+
+        [HttpGet]
+        public IActionResult GetPagingWithSearchResults(BaseCondition<Organ> condition)
+        {
+            var result = organBUS.GetPagingWithSearchResults(condition);
+            return Ok(result);
+        }
+
         [HttpGet]
         public IActionResult GetAllOrgan()
         {
