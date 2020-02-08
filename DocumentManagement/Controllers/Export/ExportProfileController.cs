@@ -17,6 +17,7 @@ namespace DocumentManagement.Controllers.Export
     [ApiController]
     public class ExportProfileController : ControllerBase
     {
+        private static ProfileBUS profileBUS = ProfileBUS.GetProfileBUSInstance;
         private IHostingEnvironment _hostingEnvironment;
 
         public ExportProfileController(IHostingEnvironment environment)
@@ -52,7 +53,6 @@ namespace DocumentManagement.Controllers.Export
         private List<Profile> GetData()
         {
             List<Profile> lstProfile = new List<Profile>();
-            ProfileBUS profileBUS = new ProfileBUS();
             var result = profileBUS.ExportProfile();
             if (result.ItemList != null)
             {

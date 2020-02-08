@@ -1,4 +1,5 @@
-﻿using DocumentManagement.Common;
+﻿using Common.Common;
+using DocumentManagement.Common;
 using DocumentManagement.Model;
 using DocumentManagement.Model.Entity.Organ;
 using DocumentManagement.Model.Entity.Repository;
@@ -12,6 +13,55 @@ namespace DocumentManagement.DAL
 {
     public class OrganDAL
     {
+        private OrganDAL() { }
+
+        private static volatile OrganDAL _instance;
+
+        static object key = new object();
+
+        public static OrganDAL GetOrganDALInstance
+        {
+            get
+            {
+                lock (key)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new OrganDAL();
+                    }
+                }
+
+                return _instance;
+            }
+
+            private set
+            {
+                _instance = value;
+            }
+        }
+        public ReturnResult<Organ> GetPagingWithSearchResults(BaseCondition<Organ> condition)
+        {
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            dbProvider.SetQuery("Organ_GET_PAGING", CommandType.StoredProcedure)
+                .SetParameter("FromRecord", SqlDbType.NVarChar, condition.FromRecord, ParameterDirection.Input)
+                .SetParameter("PageSize", SqlDbType.NVarChar, condition.PageSize, ParameterDirection.Input)
+                .SetParameter("InWhere", SqlDbType.NVarChar, condition.IN_WHERE, ParameterDirection.Input)
+                .SetParameter("InSort", SqlDbType.NVarChar, condition.IN_SORT, ParameterDirection.Input)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .ExcuteNonQuery()
+                .Complete();
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<Organ>()
+            {
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+            };
+        }
         public ReturnResult<Organ> GetAllOrgan()
         {
             List<Organ> OrganList = new List<Organ>();

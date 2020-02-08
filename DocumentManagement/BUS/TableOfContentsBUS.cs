@@ -1,4 +1,5 @@
-﻿using DocumentManagement.Common;
+﻿using Common.Common;
+using DocumentManagement.Common;
 using DocumentManagement.DAL;
 using DocumentManagement.Model.Entity.TableOfContens;
 using System;
@@ -10,58 +11,81 @@ namespace DocumentManagement.BUS
 {
     public class TableOfContentsBUS
     {
-        private TableOfContentsDAL _TableOfContentsDAL;
-        private TableOfContentsDAL TableOfContentsDAL
+        private static TableOfContentsDAL tableOfContentsDAL = TableOfContentsDAL.GetTableOfContentsDALInstance;
+        private TableOfContentsBUS() { }
+
+        private static volatile TableOfContentsBUS _instance;
+
+        static object key = new object();
+
+        public static TableOfContentsBUS GetTableOfContentsBUSInstance
         {
             get
             {
-                _TableOfContentsDAL = new TableOfContentsDAL();
-                return _TableOfContentsDAL;
+                lock (key)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new TableOfContentsBUS();
+                    }
+                }
+
+                return _instance;
             }
+
+            private set
+            {
+                _instance = value;
+            }
+        }
+        public ReturnResult<TableOfContents> GetPagingWithSearchResults(BaseCondition<TableOfContents> condition)
+        {
+            var result = tableOfContentsDAL.GetPagingWithSearchResults(condition);
+            return result;
         }
         public ReturnResult<TableOfContents> GetAllTableOfContents()
         {
-            var result = TableOfContentsDAL.GetAllTableOfContents();
+            var result = tableOfContentsDAL.GetAllTableOfContents();
             return result;
         }
         public ReturnResult<TableOfContents> GetTableOfContentsByID(int TableOfContentsID)
         {
-            var rs = TableOfContentsDAL.GetTableOfContentsByID(TableOfContentsID);
+            var rs = tableOfContentsDAL.GetTableOfContentsByID(TableOfContentsID);
             return rs;
         }
         public ReturnResult<TableOfContents> GetTableOfContentsByStorageID(int storageID)
         {
-            var rs = TableOfContentsDAL.GetTableOfContentsByStorageID(storageID);
+            var rs = tableOfContentsDAL.GetTableOfContentsByStorageID(storageID);
             return rs;
         }
         public ReturnResult<TableOfContents> GetTableOfContentsByFontID(int fontID)
         {
-            var rs = TableOfContentsDAL.GetTableOfContentsByFontID(fontID);
+            var rs = tableOfContentsDAL.GetTableOfContentsByFontID(fontID);
             return rs;
         }
         public ReturnResult<TableOfContents> GetTableOfContentsByRepositoryID(int repositoryID)
         {
-            var rs = TableOfContentsDAL.GetTableOfContentsByRepositoryID(repositoryID);
+            var rs = tableOfContentsDAL.GetTableOfContentsByRepositoryID(repositoryID);
             return rs;
         }
         public ReturnResult<TableOfContents> TableOfContentsSearch(string searchStr)
         {
-            var rs = TableOfContentsDAL.TableOfContentsSearch(searchStr);
+            var rs = tableOfContentsDAL.TableOfContentsSearch(searchStr);
             return rs;
         }
         public ReturnResult<TableOfContents> DeleteTableOfContents(int TableOfContentsID)
         {
-            var rs = TableOfContentsDAL.DeleteTableOfContents(TableOfContentsID);
+            var rs = tableOfContentsDAL.DeleteTableOfContents(TableOfContentsID);
             return rs;
         }
         public ReturnResult<TableOfContents> UpdateTableOfContents(TableOfContents TableOfContents)
         {
-            var rs = TableOfContentsDAL.UpdateTableOfContents(TableOfContents);
+            var rs = tableOfContentsDAL.UpdateTableOfContents(TableOfContents);
             return rs;
         }
         public ReturnResult<TableOfContents> InsertTableOfContents(TableOfContents TableOfContents)
         {
-            var rs = TableOfContentsDAL.InsertTableOfContents(TableOfContents);
+            var rs = tableOfContentsDAL.InsertTableOfContents(TableOfContents);
             return rs;
         }
     }

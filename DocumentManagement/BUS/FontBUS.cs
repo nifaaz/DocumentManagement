@@ -1,4 +1,5 @@
-﻿using DocumentManagement.Common;
+﻿using Common.Common;
+using DocumentManagement.Common;
 using DocumentManagement.DAL;
 using DocumentManagement.Model.Entity;
 using System;
@@ -10,53 +11,76 @@ namespace DocumentManagement.BUS
 {
     public class FontBUS
     {
-        private FontDAL _fontDAL;
-        private FontDAL FontDAL
+        private FontDAL fontDAL = FontDAL.GetFontDALInstance;
+        private FontBUS() { }
+
+        private static volatile FontBUS _instance;
+
+        static object key = new object();
+
+        public static FontBUS GetFontBUSInstance
         {
             get
             {
-                _fontDAL = new FontDAL();
-                return _fontDAL;
+                lock (key)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new FontBUS();
+                    }
+                }
+
+                return _instance;
             }
+
+            private set
+            {
+                _instance = value;
+            }
+        }
+        public ReturnResult<Font> GetPagingWithSearchResults(BaseCondition<Font> condition)
+        {
+            var result = fontDAL.GetPagingWithSearchResults(condition);
+            return result;
         }
         public ReturnResult<Font> GetAllFont()
         {
-            var result = FontDAL.GetAllFont();
+            var result = fontDAL.GetAllFont();
             return result;
         }
         public ReturnResult<Font> FontExport()
         {
-            var result = FontDAL.FontExport();
+            var result = fontDAL.FontExport();
             return result;
         }
         public ReturnResult<Font> GetFontByID(int fontID)
         {
-            var rs = FontDAL.GetFontByID(fontID);
+            var rs = fontDAL.GetFontByID(fontID);
             return rs;
         }
         public ReturnResult<Font> GetFontByCoQuanID(int coQuanID)
         {
-            var rs = FontDAL.GetFontByCoQuanID(coQuanID);
+            var rs = fontDAL.GetFontByCoQuanID(coQuanID);
             return rs;
         }
         public ReturnResult<Font> FontSearch(string searchStr)
         {
-            var rs = FontDAL.FontSearch(searchStr);
+            var rs = fontDAL.FontSearch(searchStr);
             return rs;
         }
         public ReturnResult<Font> DeleteFont(int fontID)
         {
-            var rs = FontDAL.DeleteFont(fontID);
+            var rs = fontDAL.DeleteFont(fontID);
             return rs;
         }
         public ReturnResult<Font> UpdateFont(Font font)
         {
-            var rs = FontDAL.UpdateFont(font);
+            var rs = fontDAL.UpdateFont(font);
             return rs;
         }
         public ReturnResult<Font> InsertFont(Font font)
         {
-            var rs = FontDAL.InsertFont(font);
+            var rs = fontDAL.InsertFont(font);
             return rs;
         }
     }

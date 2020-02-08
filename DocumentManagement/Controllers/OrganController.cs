@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Common;
 using DocumentManagement.BUS;
 using DocumentManagement.Model.Entity.Organ;
 using Microsoft.AspNetCore.Http;
@@ -13,46 +14,48 @@ namespace DocumentManagement.Controllers
     [ApiController]
     public class OrganController : ControllerBase
     {
+        private static OrganBUS organBUS = OrganBUS.GetOrganBUSInstance;
+
+        [HttpGet]
+        public IActionResult GetPagingWithSearchResults(BaseCondition<Organ> condition)
+        {
+            var result = organBUS.GetPagingWithSearchResults(condition);
+            return Ok(result);
+        }
 
         [HttpGet]
         public IActionResult GetAllOrgan()
         {
-            OrganBUS organBUS = new OrganBUS();
             var result = organBUS.GetAllOrgan();
             return Ok(result);
         }
         [HttpGet]
         public IActionResult Search(string searchStr)
         {
-            OrganBUS organBUS = new OrganBUS();
             var result = organBUS.OrganSearch(searchStr);
             return Ok(result);
         }
         [HttpGet("{organID}")]
         public IActionResult GetOrganByID(int organID)
         {
-            OrganBUS organBUS = new OrganBUS();
             var result = organBUS.GetOrganByID(organID);
             return Ok(result);
         }
         [HttpGet]
         public IActionResult GetOrganByOrganTypeID(int organTypeID)
         {
-            OrganBUS organBUS = new OrganBUS();
             var result = organBUS.GetOrganByOrganTypeID(organTypeID);
             return Ok(result);
         }
         [HttpGet]
         public IActionResult GetOrganByAddressID(int addressID)
         {
-            OrganBUS organBUS = new OrganBUS();
             var result = organBUS.GetOrganByAddressID(addressID);
             return Ok(result);
         }
         [HttpPost]
         public IActionResult DeleteOrgan(int OrganID)
         {
-            OrganBUS organBUS = new OrganBUS();
             var result = organBUS.DeleteOrgan(OrganID);
             return Ok(result);
         }
@@ -70,14 +73,12 @@ namespace DocumentManagement.Controllers
             DateTime currentDate = new DateTime();
             currentDate = DateTime.Now;
             organModify.UpdateTime = currentDate;
-            OrganBUS organBUS = new OrganBUS();
             var result = organBUS.UpdateOrgan(organModify);
             return Ok(result);
         }
         [HttpPost]
         public IActionResult InsertOrgan(Organ organ)
         {
-            OrganBUS organBUS = new OrganBUS();
             Organ organModify = new Organ();
             organModify.OrganName = organ.OrganName;
             organModify.Status = organ.Status;

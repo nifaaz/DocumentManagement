@@ -1,4 +1,5 @@
-﻿using DocumentManagement.Common;
+﻿using Common.Common;
+using DocumentManagement.Common;
 using DocumentManagement.Model;
 using DocumentManagement.Model.Entity.Repository;
 using System;
@@ -11,6 +12,55 @@ namespace DocumentManagement.DAL
 {
     public class RepositoryDAL
     {
+        private RepositoryDAL() { }
+
+        private static volatile RepositoryDAL _instance;
+
+        static object key = new object();
+
+        public static RepositoryDAL GetRepositoryDALInstance
+        {
+            get
+            {
+                lock (key)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new RepositoryDAL();
+                    }
+                }
+
+                return _instance;
+            }
+
+            private set
+            {
+                _instance = value;
+            }
+        }
+        public ReturnResult<Repository> GetPagingWithSearchResults(BaseCondition<Repository> condition)
+        {
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            dbProvider.SetQuery("Repository_GET_PAGING", CommandType.StoredProcedure)
+                .SetParameter("FromRecord", SqlDbType.NVarChar, condition.FromRecord, ParameterDirection.Input)
+                .SetParameter("PageSize", SqlDbType.NVarChar, condition.PageSize, ParameterDirection.Input)
+                .SetParameter("InWhere", SqlDbType.NVarChar, condition.IN_WHERE, ParameterDirection.Input)
+                .SetParameter("InSort", SqlDbType.NVarChar, condition.IN_SORT, ParameterDirection.Input)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .ExcuteNonQuery()
+                .Complete();
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<Repository>()
+            {
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+            };
+        }
         public ReturnResult<Repository> GetAllRepository()
         {
             List<Repository> repositoryList = new List<Repository>();
