@@ -7,6 +7,7 @@ namespace DocumentManagement.Common
 {
     public class ReturnResult<T> where T:new()
     {
+        public bool IsSuccess = true;
         public string ErrorMessage { get; set; }
         public string ErrorCode { get; set; }
         public T Item { get; set; } = new T();
@@ -28,5 +29,6 @@ namespace DocumentManagement.Common
         }
 
         public int TotalRows { get; set; }
+
     }
 }

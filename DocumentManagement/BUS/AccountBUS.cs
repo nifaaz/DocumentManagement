@@ -1,6 +1,7 @@
 ﻿using DocumentManagement.Common;
 using DocumentManagement.DAL;
 using DocumentManagement.Models.Entity.Account;
+using DocumentManagement.Models.Entity.User;
 using DocumentManagement.Services;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace DocumentManagement.BUS
                 return _accountDAL;
             }
         }
-        public ReturnResult<Account> GetUserByUserName(Account login)
+        public ReturnResult<User> GetUserByUserName(Account login)
         {
             return AccountDAL.GetUserByUserName(login);
         }
