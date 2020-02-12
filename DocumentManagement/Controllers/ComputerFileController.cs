@@ -18,32 +18,21 @@ namespace DocumentManagement.Controllers
         public async Task<OkObjectResult> UploadFilesAsync([FromForm(Name = "files")]List<IFormFile> files)
         {
             List<ReturnResult<ComputerFile>> resultList = new List<ReturnResult<ComputerFile >>();
-            ComputerFileBUS computerFileBUS = new ComputerFileBUS();
-            string FILE_DIRECTORY_PATH = @"E:\New folder\";
+            
+            
             long size = files.Sum(f => f.Length);
             files = files.OrderBy(s => s.FileName).ToList();
             var filePaths = new List<string>();
             foreach (var file in files)
             {
-                ReturnResult<ComputerFile> result;
+                ReturnResult<ComputerFile> result = new ReturnResult<ComputerFile>();
                 if (file.Length > 0)
                 {
                     try
                     {
-                        string filePath = FILE_DIRECTORY_PATH + file.FileName;
-                        filePaths.Add(filePath);
-                        using (var stream = new FileStream(filePath, FileMode.CreateNew))
-                        {
-                            await file.CopyToAsync(stream);
-                            result = computerFileBUS.UploadFile(new ComputerFile()
-                            {
-                                FileName = file.FileName,
-                                Url = filePath,
-                                CreatedBy = "Nam",
-                                CreatedDate = DateTime.Now
-                            }); ;
-
-                        }
+                        var filePath = GetFilePath(file);
+                        await CopyFileToPhysicalDisk(file, filePath);
+                        result = InsertFileInfoToDatabase(file, filePath);
                     }
                     catch (Exception ex)
                     {
@@ -66,5 +55,36 @@ namespace DocumentManagement.Controllers
             }
             return Ok(resultList);
         }
+
+        private async Task CopyFileToPhysicalDisk(IFormFile file, string filePath)
+        {
+            //filePaths.Add(filePath);
+            using (var stream = new FileStream(filePath, FileMode.CreateNew))
+            {
+                await file.CopyToAsync(stream);
+            } 
+        }
+
+        private string GetFilePath(IFormFile file)
+        {
+            string FILE_DIRECTORY_PATH = @"E:\New folder\";
+            string filePath = FILE_DIRECTORY_PATH + file.FileName;
+            return filePath;
+        }
+        
+        private ReturnResult<ComputerFile> InsertFileInfoToDatabase(IFormFile file, string filePath)
+        {
+            ComputerFileBUS computerFileBUS = new ComputerFileBUS();
+            var result = computerFileBUS.UploadFile(new ComputerFile()
+            {
+                FileName = file.FileName,
+                Url = filePath,
+                CreatedBy = "Nam",
+                CreatedDate = DateTime.Now
+            });
+            return result;
+        }
+
+       
     }
 }
