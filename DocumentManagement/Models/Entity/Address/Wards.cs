@@ -10,6 +10,6 @@ namespace DocumentManagement.Model.Entity.Address
         public int WardsID { get; set; }
         public int DistrictID { get; set; }
         public string WardsName { get; set; }
-        public String Level { get; set; }
+        public string Level { get; set; }
     }
 }

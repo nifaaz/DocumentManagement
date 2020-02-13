@@ -10,6 +10,9 @@ namespace DocumentManagement.Models.Entity
         public int CoQuanID { get; set; }
         public string TenCoQuan { get; set; }
         public int DiaChiID { get; set; }
-        public int LoaiCoQuan { get; set; }
+        public int TinhID { get; set; }
+        public int HuyenID { get; set; }
+        public int XaPhuongID { get; set; }
+        public int LoaiCoQuanID { get; set; }
     }
 }

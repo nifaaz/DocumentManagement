@@ -47,10 +47,14 @@ namespace DocumentManagement.Controllers
         {
             return Ok(coQuanBUS.GetCoQuanById(id));
         }
-        public IActionResult InsertCoQuan(CoQuan cQ)
+        public IActionResult InsertCoQuan([FromBody] CoQuan cQ)
         {
             CoQuan coQuan = new CoQuan();
-
+            coQuan.TinhID =Convert.ToInt32(cQ.TinhID);
+            coQuan.HuyenID = Convert.ToInt32(cQ.HuyenID);
+            coQuan.XaPhuongID = Convert.ToInt32(cQ.XaPhuongID);
+            coQuan.TenCoQuan = Convert.ToString(cQ.TenCoQuan);
+            coQuan.LoaiCoQuanID = Convert.ToInt32(cQ.LoaiCoQuanID);
             return Ok(coQuanBUS.InssertCoQuan(coQuan));
         }
     }
