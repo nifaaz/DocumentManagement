@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentManagement.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class CoQuanController : ControllerBase
     {
@@ -21,13 +21,10 @@ namespace DocumentManagement.Controllers
         /// <param name="condition"></param>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult GetCoQuanWithPaging(int PageIndex, int PageSize)
+        public IActionResult GetCoQuanWithPaging([FromQuery] BaseCondition<CoQuan> condition)
         {
             try
             {
-                BaseCondition<CoQuan> condition = new BaseCondition<CoQuan>();
-                condition.PageIndex = PageIndex;
-                condition.PageSize = PageSize;
                 return Ok(coQuanBUS.GetCoQuanWithPaging(condition));
             }
             catch (Exception ex)
