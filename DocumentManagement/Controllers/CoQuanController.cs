@@ -47,5 +47,11 @@ namespace DocumentManagement.Controllers
         {
             return Ok(coQuanBUS.GetCoQuanById(id));
         }
+        public IActionResult InsertCoQuan(CoQuan cQ)
+        {
+            CoQuan coQuan = new CoQuan();
+
+            return Ok(coQuanBUS.InssertCoQuan(coQuan));
+        }
     }
 }
