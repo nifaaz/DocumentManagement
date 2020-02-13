@@ -120,5 +120,47 @@ namespace DocumentManagement.DAL
 
             return result;
         }
+        public ReturnResult<CoQuan> InsertCoQuan(CoQuan coQuan)
+        {
+            DbProvider provider = new DbProvider();
+            var result = new ReturnResult<CoQuan>();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            string totalRecords = String.Empty;
+            try
+            {
+                provider.SetQuery("[Organ_INSERT]", System.Data.CommandType.StoredProcedure)
+                    .SetParameter("TenCoQuan", System.Data.SqlDbType.NVarChar, coQuan.TenCoQuan)
+                    .SetParameter("TinhID", System.Data.SqlDbType.Int, coQuan.TinhID, System.Data.ParameterDirection.Input)
+                    .SetParameter("HuyenID", System.Data.SqlDbType.Int, coQuan.HuyenID, System.Data.ParameterDirection.Input)
+                    .SetParameter("XaPhuongID", System.Data.SqlDbType.Int, coQuan.XaPhuongID, System.Data.ParameterDirection.Input)
+                    .SetParameter("LoaiCoQuan", System.Data.SqlDbType.Int, coQuan.LoaiCoQuanID, System.Data.ParameterDirection.Input)
+                    .SetParameter("ErrorCode", System.Data.SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output)
+                    .GetSingle<CoQuan>(out coQuan).Complete();
+
+                provider.GetOutValue("ErrorCode", out outCode)
+                          .GetOutValue("ErrorMessage", out outMessage)
+                           .GetOutValue("TotalRecords", out totalRecords);
+
+                if (outCode != "0" || outCode == "")
+                {
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
+                }
+                else
+                {
+                    result.Item = coQuan;
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return result;
+        }
     }
 }
