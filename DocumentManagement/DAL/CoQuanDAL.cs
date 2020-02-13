@@ -54,8 +54,7 @@ namespace DocumentManagement.DAL
                     result.ItemList = list;
                 }
                 provider.GetOutValue("ErrorCode", out outCode)
-                           .GetOutValue("ErrorMessage", out outMessage)
-                            .GetOutValue("TotalRecords", out totalRecords);
+                           .GetOutValue("ErrorMessage", out outMessage);
 
                 if (outCode != "0" || outCode == "")
                 {
