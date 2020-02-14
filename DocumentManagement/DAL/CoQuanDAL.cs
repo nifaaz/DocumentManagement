@@ -41,8 +41,8 @@ namespace DocumentManagement.DAL
             try
             {
                 provider.SetQuery("COQUAN_GET_SEARCH_WITH_PAGING", System.Data.CommandType.StoredProcedure)
-                    .SetParameter("InWhere", System.Data.SqlDbType.NVarChar, condition.IN_WHERE)
-                    .SetParameter("InSort", System.Data.SqlDbType.NVarChar, condition.IN_SORT)
+                    .SetParameter("InWhere", System.Data.SqlDbType.NVarChar, condition.IN_WHERE ?? String.Empty)
+                    .SetParameter("InSort", System.Data.SqlDbType.NVarChar, condition.IN_SORT ?? String.Empty)
                     .SetParameter("StartRow", System.Data.SqlDbType.Int, condition.PageIndex)
                     .SetParameter("PageSize", System.Data.SqlDbType.Int, condition.PageSize)
                     .SetParameter("TotalRecords", System.Data.SqlDbType.Int, DBNull.Value, System.Data.ParameterDirection.Output)
@@ -54,9 +54,10 @@ namespace DocumentManagement.DAL
                     result.ItemList = list;
                 }
                 provider.GetOutValue("ErrorCode", out outCode)
-                           .GetOutValue("ErrorMessage", out outMessage);
+                           .GetOutValue("ErrorMessage", out outMessage)
+                           .GetOutValue("TotalRecords", out string totalRows);
 
-                if (outCode != "0" || outCode == "")
+                if (outCode != "0")
                 {
                     result.ErrorCode = outCode;
                     result.ErrorMessage = outMessage;
@@ -65,7 +66,7 @@ namespace DocumentManagement.DAL
                 {
                     result.ErrorCode = "";
                     result.ErrorMessage = "";
-                    result.TotalRows = int.Parse(totalRecords);
+                    result.TotalRows = int.Parse(totalRows);
                 }
             }
             catch (Exception ex)
