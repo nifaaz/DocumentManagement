@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace DocumentManagement.DAL
 {
@@ -98,8 +99,7 @@ namespace DocumentManagement.DAL
                     .GetSingle<CoQuan>(out item).Complete();
 
                 provider.GetOutValue("ErrorCode", out outCode)
-                          .GetOutValue("ErrorMessage", out outMessage)
-                           .GetOutValue("TotalRecords", out totalRecords);
+                          .GetOutValue("ErrorMessage", out outMessage);
 
                 if (outCode != "0" || outCode == "")
                 {
@@ -135,13 +135,13 @@ namespace DocumentManagement.DAL
                     .SetParameter("HuyenID", System.Data.SqlDbType.Int, coQuan.HuyenID, System.Data.ParameterDirection.Input)
                     .SetParameter("XaPhuongID", System.Data.SqlDbType.Int, coQuan.XaPhuongID, System.Data.ParameterDirection.Input)
                     .SetParameter("LoaiCoQuan", System.Data.SqlDbType.Int, coQuan.LoaiCoQuanID, System.Data.ParameterDirection.Input)
+                    .SetParameter("CreateBy", SqlDbType.VarChar, coQuan.CreateBy, 50)
                     .SetParameter("ErrorCode", System.Data.SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
                     .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output)
                     .GetSingle<CoQuan>(out coQuan).Complete();
 
                 provider.GetOutValue("ErrorCode", out outCode)
-                          .GetOutValue("ErrorMessage", out outMessage)
-                           .GetOutValue("TotalRecords", out totalRecords);
+                          .GetOutValue("ErrorMessage", out outMessage);
 
                 if (outCode != "0" || outCode == "")
                 {
@@ -160,6 +160,51 @@ namespace DocumentManagement.DAL
                 throw ex;
             }
 
+            return result;
+        }
+
+        /// <summary>
+        /// cập nhật cơ quan
+        /// </summary>
+        /// <param name="coQuan"></param>
+        /// <returns></returns>
+        public ReturnResult<CoQuan> UpdateCoQuan(CoQuan coQuan)
+        {
+            ReturnResult<CoQuan> result;
+            DbProvider db;
+            try
+            {
+                result = new ReturnResult<CoQuan>();
+                db = new DbProvider();
+                db.SetQuery("Organ_EDIT", CommandType.StoredProcedure)
+                    .SetParameter("CoQuanID", SqlDbType.Int, coQuan.CoQuanID)
+                    .SetParameter("DiaChiID", SqlDbType.Int, coQuan.DiaChiID)
+                    .SetParameter("TenCoQuan", SqlDbType.NVarChar, coQuan.TenCoQuan, 500)
+                    .SetParameter("LoaiCoQuan", SqlDbType.Int, coQuan.LoaiCoQuanID)
+                    .SetParameter("TinhID", SqlDbType.Int, coQuan.TinhID)
+                    .SetParameter("HuyenID", SqlDbType.Int, coQuan.HuyenID)
+                    .SetParameter("XaPhuongID", SqlDbType.Int, coQuan.XaPhuongID)
+                    .SetParameter("UpdatedBy", SqlDbType.NVarChar, coQuan.UpdatedBy, 50)
+                    .SetParameter("ErrorCode", SqlDbType.Int, DBNull.Value, ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                    .ExcuteNonQuery()
+                    .Complete();
+                db.GetOutValue("ErrorCode", out string errorCode)
+                    .GetOutValue("ErrorMessage", out string errorMessage);
+                if (errorCode.ToString() == "0")
+                {
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+                else
+                {
+                    result.Failed(errorCode, errorMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             return result;
         }
     }

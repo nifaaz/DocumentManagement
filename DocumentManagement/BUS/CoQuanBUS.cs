@@ -39,6 +39,9 @@ namespace DocumentManagement.BUS
         {
             return coQuanDAL.InsertCoQuan(coQuan);
         }
-
+        public ReturnResult<CoQuan> UpdateCoQuan(CoQuan coQuan)
+        {
+            return coQuanDAL.UpdateCoQuan(coQuan);
+        }
     }
 }

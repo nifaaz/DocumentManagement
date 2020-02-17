@@ -6,6 +6,7 @@ using Common.Common;
 using DocumentManagement.BUS;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using DocumentManagement.Model.Entity.OrganType;
 
 namespace DocumentManagement.Controllers
 {
@@ -17,9 +18,16 @@ namespace DocumentManagement.Controllers
         private LoaiCoQuanBUS loaiCoQuanBUS = LoaiCoQuanBUS.GetLoaiCoQuanBUSInstance();
 
         [HttpGet]
-        public IActionResult GetALLLoaiCoQuan()
+        public IActionResult GetAllOrganType()
         {
-            return Ok(loaiCoQuanBUS.GetALLLoaiCoQuan());
+            List<OrganType> lstOrganType = new List<OrganType>();
+            lstOrganType = loaiCoQuanBUS.GetAllOrganType().ItemList.Select(item => {
+                return new OrganType() {
+                    OrganTypeID = item.OrganTypeID,
+                    OrganTypeName = item.OrganTypeName
+                }; 
+            }).Distinct().ToList();
+            return Ok(lstOrganType);
         }
     }
 }

@@ -9,5 +9,15 @@ namespace DocumentManagement.Common
     {
         public int ErrorNumber { get; set; }
         public string ErrorMessage { get; set; }
+
+        public ErrorObject()
+        {
+
+        }
+        public ErrorObject(int errorNumber, string errorMessage)
+        {
+            this.ErrorNumber = errorNumber;
+            this.ErrorMessage = errorMessage;
+        }
     }
 }
