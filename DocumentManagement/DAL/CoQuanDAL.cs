@@ -207,5 +207,43 @@ namespace DocumentManagement.DAL
             }
             return result;
         }
+
+        public ReturnResult<CoQuan> DeleteCoQuan (int id)
+        {
+            DbProvider provider = new DbProvider();
+            var result = new ReturnResult<CoQuan>();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            string totalRecords = String.Empty;
+            CoQuan item = new CoQuan();
+            try
+            {
+                provider.SetQuery("COQUAN_DELETE", CommandType.StoredProcedure)
+                    .SetParameter("CoQuanID", SqlDbType.Int, id, System.Data.ParameterDirection.Input)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output)
+                    .ExcuteNonQuery().Complete();
+
+                provider.GetOutValue("ErrorCode", out outCode)
+                          .GetOutValue("ErrorMessage", out outMessage);
+
+                if (outCode != "0")
+                {
+                    result.Failed(outCode, outMessage);
+                }
+                else
+                {
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return result;
+        }
     }
+
 }

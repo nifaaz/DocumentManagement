@@ -177,7 +177,7 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<District> GetHuyenByTinhID(int tinhID)
+        public ReturnResult<District> GetDistrictByProvinceID(int tinhID)
         {
             List<District> DistrictList = new List<District>();
             DbProvider dbProvider = new DbProvider();
@@ -185,7 +185,7 @@ namespace DocumentManagement.DAL
             string outMessage = String.Empty;
             int totalRows = 0;
             dbProvider.SetQuery("Address_GET_HUYEN_BY_TINH_ID", CommandType.StoredProcedure)
-                .SetParameter("@TinhID", SqlDbType.Int, tinhID, ParameterDirection.Input)
+                .SetParameter("TinhID", SqlDbType.Int, tinhID, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
                 .GetList<District>(out DistrictList)
@@ -201,7 +201,7 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Wards> GetXaPhuongByHuyenID(int huyenID)
+        public ReturnResult<Wards> GetWardByDistrictID(int huyenID)
         {
             List<Wards> WardsList = new List<Wards>();
             DbProvider dbProvider = new DbProvider();
@@ -209,7 +209,7 @@ namespace DocumentManagement.DAL
             string outMessage = String.Empty;
             int totalRows = 0;
             dbProvider.SetQuery("Address_GET_XAPHUONG_BY_HUYEN_ID", CommandType.StoredProcedure)
-                .SetParameter("@HuyenID", SqlDbType.Int, huyenID, ParameterDirection.Input)
+                .SetParameter("HuyenID", SqlDbType.Int, huyenID, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
                 .GetList<Wards>(out WardsList)

@@ -67,5 +67,11 @@ namespace DocumentManagement.Controllers
         {
             return Ok(coQuanBUS.UpdateCoQuan(coQuan));
         }
+
+        [HttpPost]
+        public IActionResult DeleteCoQuan ([FromQuery] int id)
+        {
+            return Ok(coQuanBUS.DeleteCoQuan(id));
+        }
     }
 }

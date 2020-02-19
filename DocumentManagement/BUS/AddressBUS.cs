@@ -57,14 +57,14 @@ namespace DocumentManagement.BUS
             var rs = addressDAL.GetAllTinh();
             return rs;
         }
-        public ReturnResult<District> GetHuyenByTinhID(int tinhID)
+        public ReturnResult<District> GetDistrictByProvinceID(int tinhID)
         {
-            var rs = addressDAL.GetHuyenByTinhID(tinhID);
+            var rs = addressDAL.GetDistrictByProvinceID(tinhID);
             return rs;
         }
-        public ReturnResult<Wards> GetXaPhuongByHuyenID(int huyenID)
+        public ReturnResult<Wards> GetWardByDistrictID(int huyenID)
         {
-            var rs = addressDAL.GetXaPhuongByHuyenID(huyenID);
+            var rs = addressDAL.GetWardByDistrictID(huyenID);
             return rs;
         }
     }
