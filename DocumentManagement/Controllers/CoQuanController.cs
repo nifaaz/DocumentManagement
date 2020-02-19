@@ -44,15 +44,34 @@ namespace DocumentManagement.Controllers
         {
             return Ok(coQuanBUS.GetCoQuanById(id));
         }
-        public IActionResult InsertCoQuan([FromBody] CoQuan cQ)
+
+        [HttpPost]
+        public IActionResult InsertCoQuan([FromBody] CoQuan coQuan)
         {
-            CoQuan coQuan = new CoQuan();
-            coQuan.TinhID =Convert.ToInt32(cQ.TinhID);
-            coQuan.HuyenID = Convert.ToInt32(cQ.HuyenID);
-            coQuan.XaPhuongID = Convert.ToInt32(cQ.XaPhuongID);
-            coQuan.TenCoQuan = Convert.ToString(cQ.TenCoQuan);
-            coQuan.LoaiCoQuanID = Convert.ToInt32(cQ.LoaiCoQuanID);
+            //CoQuan coQuan = new CoQuan();
+            //coQuan.TinhID =Convert.ToInt32(cQ.TinhID);
+            //coQuan.HuyenID = Convert.ToInt32(cQ.HuyenID);
+            //coQuan.XaPhuongID = Convert.ToInt32(cQ.XaPhuongID);
+            //coQuan.TenCoQuan = Convert.ToString(cQ.TenCoQuan);
+            //coQuan.LoaiCoQuanID = Convert.ToInt32(cQ.LoaiCoQuanID);
             return Ok(coQuanBUS.InssertCoQuan(coQuan));
+        }
+
+        /// <summary>
+        /// cập nhật cơ quan
+        /// </summary>
+        /// <param name="coQuan"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult UpdateCoQuan (CoQuan coQuan)
+        {
+            return Ok(coQuanBUS.UpdateCoQuan(coQuan));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteCoQuan ([FromQuery] int id)
+        {
+            return Ok(coQuanBUS.DeleteCoQuan(id));
         }
     }
 }
