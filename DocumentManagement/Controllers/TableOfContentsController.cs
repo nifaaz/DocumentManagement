@@ -17,7 +17,7 @@ namespace DocumentManagement.Controllers
         private static TableOfContentsBUS tableOfContentsBUS = TableOfContentsBUS.GetTableOfContentsBUSInstance;
 
         [HttpGet]
-        public IActionResult GetPagingWithSearchResults(BaseCondition<TableOfContents> condition)
+        public IActionResult GetPagingWithSearchResults([FromQuery]BaseCondition<TableOfContents> condition)
         {
             var result = tableOfContentsBUS.GetPagingWithSearchResults(condition);
             return Ok(result);
@@ -47,10 +47,10 @@ namespace DocumentManagement.Controllers
             var result = tableOfContentsBUS.GetTableOfContentsByStorageID(storageID);
             return Ok(result);
         }
-        [HttpGet("{fontID}")]
-        public IActionResult GetTableOfContentsByFontID(int fontID)
+        [HttpGet]
+        public IActionResult GetTableOfContentsByFontID([FromQuery]BaseCondition<TableOfContents> condition)
         {
-            var result = tableOfContentsBUS.GetTableOfContentsByFontID(fontID);
+            var result = tableOfContentsBUS.GetTableOfContentsByFontID(condition);
             return Ok(result);
         }
         [HttpGet("{repoID}")]
@@ -60,13 +60,13 @@ namespace DocumentManagement.Controllers
             return Ok(result);
         }
         [HttpPost]
-        public IActionResult DeleteTableOfContents(int tableOfContentsID)
+        public IActionResult DeleteTableOfContents([FromQuery]int id)
         {
-            var result = tableOfContentsBUS.DeleteTableOfContents(tableOfContentsID);
+            var result = tableOfContentsBUS.DeleteTableOfContents(id);
             return Ok(result);
         }
         [HttpPost]
-        public IActionResult UpdateTableOfContents(TableOfContents TableOfContents)
+        public IActionResult UpdateTableOfContents([FromBody]TableOfContents TableOfContents)
         {
             TableOfContents tableOfContentsModify = new TableOfContents();
             tableOfContentsModify.TabOfContID = TableOfContents.TabOfContID ;
@@ -84,7 +84,7 @@ namespace DocumentManagement.Controllers
             return Ok(result);
         }
         [HttpPost]
-        public IActionResult InsertTableOfContents(TableOfContents TableOfContents)
+        public IActionResult InsertTableOfContents([FromBody]TableOfContents TableOfContents)
         {
             TableOfContents tableOfContentsModify = new TableOfContents();
             tableOfContentsModify.TabOfContName = TableOfContents.TabOfContName;

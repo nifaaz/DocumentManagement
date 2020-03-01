@@ -40,26 +40,48 @@ namespace DocumentManagement.DAL
         }
         public ReturnResult<GearBox> GetPagingWithSearchResults(BaseCondition<GearBox> condition)
         {
-            DbProvider dbProvider = new DbProvider();
+            DbProvider provider = new DbProvider();
+            List<GearBox> list = new List<GearBox>();
             string outCode = String.Empty;
             string outMessage = String.Empty;
-            dbProvider.SetQuery("GearBox_GET_PAGING", CommandType.StoredProcedure)
-                .SetParameter("FromRecord", SqlDbType.NVarChar, condition.FromRecord, ParameterDirection.Input)
-                .SetParameter("PageSize", SqlDbType.NVarChar, condition.PageSize, ParameterDirection.Input)
-                .SetParameter("InWhere", SqlDbType.NVarChar, condition.IN_WHERE, ParameterDirection.Input)
-                .SetParameter("InSort", SqlDbType.NVarChar, condition.IN_SORT, ParameterDirection.Input)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .ExcuteNonQuery()
-                .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
-
-            return new ReturnResult<GearBox>()
+            string totalRecords = String.Empty;
+            var result = new ReturnResult<GearBox>();
+            try
             {
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-            };
+                provider.SetQuery("GearBox_GET_PAGING", System.Data.CommandType.StoredProcedure)
+                    .SetParameter("InWhere", System.Data.SqlDbType.NVarChar, condition.IN_WHERE ?? String.Empty)
+                    .SetParameter("InSort", System.Data.SqlDbType.NVarChar, condition.IN_SORT ?? String.Empty)
+                    .SetParameter("StartRow", System.Data.SqlDbType.Int, condition.PageIndex)
+                    .SetParameter("PageSize", System.Data.SqlDbType.Int, condition.PageSize)
+                    .SetParameter("TotalRecords", System.Data.SqlDbType.Int, DBNull.Value, System.Data.ParameterDirection.Output)
+                    .SetParameter("ErrorCode", System.Data.SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output).GetList<GearBox>(out list).Complete();
+
+                if (list.Count > 0)
+                {
+                    result.ItemList = list;
+                }
+                provider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage)
+                           .GetOutValue("TotalRecords", out string totalRows);
+
+                if (outCode != "0")
+                {
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
+                }
+                else
+                {
+                    result.ErrorCode = "";
+                    result.ErrorMessage = "";
+                    result.TotalRows = int.Parse(totalRows);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
         public ReturnResult<GearBox> GearBoxExport()
         {
@@ -130,30 +152,42 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
+
         public ReturnResult<GearBox> GetGearBoxByID(int gearBoxID)
         {
-            List<GearBox> GearBoxList = new List<GearBox>();
+            var result = new ReturnResult<GearBox>();
+            GearBox item = new GearBox();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
-            dbProvider.SetQuery("GearBox_GET_BY_ID", CommandType.StoredProcedure)
+            try
+            {
+                dbProvider.SetQuery("GearBox_GET_BY_ID", CommandType.StoredProcedure)
                 .SetParameter("HopSoID", SqlDbType.Int, gearBoxID, ParameterDirection.Input)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<GearBox>(out GearBoxList)
-                .Complete();
+               .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+               .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+               .GetSingle<GearBox>(out item)
+               .Complete();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
             return new ReturnResult<GearBox>()
             {
-                ItemList = GearBoxList,
+                Item = item,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
                 TotalRows = totalRows
             };
         }
+
         public ReturnResult<GearBox> GetGearBoxByTableOfContentsID(int tabOfContID)
         {
             List<GearBox> GearBoxList = new List<GearBox>();

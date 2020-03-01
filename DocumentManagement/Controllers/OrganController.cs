@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Common.Common;
 using DocumentManagement.BUS;
 using DocumentManagement.Model.Entity.Organ;
+using DocumentManagement.Models.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,8 +27,8 @@ namespace DocumentManagement.Controllers
         [HttpGet]
         public IActionResult GetAllOrgan()
         {
-            var result = organBUS.GetAllOrgan();
-            return Ok(result);
+            var rs = organBUS.GetAllOrgan();
+            return Ok(rs);
         }
         [HttpGet]
         public IActionResult Search(string searchStr)

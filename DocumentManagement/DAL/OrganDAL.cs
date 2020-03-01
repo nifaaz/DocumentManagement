@@ -3,6 +3,8 @@ using DocumentManagement.Common;
 using DocumentManagement.Model;
 using DocumentManagement.Model.Entity.Organ;
 using DocumentManagement.Model.Entity.Repository;
+using DocumentManagement.Models.DTO;
+using DocumentManagement.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -62,22 +64,30 @@ namespace DocumentManagement.DAL
                 ErrorMessage = outMessage,
             };
         }
-        public ReturnResult<Organ> GetAllOrgan()
+        public ReturnResult<OrganDTO> GetAllOrgan()
         {
-            List<Organ> OrganList = new List<Organ>();
+            List<OrganDTO> OrganList = new List<OrganDTO>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
-            dbProvider.SetQuery("Organ_GET_ALL", CommandType.StoredProcedure)
+            try
+            {
+                dbProvider.SetQuery("Organ_GET_ALL", CommandType.StoredProcedure)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<Organ>(out OrganList)
+                .GetList<OrganDTO>(out OrganList)
                 .Complete();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Organ>()
+            return new ReturnResult<OrganDTO>()
             {
                 ItemList = OrganList,
                 ErrorCode = outCode,
