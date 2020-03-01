@@ -67,5 +67,10 @@ namespace DocumentManagement.BUS
             var rs = addressDAL.GetWardByDistrictID(huyenID);
             return rs;
         }
+
+        public ReturnResult<Wards> GetAllWardsByProvinceId(int provinceId)
+        {
+            return addressDAL.GetAllWardsByProvinceId(provinceId);
+        }
     }
 }

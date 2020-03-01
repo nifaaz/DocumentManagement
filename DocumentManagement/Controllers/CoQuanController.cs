@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Common.Common;
 using DocumentManagement.BUS;
+using DocumentManagement.Common;
 using DocumentManagement.Models.Entity;
+using DocumentManagement.Models.Entity.Organ;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,8 +22,8 @@ namespace DocumentManagement.Controllers
         /// </summary>
         /// <param name="condition"></param>
         /// <returns></returns>
-        [HttpGet]
-        public IActionResult GetCoQuanWithPaging([FromQuery] BaseCondition<CoQuan> condition)
+        [HttpPost]
+        public IActionResult GetCoQuanWithPaging([FromBody] BaseCondition<CoQuan> condition)
         {
             try
             {
@@ -72,6 +74,27 @@ namespace DocumentManagement.Controllers
         public IActionResult DeleteCoQuan ([FromQuery] int id)
         {
             return Ok(coQuanBUS.DeleteCoQuan(id));
+        }
+
+        [HttpGet]
+        public IActionResult GetAllCoQuan ()
+        {
+            ReturnResult<CoQuan> result;
+            try
+            {
+                result = new ReturnResult<CoQuan>();
+                result = coQuanBUS.GetAllCoQuan();
+                return Ok(new OrganList()
+                {
+                    OrganTypes = result.ItemList.Select(item => item.OrganType).Distinct().ToList(),
+                    OrganName = result.ItemList.Select(item => item.TenCoQuan).Distinct().ToList(),
+                    OrganAddress = result.ItemList.Select(item => item.AddressDetail).Distinct().ToList()
+                });
+            }
+            catch (Exception ex)
+            {
+                return Unauthorized();
+            }
         }
     }
 }

@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
+using DocumentManagement.Models.Entity.Organ;
+using System.Collections;
 
 namespace DocumentManagement.DAL
 {
@@ -242,6 +244,43 @@ namespace DocumentManagement.DAL
                 throw ex;
             }
 
+            return result;
+        }
+
+        public ReturnResult<CoQuan> GetAllCoQuan ()
+        {
+            var result = new ReturnResult<CoQuan>();
+            DbProvider db;
+            List<CoQuan> lst;
+            try
+            {
+                result = new ReturnResult<CoQuan>();
+                db = new DbProvider();
+                lst = new List<CoQuan>();
+                db.SetQuery("Organ_GET_ALL", CommandType.StoredProcedure)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 400, ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                    .GetList<CoQuan>(out lst)
+                    .Complete();
+                db.GetOutValue("ErrorCode", out string outCode)
+                    .GetOutValue("ErrorMessage", out string outMessage);
+                // get out value
+                if (outCode.ToString() != "0")
+                {
+                    result.Failed(outCode, outMessage);
+                    return result;
+                }
+                else
+                {
+                    result.ItemList = lst;
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
             return result;
         }
     }

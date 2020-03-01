@@ -47,5 +47,9 @@ namespace DocumentManagement.BUS
         {
             return coQuanDAL.DeleteCoQuan(id);
         }
+        public ReturnResult<CoQuan> GetAllCoQuan ()
+        {
+            return coQuanDAL.GetAllCoQuan();
+        }
     }
 }

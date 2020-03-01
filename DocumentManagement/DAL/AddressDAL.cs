@@ -249,6 +249,45 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
+
+        public ReturnResult<Wards> GetAllWardsByProvinceId (int provinceId)
+        {
+            ReturnResult<Wards> result = new ReturnResult<Wards>();
+            DbProvider db;
+            List<Wards> lstWards;
+            try
+            {
+                db = new DbProvider();
+                lstWards = new List<Wards>();
+                db.SetQuery("ADDRESS_GET_ALL_WARD_BY_PROVINCEID", CommandType.StoredProcedure)
+                    .SetParameter("TinhID", SqlDbType.Int, provinceId)
+                    .SetParameter("ErrorCode", SqlDbType.VarChar, DBNull.Value, 50, ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                    .GetList<Wards>(out lstWards).Complete();
+
+                // get output value
+                db.GetOutValue("ErrorCode", out string outCode)
+                    .GetOutValue("ErrorMessage", out string outMessage);
+
+                if (outCode.ToString() != "0")
+                {
+                    result.Failed(outCode, outMessage);
+                }
+                else
+                {
+                    result.ItemList = lstWards;
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+                throw ex;
+            }
+            return result;
+        }
+
         //public ReturnResult<Address> UpdateAddress(Address Address)
         //{
         //    List<Address> AddressList = new List<Address>();

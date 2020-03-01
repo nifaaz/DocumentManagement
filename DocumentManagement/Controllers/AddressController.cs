@@ -82,5 +82,18 @@ namespace DocumentManagement.Controllers
             return Ok(provincials);
         }
 
+        /// <summary>
+        /// lấy danh sách xã phường với id của tỉnh
+        /// </summary>
+        /// <param name="provinceId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult GetAllWardsByProvinceId(int provinceId)
+        {
+            IList<Wards> lstWards = new List<Wards>();
+            lstWards = addressBUS.GetAllWardsByProvinceId(provinceId).ItemList;
+            return Ok(lstWards);
+        }
+
     }
 }
