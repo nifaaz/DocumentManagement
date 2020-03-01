@@ -17,7 +17,7 @@ namespace DocumentManagement.Controllers
         private static GearBoxBUS gearBoxBUS = GearBoxBUS.GetGearBoxBUSInstance;
 
         [HttpGet]
-        public IActionResult GetPagingWithSearchResults(BaseCondition<GearBox> condition)
+        public IActionResult GetPagingWithSearchResults([FromQuery]BaseCondition<GearBox> condition)
         {
             var result = gearBoxBUS.GetPagingWithSearchResults(condition);
             return Ok(result);
@@ -49,23 +49,23 @@ namespace DocumentManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateGearBox(GearBox gearBox)
+        public IActionResult CreateGearBox([FromBody]GearBox gearBox)
         {
             var result = gearBoxBUS.CreateGearBox(gearBox);
             return Ok(result);
         }
 
         [HttpPost]
-        public IActionResult UpdateGearBox(GearBox gearBox)
+        public IActionResult UpdateGearBox([FromBody]GearBox gearBox)
         {
             var result = gearBoxBUS.UpdateGearBox(gearBox);
             return Ok(result);
         }
 
         [HttpPost]
-        public IActionResult DeleteGearBox(int gearBoxId)
+        public IActionResult DeleteGearBox([FromQuery]int id)
         {
-            var result = gearBoxBUS.DeleteGearBox(gearBoxId);
+            var result = gearBoxBUS.DeleteGearBox(id);
             return Ok(result);
         }
     }

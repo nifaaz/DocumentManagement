@@ -2,8 +2,10 @@
 using DocumentManagement.Common;
 using DocumentManagement.DAL;
 using DocumentManagement.Model.Entity.TableOfContens;
+using DocumentManagement.Models.DTO;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -43,7 +45,7 @@ namespace DocumentManagement.BUS
             var result = tableOfContentsDAL.GetPagingWithSearchResults(condition);
             return result;
         }
-        public ReturnResult<TableOfContents> GetAllTableOfContents()
+        public ReturnResult<TableOfContDTO> GetAllTableOfContents()
         {
             var result = tableOfContentsDAL.GetAllTableOfContents();
             return result;
@@ -58,9 +60,9 @@ namespace DocumentManagement.BUS
             var rs = tableOfContentsDAL.GetTableOfContentsByStorageID(storageID);
             return rs;
         }
-        public ReturnResult<TableOfContents> GetTableOfContentsByFontID(int fontID)
+        public ReturnResult<TableOfContents> GetTableOfContentsByFontID(BaseCondition<TableOfContents> condition)
         {
-            var rs = tableOfContentsDAL.GetTableOfContentsByFontID(fontID);
+            var rs = tableOfContentsDAL.GetTableOfContentsByFontID(condition);
             return rs;
         }
         public ReturnResult<TableOfContents> GetTableOfContentsByRepositoryID(int repositoryID)
