@@ -189,14 +189,14 @@ namespace DocumentManagement.DAL
                 ErrorMessage = outMessage,
             };
         }
-        public ReturnResult<Document> GetDocumentById(Document document)
+        public ReturnResult<Document> GetDocumentById(int documentId)
         {
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             var resultList = new List<Document>();
             dbProvider.SetQuery("DOCUMENT_GET_BY_ID", CommandType.StoredProcedure)
-                .SetParameter("DocumentId", SqlDbType.Int, document.DocumentId, ParameterDirection.Input)
+                .SetParameter("DocumentId", SqlDbType.Int, documentId, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
                 .GetList(out resultList)
