@@ -2,6 +2,7 @@
 using DocumentManagement.Common;
 using DocumentManagement.DAL;
 using DocumentManagement.Model.Entity;
+using DocumentManagement.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,12 +39,16 @@ namespace DocumentManagement.BUS
                 _instance = value;
             }
         }
+        public ReturnResult<Font> GetFontWithPaging(BaseCondition<Font> condition)
+        {
+            return fontDAL.GetFontWithPaging(condition);
+        }
         public ReturnResult<Font> GetPagingWithSearchResults(BaseCondition<Font> condition)
         {
             var result = fontDAL.GetPagingWithSearchResults(condition);
             return result;
         }
-        public ReturnResult<Font> GetAllFont()
+        public ReturnResult<FontDTO> GetAllFont()
         {
             var result = fontDAL.GetAllFont();
             return result;

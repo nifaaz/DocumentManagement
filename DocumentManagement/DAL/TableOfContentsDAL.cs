@@ -2,6 +2,7 @@
 using DocumentManagement.Common;
 using DocumentManagement.Model;
 using DocumentManagement.Model.Entity.TableOfContens;
+using DocumentManagement.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -40,50 +41,82 @@ namespace DocumentManagement.DAL
         }
         public ReturnResult<TableOfContents> GetPagingWithSearchResults(BaseCondition<TableOfContents> condition)
         {
-            DbProvider dbProvider = new DbProvider();
+            DbProvider provider = new DbProvider();
+            List<TableOfContents> list = new List<TableOfContents>();
             string outCode = String.Empty;
             string outMessage = String.Empty;
-            dbProvider.SetQuery("TableOfContents_GET_PAGING", CommandType.StoredProcedure)
-                .SetParameter("FromRecord", SqlDbType.NVarChar, condition.FromRecord, ParameterDirection.Input)
-                .SetParameter("PageSize", SqlDbType.NVarChar, condition.PageSize, ParameterDirection.Input)
-                .SetParameter("InWhere", SqlDbType.NVarChar, condition.IN_WHERE, ParameterDirection.Input)
-                .SetParameter("InSort", SqlDbType.NVarChar, condition.IN_SORT, ParameterDirection.Input)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .ExcuteNonQuery()
-                .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
-
-            return new ReturnResult<TableOfContents>()
+            string totalRecords = String.Empty;
+            var result = new ReturnResult<TableOfContents>();
+            try
             {
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-            };
+                provider.SetQuery("TableOfContents_GET_PAGING", System.Data.CommandType.StoredProcedure)
+                    .SetParameter("InWhere", System.Data.SqlDbType.NVarChar, condition.IN_WHERE ?? String.Empty)
+                    .SetParameter("InSort", System.Data.SqlDbType.NVarChar, condition.IN_SORT ?? String.Empty)
+                    .SetParameter("StartRow", System.Data.SqlDbType.Int, condition.PageIndex)
+                    .SetParameter("PageSize", System.Data.SqlDbType.Int, condition.PageSize)
+                    .SetParameter("TotalRecords", System.Data.SqlDbType.Int, DBNull.Value, System.Data.ParameterDirection.Output)
+                    .SetParameter("ErrorCode", System.Data.SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output).GetList<TableOfContents>(out list).Complete();
+
+                if (list.Count > 0)
+                {
+                    result.ItemList = list;
+                }
+                provider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage)
+                           .GetOutValue("TotalRecords", out string totalRows);
+
+                if (outCode != "0")
+                {
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
+                }
+                else
+                {
+                    result.ErrorCode = "";
+                    result.ErrorMessage = "";
+                    result.TotalRows = int.Parse(totalRows);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
-        public ReturnResult<TableOfContents> GetAllTableOfContents()
+
+        public ReturnResult<TableOfContDTO> GetAllTableOfContents()
         {
-            List<TableOfContents> TableOfContentsList = new List<TableOfContents>();
+            List<TableOfContDTO> tableOfContList = new List<TableOfContDTO>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
-            dbProvider.SetQuery("TableOfContents_GET_ALL", CommandType.StoredProcedure)
+            try
+            {
+                dbProvider.SetQuery("TableOfContents_GET_ALL", CommandType.StoredProcedure)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<TableOfContents>(out TableOfContentsList)
+                .GetList<TableOfContDTO>(out tableOfContList)
                 .Complete();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<TableOfContents>()
+            return new ReturnResult<TableOfContDTO>()
             {
-                ItemList = TableOfContentsList,
+                ItemList = tableOfContList,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
                 TotalRows = totalRows
             };
         }
+
         public ReturnResult<TableOfContents> TableOfContentsSearch(string searchStr)
         {
             List<TableOfContents> TableOfContentsList = new List<TableOfContents>();
@@ -109,7 +142,7 @@ namespace DocumentManagement.DAL
         }
         public ReturnResult<TableOfContents> GetTableOfContentsByID(int tablleOfContentsID)
         {
-            List<TableOfContents> TableOfContentsList = new List<TableOfContents>();
+            TableOfContents tableOfContentsList = new TableOfContents();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
@@ -118,32 +151,44 @@ namespace DocumentManagement.DAL
                 .SetParameter("MucLucHoSoID", SqlDbType.Int, tablleOfContentsID, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<TableOfContents>(out TableOfContentsList)
+                .GetSingle<TableOfContents>(out tableOfContentsList)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
             return new ReturnResult<TableOfContents>()
             {
-                ItemList = TableOfContentsList,
+                Item = tableOfContentsList,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<TableOfContents> GetTableOfContentsByFontID(int fontID)
+        public ReturnResult<TableOfContents> GetTableOfContentsByFontID(BaseCondition<TableOfContents> condition)
         {
             List<TableOfContents> TableOfContentsList = new List<TableOfContents>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
-            dbProvider.SetQuery("TableOfContents_GET_BY_FONTID", CommandType.StoredProcedure)
-                .SetParameter("PhongID", SqlDbType.Int, fontID, ParameterDirection.Input)
+            try
+            {
+                dbProvider.SetQuery("TableOfContents_GET_BY_FONTID", CommandType.StoredProcedure)
+                .SetParameter("InWhere", System.Data.SqlDbType.NVarChar, condition.IN_WHERE == null ? "": condition.IN_WHERE)
+                .SetParameter("InSort", System.Data.SqlDbType.NVarChar, condition.IN_SORT == null ? "" : condition.IN_SORT)
+                .SetParameter("StartRow", System.Data.SqlDbType.Int, condition.PageIndex)
+                .SetParameter("PageSize", System.Data.SqlDbType.Int, condition.PageSize)
+                .SetParameter("TotalRecords", System.Data.SqlDbType.Int, DBNull.Value, System.Data.ParameterDirection.Output)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
                 .GetList<TableOfContents>(out TableOfContentsList)
                 .Complete();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
@@ -226,68 +271,93 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<TableOfContents> UpdateTableOfContents(TableOfContents TableOfContents)
-        {
-            List<TableOfContents> TableOfContentsList = new List<TableOfContents>();
-            DbProvider dbProvider = new DbProvider();
-            string outCode = String.Empty;
-            string outMessage = String.Empty;
-            int totalRows = 0;
-            dbProvider.SetQuery("TableOfContents_EDIT", CommandType.StoredProcedure)
-                .SetParameter("MucLucHoSoID", SqlDbType.Int, TableOfContents.TabOfContID, ParameterDirection.Input)
-                .SetParameter("TenMucLucHoSo", SqlDbType.NVarChar, TableOfContents.TabOfContName ,50, ParameterDirection.Input)
-                .SetParameter("LuuTruID", SqlDbType.Int, TableOfContents.StorageID, ParameterDirection.Input)
-                .SetParameter("PhongID", SqlDbType.Int, TableOfContents.FontID, ParameterDirection.Input)
-                .SetParameter("KhoID", SqlDbType.Int, TableOfContents.RepositoryID, ParameterDirection.Input)
-                .SetParameter("MucLucSo", SqlDbType.Int, TableOfContents.TabOfContNumber, ParameterDirection.Input)
-                .SetParameter("MaDanhMuc", SqlDbType.NVarChar, TableOfContents.CategoryCode, 50, ParameterDirection.Input)
-                .SetParameter("GhiChu", SqlDbType.NVarChar, TableOfContents.Note, 50, ParameterDirection.Input)
-                .SetParameter("NgayCapNhat", SqlDbType.DateTime, TableOfContents.UpdateTime, ParameterDirection.Input)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<TableOfContents>(out TableOfContentsList)
-                .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<TableOfContents>()
+        public ReturnResult<TableOfContents> UpdateTableOfContents(TableOfContents tableOfContents)
+        {
+            ReturnResult<TableOfContents> result;
+            DbProvider dbProvider;
+            try
             {
-                ItemList = TableOfContentsList,
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-                TotalRows = totalRows
-            };
+                result = new ReturnResult<TableOfContents>();
+                dbProvider = new DbProvider();
+                dbProvider.SetQuery("TableOfContents_EDIT", CommandType.StoredProcedure)
+                 .SetParameter("MucLucHoSoID", SqlDbType.Int, tableOfContents.TabOfContID, ParameterDirection.Input)
+                 .SetParameter("TenMucLucHoSo", SqlDbType.NVarChar, tableOfContents.TabOfContName, 50, ParameterDirection.Input)
+                 .SetParameter("LuuTruID", SqlDbType.Int, tableOfContents.StorageID, ParameterDirection.Input)
+                 .SetParameter("PhongID", SqlDbType.Int, tableOfContents.FontID, ParameterDirection.Input)
+                 .SetParameter("KhoID", SqlDbType.Int, tableOfContents.RepositoryID, ParameterDirection.Input)
+                 //.SetParameter("MucLucSo", SqlDbType.Int, tableOfContents.TabOfContNumber, ParameterDirection.Input)
+                 .SetParameter("MaDanhMuc", SqlDbType.NVarChar, tableOfContents.CategoryCode, 50, ParameterDirection.Input)
+                 .SetParameter("GhiChu", SqlDbType.NVarChar, tableOfContents.Note, 50, ParameterDirection.Input)
+                 //.SetParameter("NgayCapNhat", SqlDbType.DateTime, tableOfContents.UpdateTime, ParameterDirection.Input)
+                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                 .ExcuteNonQuery()
+                 .Complete();
+                dbProvider.GetOutValue("ErrorCode", out string errorCode)
+                    .GetOutValue("ErrorMessage", out string errorMessage);
+                if (errorCode.ToString() == "0")
+                {
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+                else
+                {
+                    result.Failed(errorCode, errorMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
         }
+
         public ReturnResult<TableOfContents> InsertTableOfContents(TableOfContents TableOfContents)
         {
-            List<TableOfContents> TableOfContentsList = new List<TableOfContents>();
+            TableOfContents tableOfCont = new TableOfContents();
+            var result = new ReturnResult<TableOfContents>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
+            string totalRecords = String.Empty;
             int totalRows = 0;
-            dbProvider.SetQuery("TableOfContents_INSERT", CommandType.StoredProcedure)
+            try
+            {
+                dbProvider.SetQuery("TableOfContents_INSERT", CommandType.StoredProcedure)
                 .SetParameter("TenMucLucHoSo", SqlDbType.NVarChar, TableOfContents.TabOfContName, 50, ParameterDirection.Input)
-                .SetParameter("LuuTruID", SqlDbType.Int, TableOfContents.StorageID, ParameterDirection.Input)
+                //.SetParameter("LuuTruID", SqlDbType.Int, TableOfContents.StorageID, ParameterDirection.Input)
                 .SetParameter("PhongID", SqlDbType.Int, TableOfContents.FontID, ParameterDirection.Input)
-                .SetParameter("KhoID", SqlDbType.Int, TableOfContents.RepositoryID, ParameterDirection.Input)
+                //.SetParameter("KhoID", SqlDbType.Int, TableOfContents.RepositoryID, ParameterDirection.Input)
                 .SetParameter("MucLucSo", SqlDbType.Int, TableOfContents.TabOfContNumber, ParameterDirection.Input)
-                .SetParameter("NgayTao", SqlDbType.DateTime, TableOfContents.CreatTime, ParameterDirection.Input)
-                .SetParameter("MaDanhMuc", SqlDbType.NVarChar, TableOfContents.CategoryCode, 50, ParameterDirection.Input)
+                //.SetParameter("NgayTao", SqlDbType.DateTime, TableOfContents.CreatTime, ParameterDirection.Input)
+                .SetParameter("MaDanhMuc", SqlDbType.NVarChar, TableOfContents.TabOfContCode, 50, ParameterDirection.Input)
                 .SetParameter("GhiChu", SqlDbType.NVarChar, TableOfContents.Note, 50, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<TableOfContents>(out TableOfContentsList)
+                .GetSingle<TableOfContents>(out tableOfCont)
                 .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
+                dbProvider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<TableOfContents>()
+                if (outCode != "0" || outCode == "")
+                {
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
+                }
+                else
+                {
+                    result.Item = tableOfCont;
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
+                }
+            }
+            catch (Exception)
             {
-                ItemList = TableOfContentsList,
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-                TotalRows = totalRows
-            };
+
+                throw;
+            }
+            return result;
         }
     }
 }

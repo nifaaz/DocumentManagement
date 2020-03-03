@@ -12,5 +12,6 @@ namespace DocumentManagement.Common
         public const int FINISH = 3;
         public const int DISABLE = 4;
         public const int ENABLE = 5;
+
     }
 }

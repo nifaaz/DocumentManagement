@@ -12,6 +12,7 @@ namespace DocumentManagement.Model.Entity
         public string FontNumber { get; set; }
         public int OrganID { get; set; }
         public string OrganName { get; set; }
+        public string OrganCode { get; set; }
         public string History { get; set; }
         public string Lang { get; set; }
         public DateTime CreateTime { get; set; }

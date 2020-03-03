@@ -2,6 +2,8 @@
 using DocumentManagement.Common;
 using DocumentManagement.DAL;
 using DocumentManagement.Model.Entity.Organ;
+using DocumentManagement.Models.DTO;
+using DocumentManagement.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +45,7 @@ namespace DocumentManagement.BUS
             var result = organDAL.GetPagingWithSearchResults(condition);
             return result;
         }
-        public ReturnResult<Organ> GetAllOrgan()
+        public ReturnResult<OrganDTO> GetAllOrgan()
         {
             var result = organDAL.GetAllOrgan();
             return result;

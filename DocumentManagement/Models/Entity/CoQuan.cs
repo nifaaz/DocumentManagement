@@ -14,5 +14,9 @@ namespace DocumentManagement.Models.Entity
         public int HuyenID { get; set; }
         public int XaPhuongID { get; set; }
         public int LoaiCoQuanID { get; set; }
+        public string CreateBy { get; set; }
+        public string UpdatedBy { get; set; }
+        public string OrganType { get; set; }
+        public string AddressDetail { get; set; }
     }
 }

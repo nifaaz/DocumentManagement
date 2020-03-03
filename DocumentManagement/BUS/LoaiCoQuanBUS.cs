@@ -25,7 +25,7 @@ namespace DocumentManagement.BUS
             }
             return _instance;
         }
-        public ReturnResult<OrganType> GetALLLoaiCoQuan()
+        public ReturnResult<OrganType> GetAllOrganType()
         {
             return loaiCoQuanDAL.GetAllOrganType();
         }

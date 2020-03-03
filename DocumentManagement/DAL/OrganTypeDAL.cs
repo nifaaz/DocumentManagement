@@ -66,24 +66,37 @@ namespace DocumentManagement.DAL
         {
             List<OrganType> OrganTypeList = new List<OrganType>();
             DbProvider dbProvider = new DbProvider();
+            var result = new ReturnResult<OrganType>();
             string outCode = String.Empty;
             string outMessage = String.Empty;
-            int totalRows = 0;
-            dbProvider.SetQuery("OrganType_GET_ALL", CommandType.StoredProcedure)
+            // int totalRows = 0;
+            try
+            {
+                dbProvider.SetQuery("OrganType_GET_ALL", CommandType.StoredProcedure)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
                 .GetList<OrganType>(out OrganTypeList)
                 .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
-
-            return new ReturnResult<OrganType>()
+                dbProvider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage);
+                if (outCode.ToString() == "0")
+                {
+                    result.ItemList = OrganTypeList;
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = "";
+                    result.ErrorCode = "0";
+                }
+                else
+                {
+                    result.ItemList = null;
+                    result.Failed(outCode, outMessage);
+                }
+            }
+            catch (Exception ex)
             {
-                ItemList = OrganTypeList,
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-                TotalRows = totalRows
-            };
+                result.Failed("-1", ex.Message);
+            }
+            return result;
         }
         public ReturnResult<OrganType> OrganTypeSearch(string searchStr)
         {

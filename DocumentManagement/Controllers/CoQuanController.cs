@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Common.Common;
 using DocumentManagement.BUS;
+using DocumentManagement.Common;
 using DocumentManagement.Models.Entity;
+using DocumentManagement.Models.Entity.Organ;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,8 +22,8 @@ namespace DocumentManagement.Controllers
         /// </summary>
         /// <param name="condition"></param>
         /// <returns></returns>
-        [HttpGet]
-        public IActionResult GetCoQuanWithPaging([FromQuery] BaseCondition<CoQuan> condition)
+        [HttpPost]
+        public IActionResult GetCoQuanWithPaging([FromBody] BaseCondition<CoQuan> condition)
         {
             try
             {
@@ -44,15 +46,55 @@ namespace DocumentManagement.Controllers
         {
             return Ok(coQuanBUS.GetCoQuanById(id));
         }
-        public IActionResult InsertCoQuan([FromBody] CoQuan cQ)
+
+        [HttpPost]
+        public IActionResult InsertCoQuan([FromBody] CoQuan coQuan)
         {
-            CoQuan coQuan = new CoQuan();
-            coQuan.TinhID =Convert.ToInt32(cQ.TinhID);
-            coQuan.HuyenID = Convert.ToInt32(cQ.HuyenID);
-            coQuan.XaPhuongID = Convert.ToInt32(cQ.XaPhuongID);
-            coQuan.TenCoQuan = Convert.ToString(cQ.TenCoQuan);
-            coQuan.LoaiCoQuanID = Convert.ToInt32(cQ.LoaiCoQuanID);
+            //CoQuan coQuan = new CoQuan();
+            //coQuan.TinhID =Convert.ToInt32(cQ.TinhID);
+            //coQuan.HuyenID = Convert.ToInt32(cQ.HuyenID);
+            //coQuan.XaPhuongID = Convert.ToInt32(cQ.XaPhuongID);
+            //coQuan.TenCoQuan = Convert.ToString(cQ.TenCoQuan);
+            //coQuan.LoaiCoQuanID = Convert.ToInt32(cQ.LoaiCoQuanID);
             return Ok(coQuanBUS.InssertCoQuan(coQuan));
+        }
+
+        /// <summary>
+        /// cập nhật cơ quan
+        /// </summary>
+        /// <param name="coQuan"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult UpdateCoQuan (CoQuan coQuan)
+        {
+            return Ok(coQuanBUS.UpdateCoQuan(coQuan));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteCoQuan ([FromQuery] int id)
+        {
+            return Ok(coQuanBUS.DeleteCoQuan(id));
+        }
+
+        [HttpGet]
+        public IActionResult GetAllCoQuan ()
+        {
+            ReturnResult<CoQuan> result;
+            try
+            {
+                result = new ReturnResult<CoQuan>();
+                result = coQuanBUS.GetAllCoQuan();
+                return Ok(new OrganList()
+                {
+                    OrganTypes = result.ItemList.Select(item => item.OrganType).Distinct().ToList(),
+                    OrganName = result.ItemList.Select(item => item.TenCoQuan).Distinct().ToList(),
+                    OrganAddress = result.ItemList.Select(item => item.AddressDetail).Distinct().ToList()
+                });
+            }
+            catch (Exception ex)
+            {
+                return Unauthorized();
+            }
         }
     }
 }

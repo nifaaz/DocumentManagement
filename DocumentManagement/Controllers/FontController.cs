@@ -20,39 +20,88 @@ namespace DocumentManagement.Controlleresult
         [HttpGet]
         public IActionResult GetPagingWithSearchResults(BaseCondition<Font> condition)
         {
-            var result = fontBUS.GetPagingWithSearchResults(condition);
-            return Ok(result);
+            try
+            {
+                var result = fontBUS.GetPagingWithSearchResults(condition);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         [HttpGet]
-        public IActionResult GetAllFont()
+        public IActionResult GetFontWithPaging([FromQuery] BaseCondition<Font> condition)
         {
-            var result = fontBUS.GetAllFont();
-            return Ok(result);
+            try
+            {
+                return Ok(fontBUS.GetFontWithPaging(condition));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex);
+            }
         }
         [HttpGet]
-        public IActionResult Search(string searchStr)
+        public IActionResult GetAllFont()
         {
-            var result = fontBUS.FontSearch(searchStr);
-            return Ok(result);
+            try
+            {
+                 return Ok(fontBUS.GetAllFont());
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
-        [HttpGet("{fontID}")]
-        public IActionResult GetFontByID(int fontID)
+        [HttpGet]
+        public async Task<IActionResult> Search(string searchStr)
         {
-            var result = fontBUS.GetFontByID(fontID);
-            return Ok(result);
+            try
+            {
+                var result = fontBUS.FontSearch(searchStr);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetFontByID(int id)
+        {
+                return Ok(fontBUS.GetFontByID(id));
         }
         [HttpGet]
         public IActionResult GetFontByCoQuanID(int CoQuanID)
         {
-            var result = fontBUS.GetFontByCoQuanID(CoQuanID);
-            return Ok(result);
+            try
+            {
+                var result = fontBUS.GetFontByCoQuanID(CoQuanID);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
         [HttpPost]
-        public IActionResult DeleteFont(int FontID)
+        public IActionResult DeleteFont([FromQuery]int id)
         {
-            var result = fontBUS.DeleteFont(FontID);
-            return Ok(result);
+            try
+            {
+                var result = fontBUS.DeleteFont(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
         [HttpPost]
         public IActionResult UpdateFont(Font font)
@@ -65,27 +114,32 @@ namespace DocumentManagement.Controlleresult
             fontModify.Lang = font.Lang;
             fontModify.Updated = font.Updated;
             fontModify.OrganID = font.OrganID;
-            DateTime currentDate = new DateTime();
-            currentDate = DateTime.Now;
-            fontModify.UpdateTime = currentDate;
-            var result = fontBUS.UpdateFont(fontModify);
-            return Ok(result);
+            try
+            {
+                var result = fontBUS.UpdateFont(fontModify);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
         [HttpPost]
         public IActionResult InsertFont(Font font)
         {
-            Font fontModify = new Font();
-            fontModify.FontNumber = font.FontNumber;
-            fontModify.FontName = font.FontName;
-            fontModify.History = font.History;
-            fontModify.Lang = font.Lang;
-            fontModify.Created = font.Created;
-            fontModify.OrganID = font.OrganID;
-            DateTime currentDate = new DateTime();
-            currentDate = DateTime.Now;
-            fontModify.CreateTime = currentDate;
-            var result = fontBUS.InsertFont(fontModify);
-            return Ok(result);
+            try
+            {
+                if (font.Lang == null)
+                {
+                    font.Lang = "";
+                }
+                var result = fontBUS.InsertFont(font);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
