@@ -9,6 +9,8 @@ namespace DocumentManagement.Model.Entity.GearBox
     {
         public int GearBoxID { get; set; }
         public int TabOfContID { get; set; }
+        public string TabOfContCode { get; set; }
+        public string TableOfContName { get; set; }
         public string GearBoxName { get; set; }
         public string GearBoxTitle { get; set; }
         public float Preservationperiod { get; set; }
@@ -21,7 +23,9 @@ namespace DocumentManagement.Model.Entity.GearBox
         public DateTime CreateTime { get; set; }
         public DateTime UpdateTime { get; set; }
         public string Note { get; set; }
-
+        public string FontName { get; set; }
+        public string OrganName { get; set; }
+        public string GearBoxCode { get; set; }
 
     }
 }

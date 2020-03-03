@@ -2,6 +2,7 @@
 using DocumentManagement.Common;
 using DocumentManagement.DAL;
 using DocumentManagement.Models.Entity.Document;
+using DocumentManagement.Models.Entity.Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace DocumentManagement.BUS
                 return _documentDAL;
             }
         }
-        public ReturnResult<Document> GetPagingWithSearchResults(BaseCondition<Document> condition)
+        public ReturnResult<DocumentPaging> GetPagingWithSearchResults(BaseCondition<DocumentPaging> condition)
         {
             var result = DocumentDAL.GetPagingWithSearchResults(condition);
             return result;
@@ -46,5 +47,17 @@ namespace DocumentManagement.BUS
             var result = DocumentDAL.UpdateDocument(document);
             return result;
         }
+        public ReturnResult<Document> GetDocumentById(Document document)
+        {
+            var result = DocumentDAL.GetDocumentById(document);
+            return result;
+        }
+        public ReturnResult<Document> GetListByProfileId(Profile profile)
+        {
+            var result = DocumentDAL.GetListByProfileId(profile);
+            return result;
+        }
+        
+
     }
 }

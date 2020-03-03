@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Common.Common;
 using DocumentManagement.BUS;
 using DocumentManagement.Models.Entity.Document;
+using DocumentManagement.Models.Entity.Profile;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +22,13 @@ namespace DocumentManagement.Controllers
             var result = documentBUS.GetAllDocument();
             return Ok(result);
         }
-
+        [HttpGet]
+        public IActionResult GetDocumentById(Document document)
+        {
+            DocumentBUS documentBUS = new DocumentBUS();
+            var result = documentBUS.GetDocumentById(document);
+            return Ok(result);
+        }
         [HttpPost]
         public IActionResult CreateDocument(Document document)
         {
@@ -47,11 +54,20 @@ namespace DocumentManagement.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetPagingWithSearchResults(BaseCondition<Document> condition)
+        public IActionResult GetPagingWithSearchResults(BaseCondition<DocumentPaging> condition)
         {
             DocumentBUS documentBUS = new DocumentBUS();
             var result = documentBUS.GetPagingWithSearchResults(condition);
             return Ok(result);
         }
+
+        [HttpGet]
+        public IActionResult GetListByProfileId(Profile profile)
+        {
+            DocumentBUS documentBUS = new DocumentBUS();
+            var result = documentBUS.GetListByProfileId(profile);
+            return Ok(result);
+        }
+        
     }
 }
