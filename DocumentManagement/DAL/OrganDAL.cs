@@ -1,7 +1,10 @@
-﻿using DocumentManagement.Common;
+﻿using Common.Common;
+using DocumentManagement.Common;
 using DocumentManagement.Model;
 using DocumentManagement.Model.Entity.Organ;
 using DocumentManagement.Model.Entity.Repository;
+using DocumentManagement.Models.DTO;
+using DocumentManagement.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,22 +15,79 @@ namespace DocumentManagement.DAL
 {
     public class OrganDAL
     {
-        public ReturnResult<Organ> GetAllOrgan()
+        private OrganDAL() { }
+
+        private static volatile OrganDAL _instance;
+
+        static object key = new object();
+
+        public static OrganDAL GetOrganDALInstance
         {
-            List<Organ> OrganList = new List<Organ>();
+            get
+            {
+                lock (key)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new OrganDAL();
+                    }
+                }
+
+                return _instance;
+            }
+
+            private set
+            {
+                _instance = value;
+            }
+        }
+        public ReturnResult<Organ> GetPagingWithSearchResults(BaseCondition<Organ> condition)
+        {
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
-            int totalRows = 0;
-            dbProvider.SetQuery("Organ_GET_ALL", CommandType.StoredProcedure)
+            dbProvider.SetQuery("Organ_GET_PAGING", CommandType.StoredProcedure)
+                .SetParameter("FromRecord", SqlDbType.NVarChar, condition.FromRecord, ParameterDirection.Input)
+                .SetParameter("PageSize", SqlDbType.NVarChar, condition.PageSize, ParameterDirection.Input)
+                .SetParameter("InWhere", SqlDbType.NVarChar, condition.IN_WHERE, ParameterDirection.Input)
+                .SetParameter("InSort", SqlDbType.NVarChar, condition.IN_SORT, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<Organ>(out OrganList)
+                .ExcuteNonQuery()
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
             return new ReturnResult<Organ>()
+            {
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+            };
+        }
+        public ReturnResult<OrganDTO> GetAllOrgan()
+        {
+            List<OrganDTO> OrganList = new List<OrganDTO>();
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            int totalRows = 0;
+            try
+            {
+                dbProvider.SetQuery("Organ_GET_ALL", CommandType.StoredProcedure)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetList<OrganDTO>(out OrganList)
+                .Complete();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<OrganDTO>()
             {
                 ItemList = OrganList,
                 ErrorCode = outCode,

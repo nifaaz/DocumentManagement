@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DocumentManagement.BUS;
 using DocumentManagement.Common;
 using DocumentManagement.Models.Entity.Account;
+using DocumentManagement.Models.Entity.User;
 using DocumentManagement.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,9 @@ namespace DocumentManagement.Controllers
         /// Đăng nhập tài khoản
         /// </summary>       
         [HttpPost]
-        public IActionResult Login(Account account)
+        public IActionResult Login([FromBody] Account account)
         {
-            ReturnResult<Token> loginResult = new ReturnResult<Token>();
+            ReturnResult<User> loginResult;
             AccountService loginService = new AccountService();
             try
             {
@@ -29,21 +30,40 @@ namespace DocumentManagement.Controllers
                 {
                     // Create Jwt token for client-side
                     var jwtToken = loginService.CreateToken();
-                    loginResult.Item.JwtToken = jwtToken;
-                    loginResult.ErrorCode = "0";
-                    loginResult.ErrorMessage = "";
+                    User user = new User()
+                    {
+                        UserName = account.UserName,
+                        Token = new Token()
+                        {
+                            JwtToken = jwtToken.JwtToken,
+                            Expiration = jwtToken.Expiration
+                        }
+                    };
+                    loginResult = new ReturnResult<User>()
+                    {
+                        Item = user,
+                        ErrorCode = "0",
+                        ErrorMessage = ""
+                    };
                 }
                 else
                 {
-                    loginResult.Item.JwtToken = string.Empty;
-                    loginResult.ErrorCode = "1";
-                    loginResult.ErrorMessage = "";
+                    loginResult = new ReturnResult<User>()
+                    {
+                        IsSuccess = false,
+                        ErrorCode = "-1",
+                        ErrorMessage = "Tài khoản hoặc mật khẩu không chính xác, vui lòng thử lại.",
+                    };
                 }
             }
             catch (Exception ex)
             {
-                loginResult.ErrorCode = "1";
-                loginResult.ErrorMessage = ex.Message;
+                loginResult = new ReturnResult<User>()
+                {
+                    IsSuccess = false,
+                    ErrorCode = "1",
+                    ErrorMessage = ex.Message
+                };
             }
             return Ok(loginResult);
         }

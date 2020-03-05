@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Common;
 using DocumentManagement.BUS;
 using DocumentManagement.Model.Entity.TableOfContens;
 using Microsoft.AspNetCore.Http;
@@ -13,57 +14,59 @@ namespace DocumentManagement.Controllers
     [ApiController]
     public class TableOfContentsController : ControllerBase
     {
+        private static TableOfContentsBUS tableOfContentsBUS = TableOfContentsBUS.GetTableOfContentsBUSInstance;
+
+        [HttpGet]
+        public IActionResult GetPagingWithSearchResults([FromQuery]BaseCondition<TableOfContents> condition)
+        {
+            var result = tableOfContentsBUS.GetPagingWithSearchResults(condition);
+            return Ok(result);
+        }
+
         [HttpGet]
         public IActionResult GetAllTableOfContents()
         {
-            TableOfContentsBUS tableOfContentsBUS = new TableOfContentsBUS();
             var result = tableOfContentsBUS.GetAllTableOfContents();
             return Ok(result);
         }
         [HttpGet]
         public IActionResult Search(string searchStr)
         {
-            TableOfContentsBUS tableOfContentsBUS = new TableOfContentsBUS();
             var result = tableOfContentsBUS.TableOfContentsSearch(searchStr);
             return Ok(result);
         }
         [HttpGet("{tableOfContentsID}")]
         public IActionResult GetTableOfContentsByID(int tableOfContentsID)
         {
-            TableOfContentsBUS tableOfContentsBUS = new TableOfContentsBUS();
             var result = tableOfContentsBUS.GetTableOfContentsByID(tableOfContentsID);
             return Ok(result);
         }
         [HttpGet("{storageID}")]
         public IActionResult GetTableOfContentsByStorageID(int storageID)
         {
-            TableOfContentsBUS tableOfContentsBUS = new TableOfContentsBUS();
             var result = tableOfContentsBUS.GetTableOfContentsByStorageID(storageID);
             return Ok(result);
         }
-        [HttpGet("{fontID}")]
-        public IActionResult GetTableOfContentsByFontID(int fontID)
+        [HttpGet]
+        public IActionResult GetTableOfContentsByFontID([FromQuery]BaseCondition<TableOfContents> condition)
         {
-            TableOfContentsBUS tableOfContentsBUS = new TableOfContentsBUS();
-            var result = tableOfContentsBUS.GetTableOfContentsByFontID(fontID);
+            var result = tableOfContentsBUS.GetTableOfContentsByFontID(condition);
             return Ok(result);
         }
         [HttpGet("{repoID}")]
         public IActionResult GetTableOfContentsByRepositoryID(int repoID)
         {
-            TableOfContentsBUS tableOfContentsBUS = new TableOfContentsBUS();
             var result = tableOfContentsBUS.GetTableOfContentsByRepositoryID(repoID);
             return Ok(result);
         }
         [HttpPost]
-        public IActionResult DeleteTableOfContents(int tableOfContentsID)
+        public IActionResult DeleteTableOfContents([FromQuery]int id)
         {
-            TableOfContentsBUS tableOfContentsBUS = new TableOfContentsBUS();
-            var result = tableOfContentsBUS.DeleteTableOfContents(tableOfContentsID);
+            var result = tableOfContentsBUS.DeleteTableOfContents(id);
             return Ok(result);
         }
         [HttpPost]
-        public IActionResult UpdateTableOfContents(TableOfContents TableOfContents)
+        public IActionResult UpdateTableOfContents([FromBody]TableOfContents TableOfContents)
         {
             TableOfContents tableOfContentsModify = new TableOfContents();
             tableOfContentsModify.TabOfContID = TableOfContents.TabOfContID ;
@@ -77,14 +80,12 @@ namespace DocumentManagement.Controllers
             DateTime currentDate = new DateTime();
             currentDate = DateTime.Now;
             tableOfContentsModify.UpdateTime = currentDate;
-            TableOfContentsBUS tableOfContentsBUS = new TableOfContentsBUS();
             var result = tableOfContentsBUS.UpdateTableOfContents(tableOfContentsModify);
             return Ok(result);
         }
         [HttpPost]
-        public IActionResult InsertTableOfContents(TableOfContents TableOfContents)
+        public IActionResult InsertTableOfContents([FromBody]TableOfContents TableOfContents)
         {
-            TableOfContentsBUS tableOfContentsBUS = new TableOfContentsBUS();
             TableOfContents tableOfContentsModify = new TableOfContents();
             tableOfContentsModify.TabOfContName = TableOfContents.TabOfContName;
             tableOfContentsModify.TabOfContNumber = TableOfContents.TabOfContNumber;

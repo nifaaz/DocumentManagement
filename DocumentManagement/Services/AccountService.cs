@@ -8,12 +8,14 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DocumentManagement.Common;
+using DocumentManagement.Models.Entity.User;
 
 namespace DocumentManagement.Services
 {
     public class AccountService
     {
-        public string CreateToken()
+        public Token CreateToken()
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("soHoav1soHoav1soHoav1soHoav1"));
             var tokenDescriptor = new SecurityTokenDescriptor()
@@ -24,12 +26,22 @@ namespace DocumentManagement.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateJwtSecurityToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
-            return tokenString;
+            return new Token {
+                JwtToken = tokenString,
+                Expiration = DateTime.UtcNow.AddDays(1)
+            };
         }
         public bool IsAuthenticate(Account account)
         {
+            account.UserName = Utilities.KillSqlInjection(account.UserName);
+            account.Password = Utilities.KillSqlInjection(account.Password);
             AccountBUS accountBusiness = new AccountBUS();
             var result = accountBusiness.GetUserByUserName(account);
+
+            if (result.Item == null)
+            {
+                return false;
+            }
             //var saltDemo = "123456789123";
             //var resultSalt = Convert.FromBase64String(saltDemo);
             //string passwodDemo = Hash(login.Password, resultSalt);
@@ -38,13 +50,22 @@ namespace DocumentManagement.Services
             var storageHashedPasswod = result.Item.Password;
 
             // Split the salt from "HashedPassword" column in database"
-            var salt = SplitSaltFromPasswordCol(storageHashedPasswod);
+            //var salt = SplitSaltFromPasswordCol(storageHashedPasswod);
 
-            // Hash the password from user input and concat it with salt
-            string hashedPassword = Hash(account.Password, salt);
-            string saltString = Convert.ToBase64String(salt);
-            var inputPassword = hashedPassword + "$" + saltString;
-            if (inputPassword.Equals(storageHashedPasswod))
+            //// Hash the password from user input and concat it with salt
+            //string hashedPassword = Hash(account.Password, salt);
+            //string saltString = Convert.ToBase64String(salt);
+            //var inputPassword = hashedPassword + "$" + saltString;
+            //if (inputPassword.Equals(storageHashedPasswod))
+            //{
+            //    return true;
+            //}
+            //else
+            //{
+            //    return false;
+            //}
+
+            if (account.Password == storageHashedPasswod)
             {
                 return true;
             }

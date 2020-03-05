@@ -1,4 +1,5 @@
-﻿using DocumentManagement.Common;
+﻿using Common.Common;
+using DocumentManagement.Common;
 using DocumentManagement.DAL;
 
 using DocumentManagement.Models.Entity.Profile;
@@ -11,53 +12,76 @@ namespace DocumentManagement.BUS
 {
     public class ProfileBUS
     {
-        private ProfileDAL _profileDAL;
-        private ProfileDAL ProfileDAL
+        private static ProfileDAL profileDAL = ProfileDAL.GetProfileDALInstance;
+        private ProfileBUS() { }
+
+        private static volatile ProfileBUS _instance;
+
+        static object key = new object();
+
+        public static ProfileBUS GetProfileBUSInstance
         {
             get
             {
-                _profileDAL = new ProfileDAL();
-                return _profileDAL;
+                lock (key)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new ProfileBUS();
+                    }
+                }
+
+                return _instance;
             }
+
+            private set
+            {
+                _instance = value;
+            }
+        }
+        public ReturnResult<Profile> GetPagingWithSearchResults(BaseCondition<Profile> condition)
+        {
+            var result = profileDAL.GetPagingWithSearchResults(condition);
+            return result;
         }
         public ReturnResult<Profile> GetAllProfile()
         {
-            var result = ProfileDAL.GetAllProfile();
+            var result = profileDAL.GetAllProfile();
             return result;
         }
         public ReturnResult<Profile> ExportProfile()
         {
-            var result = ProfileDAL.ExportProfile();
+            var result = profileDAL.ExportProfile();
             return result;
         }
         public ReturnResult<Profile> ProfileSearch(string serachStr)
         {
-            var result = ProfileDAL.SearchProfile(serachStr);
+            var result = profileDAL.SearchProfile(serachStr);
             return result;
         }
         public ReturnResult<Profile> GetProfileByID(int profileID)
         {
-            var result = ProfileDAL.GetProfileByID(profileID);
+            var result = profileDAL.GetProfileByID(profileID);
             return result;
         }
         public ReturnResult<Profile> GetProfileByGearBoxID(int gearBoxID)
         {
-            var result = ProfileDAL.GetProfileByGearBoxID(gearBoxID);
+            var result = profileDAL.GetProfileByGearBoxID(gearBoxID);
             return result;
         }
         public ReturnResult<Profile> CreateProfile(Profile profile)
         {
-            var result = ProfileDAL.CreateProfile(profile);
+            var result = profileDAL.CreateProfile(profile);
             return result;
         }
         public ReturnResult<Profile> DeleteProfile(int profileId)
         {
-            var result = ProfileDAL.DeleteProfile(profileId);
+            var result = profileDAL.DeleteProfile(profileId);
             return result;
         }
         public ReturnResult<Profile> UpdateProfile(Profile profile)
         {
-            var result = ProfileDAL.UpdateProfile(profile);
+            var result = profileDAL.UpdateProfile(profile);
             return result;
         }
     }

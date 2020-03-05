@@ -1,4 +1,5 @@
-﻿using DocumentManagement.Common;
+﻿using Common.Common;
+using DocumentManagement.Common;
 using DocumentManagement.Model;
 using DocumentManagement.Model.Entity.OrganType;
 using System;
@@ -9,30 +10,93 @@ using System.Threading.Tasks;
 
 namespace DocumentManagement.DAL
 {
-    public class OrganTypeTypeDAL
+    public class OrganTypeDAL
     {
-        public ReturnResult<OrganType> GetAllOrganType()
+        private OrganTypeDAL() { }
+
+        private static volatile OrganTypeDAL _instance;
+
+        static object key = new object();
+
+        public static OrganTypeDAL GetOrganTypeDALInstance
         {
-            List<OrganType> OrganTypeList = new List<OrganType>();
+            get
+            {
+                lock (key)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new OrganTypeDAL();
+                    }
+                }
+
+                return _instance;
+            }
+
+            private set
+            {
+                _instance = value;
+            }
+        }
+        public ReturnResult<OrganType> GetPagingWithSearchResults(BaseCondition<OrganType> condition)
+        {
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
-            int totalRows = 0;
-            dbProvider.SetQuery("OrganType_GET_ALL", CommandType.StoredProcedure)
+            dbProvider.SetQuery("OrganType_GET_PAGING", CommandType.StoredProcedure)
+                .SetParameter("FromRecord", SqlDbType.NVarChar, condition.FromRecord, ParameterDirection.Input)
+                .SetParameter("PageSize", SqlDbType.NVarChar, condition.PageSize, ParameterDirection.Input)
+                .SetParameter("InWhere", SqlDbType.NVarChar, condition.IN_WHERE, ParameterDirection.Input)
+                .SetParameter("InSort", SqlDbType.NVarChar, condition.IN_SORT, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<OrganType>(out OrganTypeList)
+                .ExcuteNonQuery()
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
             return new ReturnResult<OrganType>()
             {
-                ItemList = OrganTypeList,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
-                TotalRows = totalRows
             };
+        }
+
+        public ReturnResult<OrganType> GetAllOrganType()
+        {
+            List<OrganType> OrganTypeList = new List<OrganType>();
+            DbProvider dbProvider = new DbProvider();
+            var result = new ReturnResult<OrganType>();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            // int totalRows = 0;
+            try
+            {
+                dbProvider.SetQuery("OrganType_GET_ALL", CommandType.StoredProcedure)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetList<OrganType>(out OrganTypeList)
+                .Complete();
+                dbProvider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage);
+                if (outCode.ToString() == "0")
+                {
+                    result.ItemList = OrganTypeList;
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = "";
+                    result.ErrorCode = "0";
+                }
+                else
+                {
+                    result.ItemList = null;
+                    result.Failed(outCode, outMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
         }
         public ReturnResult<OrganType> OrganTypeSearch(string searchStr)
         {
