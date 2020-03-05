@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DocumentManagement.Common
 {
-    public class UploadFile
+    public static class UploadFile
     {
-        public async Task UploadFileAsync(List<IFormFile> files)
+        public static async Task UploadFileAsync(List<IFormFile> files)
         {
             long size = files.Sum(f => f.Length);
             var filePaths = new List<string>();

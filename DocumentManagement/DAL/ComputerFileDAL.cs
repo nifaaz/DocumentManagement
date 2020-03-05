@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace DocumentManagement.DAL
 {
@@ -17,7 +18,7 @@ namespace DocumentManagement.DAL
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
-
+            
             dbProvider.SetQuery("COMPUTER_FILE_UPLOAD", CommandType.StoredProcedure)
             .SetParameter("FileName", SqlDbType.NVarChar, file.FileName, ParameterDirection.Input)
             .SetParameter("Url", SqlDbType.NVarChar, file.Url, ParameterDirection.Input)

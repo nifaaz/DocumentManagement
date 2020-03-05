@@ -8,7 +8,7 @@ namespace DocumentManagement.Models.Entity.Profile
     public class Profiles
     {
         /// <summary>
-        /// mã hồ sơ lưu t
+        /// mã hồ sơ lưu trữ
         /// </summary>
         public string FileCode { get; set; }
         /// <summary>
@@ -63,6 +63,7 @@ namespace DocumentManagement.Models.Entity.Profile
 
         public int PageNumber { get; set; }
         public string Format { get; set; }
+        public int ProfileTypeId { get; set; }
 
     }
 }
