@@ -64,5 +64,17 @@ namespace DocumentManagement.Controllers
             var result = profileBUS.DeleteProfile(profileId);
             return Ok(result);
         }
+
+        /// <summary>
+        /// thêm mới hồ sơ + upload file lên server
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <param name="files"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult ProfilesAddNewAndUploadFile ([FromBody] BaseCondition<Profiles> condition, [FromForm(Name = "files")] IFormFile files)
+        {
+            return Ok();
+        }
     }
 }
