@@ -64,5 +64,11 @@ namespace DocumentManagement.Controllers
             var result = profileBUS.DeleteProfile(profileId);
             return Ok(result);
         }
+
+        [HttpPost]
+        public IActionResult InsertNewProfile ()
+        {
+            return Ok();
+        }
     }
 }
