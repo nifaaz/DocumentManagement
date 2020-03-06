@@ -1,30 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Asus\\Desktop\\Project\\DocumentManagement\\DocumentManagement\\DocumentManagement.csproj": {}
+    "/Users/tunguyenduy/Desktop/DocumentManagement/DocumentManagement/DocumentManagement.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Asus\\Desktop\\Project\\DocumentManagement\\DocumentManagement\\DocumentManagement.csproj": {
+    "/Users/tunguyenduy/Desktop/DocumentManagement/DocumentManagement/DocumentManagement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Asus\\Desktop\\Project\\DocumentManagement\\DocumentManagement\\DocumentManagement.csproj",
+        "projectUniqueName": "/Users/tunguyenduy/Desktop/DocumentManagement/DocumentManagement/DocumentManagement.csproj",
         "projectName": "DocumentManagement",
-        "projectPath": "C:\\Users\\Asus\\Desktop\\Project\\DocumentManagement\\DocumentManagement\\DocumentManagement.csproj",
-        "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Asus\\Desktop\\Project\\DocumentManagement\\DocumentManagement\\obj\\",
+        "projectPath": "/Users/tunguyenduy/Desktop/DocumentManagement/DocumentManagement/DocumentManagement.csproj",
+        "packagesPath": "/Users/tunguyenduy/.nuget/packages/",
+        "outputPath": "/Users/tunguyenduy/Desktop/DocumentManagement/DocumentManagement/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/tunguyenduy/.config/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -65,13 +63,23 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[2.2.4, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
             }
           },
           "imports": [
-            "net461"
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true
+          "warn": true,
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.101/RuntimeIdentifierGraph.json"
         }
       }
     }

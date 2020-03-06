@@ -1,0 +1,43 @@
+﻿<Properties StartupConfiguration="{2A585CC5-AC27-4D0E-9580-6D108A9E6911}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="DocumentManagement/Controllers/ProfileController.cs">
+    <Files>
+      <File FileName="DocumentManagement/Controllers/ProfileController.cs" Line="76" Column="10" />
+      <File FileName="DocumentManagement/Models/Entity/Profile/Profiles.cs" Line="66" Column="45" />
+      <File FileName="DocumentManagement/Controllers/ComputerFileController.cs" Line="57" Column="10" />
+      <File FileName="DocumentManagement/BUS/ComputerFileBUS.cs" />
+      <File FileName="DocumentManagement/DAL/ComputerFileDAL.cs" />
+      <File FileName="DocumentManagement/Common/ImportFile.cs" Line="9" Column="2" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="DocumentManagement" expanded="True">
+            <Node name="DocumentManagement" expanded="True">
+              <Node name="BUS" expanded="True" />
+              <Node name="Common" expanded="True" />
+              <Node name="Controllers" expanded="True">
+                <Node name="ProfileController.cs" selected="True" />
+              </Node>
+              <Node name="DAL" expanded="True" />
+              <Node name="FilesUpload" expanded="True" />
+              <Node name="Models" expanded="True">
+                <Node name="Entity" expanded="True">
+                  <Node name="Profile" expanded="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.DocumentManagement PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/tunguyenduy/Desktop/DocumentManagement/DocumentManagement/Controllers/ProfileController.cs" relfile="DocumentManagement/Controllers/ProfileController.cs" line="76" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
