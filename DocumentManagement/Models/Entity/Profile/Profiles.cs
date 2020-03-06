@@ -69,5 +69,8 @@ namespace DocumentManagement.Models.Entity.Profile
         public string Format { get; set; }
         public int ProfileTypeId { get; set; }
 
+        public string ProfileTypeName { get; set; }
+
+        public string GearBoxTitle { get; set; }
     }
 }

@@ -44,11 +44,11 @@ namespace DocumentManagement.BUS
             var result = profileDAL.GetPagingWithSearchResults(condition);
             return result;
         }
-        public ReturnResult<Profile> GetAllProfile()
-        {
-            var result = profileDAL.GetAllProfile();
-            return result;
-        }
+        //public ReturnResult<Profile> GetAllProfile()
+        //{
+        //    var result = profileDAL.GetAllProfile();
+        //    return result;
+        //}
         public ReturnResult<Profile> ExportProfile()
         {
             var result = profileDAL.ExportProfile();
@@ -83,6 +83,17 @@ namespace DocumentManagement.BUS
         {
             var result = profileDAL.UpdateProfile(profile);
             return result;
+        }
+
+        // viết lại profile từ đây
+        public ReturnResult<Profiles> ProfilesGetSearchWithPaging (BaseCondition<Profiles> condition)
+        {
+            return profileDAL.ProfilesGetSearchWithPaging(condition);
+        }
+
+        public ReturnResult<Profiles> GetAllProfiles()
+        {
+            return profileDAL.GetAllProfiles();
         }
     }
 }

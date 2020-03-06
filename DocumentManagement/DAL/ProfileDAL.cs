@@ -62,28 +62,39 @@ namespace DocumentManagement.DAL
                 ErrorMessage = outMessage,
             };
         }
-        public ReturnResult<Profile> GetAllProfile()
+        public ReturnResult<Profiles> GetAllProfiles()
         {
-            List<Profile> profileList = new List<Profile>();
+            List<Profiles> profileList = new List<Profiles>();
             DbProvider dbProvider = new DbProvider();
-            string outCode = String.Empty;
-            string outMessage = String.Empty;
-            int totalRows = 0;
-            dbProvider.SetQuery("PROFILE_GET_ALL", CommandType.StoredProcedure)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 255, ParameterDirection.Output)
-                .GetList<Profile>(out profileList)
-                .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
-
-            return new ReturnResult<Profile>()
+            var result = new ReturnResult<Profiles>();
+            try
             {
-                ItemList = profileList,
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-                TotalRows = totalRows
-            };
+                string outCode = String.Empty;
+                string outMessage = String.Empty;
+                dbProvider.SetQuery("PROFILE_GET_ALL", CommandType.StoredProcedure)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 255, ParameterDirection.Output)
+                    .GetList<Profiles>(out profileList)
+                    .Complete();
+                dbProvider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage);
+
+                if (outCode != "0")
+                {
+                    result.Failed(outCode, outMessage);
+                }
+                else
+                {
+                    result.ItemList = profileList;
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
         }
         public ReturnResult<Profile> ExportProfile()
         {
@@ -248,6 +259,47 @@ namespace DocumentManagement.DAL
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
             };
+        }
+        // viết lại api cho profile từ đây
+        public ReturnResult<Profiles> ProfilesGetSearchWithPaging (BaseCondition<Profiles> condition)
+        {
+            ReturnResult<Profiles> result = new ReturnResult<Profiles>();
+            DbProvider db;
+            List<Profiles> lstResult;
+            try
+            {
+                db = new DbProvider();
+                lstResult = new List<Profiles>();
+                db.SetQuery("PROFILES_GET_SEARCH_WITH_PAGING", CommandType.StoredProcedure)
+                    .SetParameter("PageIndex", SqlDbType.Int, condition.PageIndex)
+                    .SetParameter("PageSize", SqlDbType.Int, condition.PageSize)
+                    .SetParameter("InWhere", SqlDbType.NVarChar, condition.IN_WHERE, 500)
+                    .SetParameter("InSort", SqlDbType.NVarChar, condition.IN_SORT, 200)
+                    .SetParameter("TotalRecords", SqlDbType.Int, DBNull.Value, ParameterDirection.Output)
+                    .SetParameter("ErrorCode", SqlDbType.Int, DBNull.Value, ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 2000, ParameterDirection.Output)
+                    .GetList<Profiles>(out lstResult)
+                    .Complete();
+                db.GetOutValue("ErrorCode", out int errorCode)
+                    .GetOutValue("ErrorMessage", out string errorMessage)
+                    .GetOutValue("TotalRecords", out int totalRecords);
+                if (errorCode.ToString() != "0")
+                {
+                    result.Failed(errorCode.ToString(), errorMessage);
+                }
+                else
+                {
+                    result.ItemList = lstResult;
+                    result.TotalRows = totalRecords;
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
         }
     }
 }

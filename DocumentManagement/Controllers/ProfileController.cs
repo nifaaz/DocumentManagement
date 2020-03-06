@@ -29,12 +29,12 @@ namespace DocumentManagement.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
-        public IActionResult GetAllProfile()
-        {
-            var result = profileBUS.GetAllProfile();
-            return Ok(result);
-        }
+        //[HttpGet]
+        //public IActionResult GetAllProfile()
+        //{
+        //    var result = profileBUS.GetAllProfile();
+        //    return Ok(result);
+        //}
         [HttpGet("{profileID}")]
         public IActionResult GetProfileByID(int profileID)
         {
@@ -82,8 +82,10 @@ namespace DocumentManagement.Controllers
                 List<IFormFile> files = Request.Form.Files.ToList(); // danh sách file
                 List<ComputerFile> lstFilesExists = new List<ComputerFile>();
 
+
                 if (files.Count > 0)
                 {
+                    
                     string[] lstDirFilesUpload = Directory.GetFiles(Const.FILE_UPLOAD_DIR);
                     
                     foreach (var fileAlreadyExsists in lstDirFilesUpload)
@@ -154,6 +156,29 @@ namespace DocumentManagement.Controllers
                     ErrorMessage = ex.Message
                 });
             }
+        }
+
+        /// <summary>
+        /// Lấy dữ liệu + tìm kiếm + phân trang cho hồ sơ
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult ProfilesGetSearchWithPaging (BaseCondition<Profiles> condition)
+        {
+            return Ok(profileBUS.ProfilesGetSearchWithPaging(condition));
+        }
+
+        [HttpGet]
+        public IActionResult GetAllProfiles ()
+        {
+            ReturnResult<Profiles> result = profileBUS.GetAllProfiles();
+            return Ok(new ProfileFilterOptions()
+            {
+                lstFileCode = result.ItemList.Select(item => item.FileCode).Distinct().ToList(),
+                lstTitle = result.ItemList.Select(item => item.Title).Distinct().ToList(),
+                lstGearBoxTitle = result.ItemList.Select(item => item.GearBoxTitle).Distinct().ToList()
+            });
         }
     }
 }
