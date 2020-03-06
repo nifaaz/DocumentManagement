@@ -8,6 +8,10 @@ namespace DocumentManagement.Models.Entity.Profile
     public class Profiles
     {
         /// <summary>
+        /// mã hồ sơ
+        /// </summary>
+        public int ProfileId { get; set; }
+        /// <summary>
         /// mã hồ sơ lưu trữ
         /// </summary>
         public string FileCode { get; set; }
@@ -51,7 +55,7 @@ namespace DocumentManagement.Models.Entity.Profile
         /// <summary>
         /// kí hiệu thông tin
         /// </summary>
-        public string InforSign { get; set; }
+        public string InfoSign { get; set; }
         /// <summary>
         /// từ khoá
         /// </summary>
