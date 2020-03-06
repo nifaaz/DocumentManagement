@@ -30,11 +30,13 @@ namespace DocumentManagement.Common
 
         public int TotalRows { get; set; }
 
+        public string ReturnValue { get; set; }
+
         public void Failed (string errorCode, string errorMessage)
         {
             IsSuccess = false;
-            this.ErrorCode = errorCode;
-            this.ErrorMessage = errorMessage;
+            ErrorCode = errorCode;
+            ErrorMessage = errorMessage;
         }
     }
 }
