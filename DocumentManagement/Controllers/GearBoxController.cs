@@ -16,8 +16,8 @@ namespace DocumentManagement.Controllers
     {
         private static GearBoxBUS gearBoxBUS = GearBoxBUS.GetGearBoxBUSInstance;
 
-        [HttpGet]
-        public IActionResult GetPagingWithSearchResults([FromQuery]BaseCondition<GearBox> condition)
+        [HttpPost]
+        public IActionResult GetPagingWithSearchResults([FromBody]BaseCondition<GearBox> condition)
         {
             var result = gearBoxBUS.GetPagingWithSearchResults(condition);
             return Ok(result);

@@ -44,6 +44,15 @@ namespace Common.Common
                             {
                                 result.Append(" OR LOWER(" + item.field + ") LIKE N'%" + valueKillSqlInjection.ToLower().Trim() + "%'");
                             }
+                            if (item.op == "start_and_or_contains")
+                            {
+                                result.Append(" AND (LOWER(" + item.field + ") LIKE N'%" + valueKillSqlInjection.ToLower().Trim() + "%' ");
+                            }
+
+                            if (item.op == "end_and_or_contains")
+                            {
+                                result.Append(" OR LOWER(" + item.field + ") LIKE N'%" + valueKillSqlInjection.ToLower().Trim() + "%' )");
+                            }
 
                             /*
                              * Type: single string value
