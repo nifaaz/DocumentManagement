@@ -26,6 +26,7 @@ namespace DocumentManagement.Model.Entity.GearBox
         public string FontName { get; set; }
         public string OrganName { get; set; }
         public string GearBoxCode { get; set; }
+        public int isDeleted { get; set; }
 
     }
 }

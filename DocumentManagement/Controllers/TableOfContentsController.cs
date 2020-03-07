@@ -16,8 +16,8 @@ namespace DocumentManagement.Controllers
     {
         private static TableOfContentsBUS tableOfContentsBUS = TableOfContentsBUS.GetTableOfContentsBUSInstance;
 
-        [HttpGet]
-        public IActionResult GetPagingWithSearchResults([FromQuery]BaseCondition<TableOfContents> condition)
+        [HttpPost]
+        public IActionResult GetPagingWithSearchResults([FromBody]BaseCondition<TableOfContents> condition)
         {
             var result = tableOfContentsBUS.GetPagingWithSearchResults(condition);
             return Ok(result);
@@ -75,7 +75,8 @@ namespace DocumentManagement.Controllers
             tableOfContentsModify.StorageID = TableOfContents.StorageID;
             tableOfContentsModify.RepositoryID = TableOfContents.RepositoryID;
             tableOfContentsModify.FontID = TableOfContents.FontID;
-            tableOfContentsModify.CategoryCode = TableOfContents.CategoryCode;
+            tableOfContentsModify.TabOfContCode = TableOfContents.TabOfContCode;
+            tableOfContentsModify.TabOfContNumber = TableOfContents.TabOfContNumber;
             tableOfContentsModify.Note = TableOfContents.Note;
             DateTime currentDate = new DateTime();
             currentDate = DateTime.Now;
@@ -92,11 +93,13 @@ namespace DocumentManagement.Controllers
             tableOfContentsModify.StorageID = TableOfContents.StorageID;
             tableOfContentsModify.RepositoryID = TableOfContents.RepositoryID;
             tableOfContentsModify.FontID = TableOfContents.FontID;
-            tableOfContentsModify.CategoryCode = TableOfContents.CategoryCode;
+            tableOfContentsModify.TabOfContCode = TableOfContents.TabOfContCode;
+            tableOfContentsModify.TabOfContNumber = TableOfContents.TabOfContNumber;
             tableOfContentsModify.Note = TableOfContents.Note;
             DateTime currentDate = new DateTime();
             currentDate = DateTime.Now;
             tableOfContentsModify.CreatTime = currentDate;
+            tableOfContentsModify.IsDeleted = 0;
             var result = tableOfContentsBUS.InsertTableOfContents(tableOfContentsModify);
             return Ok(result);
         }

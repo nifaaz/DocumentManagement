@@ -214,85 +214,118 @@ namespace DocumentManagement.DAL
         }
         public ReturnResult<GearBox> DeleteGearBox(int gearBoxID)
         {
-            List<GearBox> GearBoxList = new List<GearBox>();
-            DbProvider dbProvider = new DbProvider();
+            DbProvider provider = new DbProvider();
+            var result = new ReturnResult<GearBox>();
             string outCode = String.Empty;
             string outMessage = String.Empty;
-            int totalRows = 0;
-            dbProvider.SetQuery("GearBox_DELETE", CommandType.StoredProcedure)
-                .SetParameter("HopSoID", SqlDbType.Int, gearBoxID, ParameterDirection.Input)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<GearBox>(out GearBoxList)
-                .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
-
-            return new ReturnResult<GearBox>()
+            string totalRecords = String.Empty;
+            GearBox item = new GearBox();
+            try
             {
-                ItemList = GearBoxList,
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-                TotalRows = totalRows
-            };
+                provider.SetQuery("GearBox_DELETE", CommandType.StoredProcedure)
+                    .SetParameter("HopSoID", SqlDbType.Int, gearBoxID, System.Data.ParameterDirection.Input)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output)
+                    .ExcuteNonQuery().Complete();
+
+                provider.GetOutValue("ErrorCode", out outCode)
+                          .GetOutValue("ErrorMessage", out outMessage);
+
+                if (outCode != "0")
+                {
+                    result.Failed(outCode, outMessage);
+                }
+                else
+                {
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return result;
         }
-        public ReturnResult<GearBox> UpdateGearBox(GearBox GearBox)
+        public ReturnResult<GearBox> UpdateGearBox(GearBox gearBox)
         {
-            List<GearBox> GearBoxList = new List<GearBox>();
-            DbProvider dbProvider = new DbProvider();
-            string outCode = String.Empty;
-            string outMessage = String.Empty;
-            int totalRows = 0;
-            dbProvider.SetQuery("GearBox_EDIT", CommandType.StoredProcedure)
-                .SetParameter("HopSoID", SqlDbType.Int, GearBox.GearBoxID, ParameterDirection.Input)
-                .SetParameter("MaHopSo", SqlDbType.NVarChar, GearBox.GearBoxName, 50, ParameterDirection.Input)
-                .SetParameter("TieuDeHopSo", SqlDbType.NVarChar, GearBox.GearBoxTitle, 50, ParameterDirection.Input)
-                .SetParameter("MucLucHoSoID", SqlDbType.Int, GearBox.TabOfContID, ParameterDirection.Input)
-                .SetParameter("NgayBatDau", SqlDbType.DateTime, GearBox.StartDate, ParameterDirection.Input)
-                .SetParameter("NgayKetThuc", SqlDbType.DateTime, GearBox.EndDate, ParameterDirection.Input)
-                .SetParameter("NgayCapNhat", SqlDbType.DateTime, GearBox.UpdateTime, ParameterDirection.Input)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<GearBox>(out GearBoxList)
-                .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
-
-            return new ReturnResult<GearBox>()
+            ReturnResult<GearBox> result;
+            DbProvider db;
+            try
             {
-                ItemList = GearBoxList,
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-                TotalRows = totalRows
-            };
+                result = new ReturnResult<GearBox>();
+                db = new DbProvider();
+                db.SetQuery("GearBox_EDIT", CommandType.StoredProcedure)
+                    .SetParameter("HopSoID", SqlDbType.Int, gearBox.GearBoxID,ParameterDirection.Input)
+                    .SetParameter("MaHopSo", SqlDbType.NVarChar, gearBox.GearBoxCode, 10, ParameterDirection.Input)
+                    .SetParameter("TieuDeHopSo", SqlDbType.NVarChar, gearBox.GearBoxTitle,300, ParameterDirection.Input)
+                    .SetParameter("MucLucHoSoID", SqlDbType.Int, gearBox.TabOfContID, ParameterDirection.Input)
+                    .SetParameter("GhiChu", SqlDbType.NVarChar, gearBox.Note, 300, ParameterDirection.Input)
+                    .SetParameter("NgayCapNhat", SqlDbType.NVarChar, gearBox.UpdateTime.ToString(), 100, ParameterDirection.Input)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                    .ExcuteNonQuery()
+                    .Complete();
+                db.GetOutValue("ErrorCode", out string errorCode)
+                    .GetOutValue("ErrorMessage", out string errorMessage);
+                if (errorCode.ToString() == "0")
+                {
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+                else
+                {
+                    result.Failed(errorCode, errorMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
         }
-        public ReturnResult<GearBox> InsertGearBox(GearBox GearBox)
+        public ReturnResult<GearBox> InsertGearBox(GearBox gearBox)
         {
-            List<GearBox> GearBoxList = new List<GearBox>();
-            DbProvider dbProvider = new DbProvider();
+            DbProvider provider = new DbProvider();
+            var result = new ReturnResult<GearBox>();
             string outCode = String.Empty;
             string outMessage = String.Empty;
-            int totalRows = 0;
-            dbProvider.SetQuery("GearBox_INSERT", CommandType.StoredProcedure)
-                .SetParameter("MaHopSo", SqlDbType.NVarChar, GearBox.GearBoxName, 50, ParameterDirection.Input)
-                .SetParameter("TieuDeHopSo", SqlDbType.NVarChar, GearBox.GearBoxTitle, 50, ParameterDirection.Input)
-                .SetParameter("MucLucHoSoID", SqlDbType.Int, GearBox.TabOfContID, ParameterDirection.Input)
-                .SetParameter("NgayBatDau", SqlDbType.DateTime, GearBox.StartDate, ParameterDirection.Input)
-                .SetParameter("NgayKetThuc", SqlDbType.DateTime, GearBox.EndDate, ParameterDirection.Input)
+            string totalRecords = String.Empty;
+            try
+            {
+                provider.SetQuery("[GearBox_INSERT]", System.Data.CommandType.StoredProcedure)
+                .SetParameter("MaHopSo", SqlDbType.NVarChar, gearBox.GearBoxCode, 10, ParameterDirection.Input)
+                .SetParameter("TieuDeHopSo", SqlDbType.NVarChar, gearBox.GearBoxTitle,300, ParameterDirection.Input)
+                .SetParameter("MucLucHoSoID", SqlDbType.Int, gearBox.TabOfContID, ParameterDirection.Input)
+                .SetParameter("GhiChu", SqlDbType.NVarChar, gearBox.Note, 300, ParameterDirection.Input)
+                .SetParameter("NgayTao", SqlDbType.NVarChar, gearBox.CreateTime.ToString(), 100, ParameterDirection.Input)
+                .SetParameter("isDeleted", SqlDbType.Int, gearBox.isDeleted, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<GearBox>(out GearBoxList)
-                .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
+                    .GetSingle<GearBox>(out gearBox).Complete();
 
-            return new ReturnResult<GearBox>()
+                provider.GetOutValue("ErrorCode", out outCode)
+                          .GetOutValue("ErrorMessage", out outMessage);
+
+                if (outCode != "0" || outCode == "")
+                {
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
+                }
+                else
+                {
+                    result.Item = gearBox;
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
+                }
+            }
+            catch (Exception ex)
             {
-                ItemList = GearBoxList,
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-                TotalRows = totalRows
-            };
+                throw ex;
+            }
+
+            return result;
         }
     }
 }
