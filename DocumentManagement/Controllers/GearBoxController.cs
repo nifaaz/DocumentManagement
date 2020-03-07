@@ -51,22 +51,49 @@ namespace DocumentManagement.Controllers
         [HttpPost]
         public IActionResult CreateGearBox([FromBody]GearBox gearBox)
         {
-            var result = gearBoxBUS.CreateGearBox(gearBox);
-            return Ok(result);
+            try
+            {
+                gearBox.isDeleted = 0;
+                DateTime currentDate = DateTime.Now;
+                gearBox.CreateTime = currentDate;
+                var result = gearBoxBUS.CreateGearBox(gearBox);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         [HttpPost]
         public IActionResult UpdateGearBox([FromBody]GearBox gearBox)
         {
-            var result = gearBoxBUS.UpdateGearBox(gearBox);
-            return Ok(result);
+            DateTime currentDate = DateTime.Now;
+            gearBox.UpdateTime = currentDate;
+            try
+            {
+                var result = gearBoxBUS.UpdateGearBox(gearBox);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         [HttpPost]
         public IActionResult DeleteGearBox([FromQuery]int id)
         {
-            var result = gearBoxBUS.DeleteGearBox(id);
-            return Ok(result);
+            try
+            {
+                var result = gearBoxBUS.DeleteGearBox(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
     }
 }
