@@ -68,6 +68,7 @@ namespace DocumentManagement.Controllers
         private string GetFilePath(IFormFile file)
         {
             string FILE_DIRECTORY_PATH = @"E:\New folder\";
+        //    string FILE_DIRECTORY_PATH = @"~/FilesUpload";
             string filePath = FILE_DIRECTORY_PATH + file.FileName;
             return filePath;
         }
