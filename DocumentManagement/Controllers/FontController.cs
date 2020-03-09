@@ -18,7 +18,7 @@ namespace DocumentManagement.Controlleresult
         private FontBUS fontBUS = FontBUS.GetFontBUSInstance;
 
         [HttpGet]
-        public IActionResult GetPagingWithSearchResults(BaseCondition<Font> condition)
+        public IActionResult GetPagingWithSearchResults([FromBody]BaseCondition<Font> condition)
         {
             try
             {
@@ -32,8 +32,8 @@ namespace DocumentManagement.Controlleresult
             }
         }
 
-        [HttpGet]
-        public IActionResult GetFontWithPaging([FromQuery] BaseCondition<Font> condition)
+        [HttpPost]
+        public IActionResult GetFontWithPaging([FromBody] BaseCondition<Font> condition)
         {
             try
             {
@@ -114,6 +114,9 @@ namespace DocumentManagement.Controlleresult
             fontModify.Lang = font.Lang;
             fontModify.Updated = font.Updated;
             fontModify.OrganID = font.OrganID;
+            fontModify.Note = font.Note;
+            DateTime currentDate = DateTime.Now;
+            font.UpdateTime = currentDate;
             try
             {
                 var result = fontBUS.UpdateFont(fontModify);
@@ -133,6 +136,9 @@ namespace DocumentManagement.Controlleresult
                 {
                     font.Lang = "";
                 }
+                font.IsDeleted = 0;
+                DateTime currentDate = DateTime.Now;
+                font.CreateTime = currentDate;
                 var result = fontBUS.InsertFont(font);
                 return Ok(result);
             }
