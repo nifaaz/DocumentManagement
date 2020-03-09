@@ -23,7 +23,7 @@ namespace DocumentManagement.Controllers
         //private static readonly string CURRENT_DIRECTORY = Environment.CurrentDirectory;
 
         [HttpGet]
-        public IActionResult GetPagingWithSearchResults(BaseCondition<Profile> condition)
+        public IActionResult GetPagingWithSearchResults(BaseCondition<Profiles> condition)
         {
             var result = profileBUS.GetPagingWithSearchResults(condition);
             return Ok(result);
@@ -49,14 +49,14 @@ namespace DocumentManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateProfile(Profile profile)
+        public IActionResult CreateProfile(Profiles profile)
         {
             var result = profileBUS.CreateProfile(profile);
             return Ok(result);
         }
 
         [HttpPost]
-        public IActionResult UpdateProfile(Profile profile)
+        public IActionResult UpdateProfile(Profiles profile)
         {
             var result = profileBUS.UpdateProfile(profile);
             return Ok(result);

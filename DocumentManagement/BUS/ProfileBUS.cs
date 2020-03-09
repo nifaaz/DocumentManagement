@@ -39,7 +39,7 @@ namespace DocumentManagement.BUS
                 _instance = value;
             }
         }
-        public ReturnResult<Profile> GetPagingWithSearchResults(BaseCondition<Profile> condition)
+        public ReturnResult<Profiles> GetPagingWithSearchResults(BaseCondition<Profiles> condition)
         {
             var result = profileDAL.GetPagingWithSearchResults(condition);
             return result;
@@ -49,37 +49,37 @@ namespace DocumentManagement.BUS
         //    var result = profileDAL.GetAllProfile();
         //    return result;
         //}
-        public ReturnResult<Profile> ExportProfile()
+        public ReturnResult<Profiles> ExportProfile()
         {
             var result = profileDAL.ExportProfile();
             return result;
         }
-        public ReturnResult<Profile> ProfileSearch(string serachStr)
+        public ReturnResult<Profiles> ProfileSearch(string serachStr)
         {
             var result = profileDAL.SearchProfile(serachStr);
             return result;
         }
-        public ReturnResult<Profile> GetProfileByID(int profileID)
+        public ReturnResult<Profiles> GetProfileByID(int profileID)
         {
             var result = profileDAL.GetProfileByID(profileID);
             return result;
         }
-        public ReturnResult<Profile> GetProfileByGearBoxID(int gearBoxID)
+        public ReturnResult<Profiles> GetProfileByGearBoxID(int gearBoxID)
         {
             var result = profileDAL.GetProfileByGearBoxID(gearBoxID);
             return result;
         }
-        public ReturnResult<Profile> CreateProfile(Profile profile)
+        public ReturnResult<Profiles> CreateProfile(Profiles profile)
         {
             var result = profileDAL.CreateProfile(profile);
             return result;
         }
-        public ReturnResult<Profile> DeleteProfile(int profileId)
+        public ReturnResult<Profiles> DeleteProfile(int profileId)
         {
             var result = profileDAL.DeleteProfile(profileId);
             return result;
         }
-        public ReturnResult<Profile> UpdateProfile(Profile profile)
+        public ReturnResult<Profiles> UpdateProfile(Profiles profile)
         {
             var result = profileDAL.UpdateProfile(profile);
             return result;
