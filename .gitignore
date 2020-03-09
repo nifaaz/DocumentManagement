@@ -1,4 +1,7 @@
-/netcoreapp2.2
+netcoreapp2.2/
+DocumentManagement/bin
+DocumentManagement/obj
+.vs/DocumentManagement/v16
 .suo
 storage.ide-shm
 storage.ide-wal
