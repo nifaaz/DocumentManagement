@@ -19,7 +19,7 @@ namespace DocumentManagement.Models.Entity.Document
         /// <summary>
         /// Tên loại văn bản
         /// </summary>
-        public string DocumentType { get; set; }
+        public string TypeName { get; set; }
         /// <summary>
         /// Mã hồ sơ
         /// </summary>

@@ -23,6 +23,7 @@ namespace DocumentManagement.Controllers
             return Ok(result);
         }
         [HttpGet]
+        [Route("{documentId}")]
         public IActionResult GetDocumentById(int documentId)
         {
             DocumentBUS documentBUS = new DocumentBUS();
