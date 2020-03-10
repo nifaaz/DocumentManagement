@@ -11,6 +11,7 @@ using DocumentManagement.Models.Entity.Profile;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using iTextSharp.text.pdf;
 
 namespace DocumentManagement.Controllers
 {
@@ -18,9 +19,10 @@ namespace DocumentManagement.Controllers
     [ApiController]
     public class ProfileController : ControllerBase
     {
-        private static ProfileBUS profileBUS = ProfileBUS.GetProfileBUSInstance;
+        private static readonly ProfileBUS profileBUS = ProfileBUS.GetProfileBUSInstance;
         //private static readonly string FILE_UPLOAD_DIR = Environment.CurrentDirectory + @"\FilesUpload";
         //private static readonly string CURRENT_DIRECTORY = Environment.CurrentDirectory;
+        private static readonly GearBoxBUS gearBoxBUS = GearBoxBUS.GetGearBoxBUSInstance;
 
         [HttpGet]
         public IActionResult GetPagingWithSearchResults(BaseCondition<Profile> condition)
@@ -69,6 +71,28 @@ namespace DocumentManagement.Controllers
             return Ok(result);
         }
 
+        public int GetNumberOfPdfPages(string pathDocument)
+        {
+            if (pathDocument.Split('.').Length > 0)
+            {
+                string[] arrPathFile = pathDocument.Split('.');
+                int length = arrPathFile.Length;
+                if (arrPathFile[length - 1].ToLower() == "pdf")
+                {
+                    PdfReader reader = new PdfReader(pathDocument);
+                    int pages = reader.NumberOfPages;
+                    reader.Dispose();
+                    reader.Close();
+                    return pages;
+                }
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> ProfilesAddNewAndUploadFile()
         {
@@ -79,15 +103,40 @@ namespace DocumentManagement.Controllers
             ReturnResult<Profiles> result = new ReturnResult<Profiles>();
             try
             {
-                List<IFormFile> files = Request.Form.Files.ToList(); // danh sách file
+                ICollection<IFormFile> files = Request.Form.Files.ToList(); // danh sách file
                 List<ComputerFile> lstFilesExists = new List<ComputerFile>();
-
-
+                List<ComputerFile> lstFileInfo = new List<ComputerFile>();
+               
                 if (files.Count > 0)
                 {
-                    
+                    //foreach (var file in files)
+                    //{
+                    //    lstFileInfo.Add(new ComputerFile()
+                    //    {
+                    //        FileName = file.FileName,
+                    //        Url = Const.FILE_UPLOAD_DIR + file.FileName,
+                    //        PageNumber = GetNumberOfPdfPages(Const.FILE_UPLOAD_DIR + file.FileName)
+                    //    });
+                    //}
+
+                    //List<ComputerFile> lstFiles = new List<ComputerFile>();
+                    //foreach (var fileUrl in lstDirFilesUploaded)
+                    //{
+                    //    foreach (var file in files)
+                    //    {
+                    //        if (fileUrl.IndexOf(file.FileName) > -1)
+                    //        {
+                    //            lstFiles.Add(new ComputerFile()
+                    //            {
+                    //                FileName = file.FileName,
+                    //                Url = fileUrl,
+                    //                PageNumber = GetNumberOfPdfPages(fileUrl)
+                    //            });
+                    //        }
+                    //    }
+                    //}
+
                     string[] lstDirFilesUpload = Directory.GetFiles(Const.FILE_UPLOAD_DIR);
-                    
                     foreach (var fileAlreadyExsists in lstDirFilesUpload)
                     {
                         foreach (var file in files)
@@ -114,11 +163,28 @@ namespace DocumentManagement.Controllers
                             {
                                 System.IO.File.Delete(fileAlreadyExists.FileName);
                             }
+
                             // overwrite file already exists
+                            //foreach (var file in files)
+                            //{
+                            //    var filePath = FilesUtillities.GetFilePath(file);
+                            //    //    await FilesUtillities.CopyFileToPhysicalDisk(file, filePath);
+                            //    FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
+                            //}
+
+                            //for (int i = 0; i < files.Count; i++)
+                            //{
+                            //    string filePath = FilesUtillities.GetFilePath(files[i]);
+
+                            //    using (var stream = new FileStream(filePath, FileMode.CreateNew))
+                            //    {
+                            //        files[i].CopyTo(stream);
+                            //        stream.Close();
+                            //    }
+                            //}
                             foreach (var file in files)
                             {
-                                var filePath = FilesUtillities.GetFilePath(file);
-                                await FilesUtillities.CopyFileToPhysicalDisk(file, filePath);
+                                
                             }
                         }
                         else
@@ -137,25 +203,43 @@ namespace DocumentManagement.Controllers
                         foreach (var file in files)
                         {
                             var filePath = FilesUtillities.GetFilePath(file);
-                            await FilesUtillities.CopyFileToPhysicalDisk(file, filePath);
+                            //   await FilesUtillities.CopyFileToPhysicalDisk(file, filePath);
+                            FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
                         }
                     }
+
+                    // lấy lại danh sách file đã được tải lên
+                    string[] lstDirFilesUploaded = Directory.GetFiles(Const.FILE_UPLOAD_DIR);
+                    List<ComputerFile> lstFiles = new List<ComputerFile>();
+                    foreach (var fileUrl in lstDirFilesUploaded)
+                    {
+                        foreach (var file in files)
+                        {
+                            if (fileUrl.IndexOf(file.FileName) > -1)
+                            {
+                                lstFiles.Add(new ComputerFile()
+                                {
+                                    FileName = file.FileName,
+                                    Url = fileUrl,
+                                    PageNumber = GetNumberOfPdfPages(fileUrl)
+                                });
+                            }
+                        }
+                    }
+
+                    result = profileBUS.Create(profile, lstFileInfo);
                 }
                 else
                 {
                     // không tải file lên thì chỉ send thông tin hồ sơ
-
+                    result = profileBUS.Create(profile);
                 }
-                // get all path
-                return Ok(result);
             }
             catch (Exception ex)
             {
-                return Ok(new ErrorObject() { 
-                    ErrorNumber = 1,
-                    ErrorMessage = ex.Message
-                });
+                return Ok(new ErrorObject(1, ex.Message));
             }
+            return Ok(result);
         }
 
         /// <summary>
@@ -178,6 +262,19 @@ namespace DocumentManagement.Controllers
                 lstFileCode = result.ItemList.Select(item => item.FileCode).Distinct().ToList(),
                 lstTitle = result.ItemList.Select(item => item.Title).Distinct().ToList(),
                 lstGearBoxTitle = result.ItemList.Select(item => item.GearBoxTitle).Distinct().ToList()
+            });
+        }
+
+        [HttpGet]
+        public IActionResult GetAllProfileTypeAndGearBox ()
+        {
+            //ProfileNew profileNew = new ProfileNew();
+            //profileNew.lstGearBox = gearBoxBUS.GetAllGearBox().ItemList;
+            //profileNew.lstProfileTypes = profileBUS.GetAllProfileTypes().ItemList;
+            return Ok(new ProfileNew()
+            {
+                lstGearBox = gearBoxBUS.GetAllGearBox().ItemList,
+                lstProfileTypes = profileBUS.GetAllProfileTypes().ItemList
             });
         }
     }

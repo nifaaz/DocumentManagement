@@ -1,7 +1,7 @@
 ﻿using Common.Common;
 using DocumentManagement.Common;
 using DocumentManagement.Model;
-
+using DocumentManagement.Models.Entity.ComputerFile;
 using DocumentManagement.Models.Entity.Profile;
 using System;
 using System.Collections.Generic;
@@ -291,6 +291,105 @@ namespace DocumentManagement.DAL
                 {
                     result.ItemList = lstResult;
                     result.TotalRows = totalRecords;
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// thêm mới hồ sơ và upload file 
+        /// </summary>
+        /// <param name="profiles"></param>
+        /// <param name="files"></param>
+        /// <returns></returns>
+        public ReturnResult<Profiles> Create (Profiles profiles, List<ComputerFile> files = null)
+        {
+            ReturnResult<Profiles> result = new ReturnResult<Profiles>();
+            DbProvider db;
+            try
+            {
+                db = new DbProvider();
+                string JsonStringFiles = string.Empty;
+                if (files != null)
+                {
+                    JsonStringFiles = Libs.SerializeObject(files);
+                }
+                db.SetQuery("PROFILES_ADD_NEW", CommandType.StoredProcedure);
+                db.SetParameter("GearBoxId", SqlDbType.Int, profiles.GearBoxId);
+                db.SetParameter("ProfileType", SqlDbType.Int, profiles.ProfileTypeId);
+                db.SetParameter("FileCode", SqlDbType.Int, profiles.FileCode);
+                db.SetParameter("FileCatalog", SqlDbType.Int, profiles.FileCatalog);
+                db.SetParameter("FileNotation", SqlDbType.NVarChar, profiles.FileNotation, 100);
+                db.SetParameter("Title", SqlDbType.NVarChar, profiles.Title, 1000);
+                db.SetParameter("Maintenance", SqlDbType.NVarChar, profiles.Maintenance, 200);
+                db.SetParameter("Rights", SqlDbType.NVarChar, profiles.Rights, 200);
+                db.SetParameter("Language", SqlDbType.NVarChar, profiles.Language, 50);
+                db.SetParameter("StartDate", SqlDbType.DateTime, profiles.StartDate);
+                db.SetParameter("EndDate", SqlDbType.DateTime, profiles.EndDate);
+                db.SetParameter("TotalDoc", SqlDbType.Int, profiles.TotalDoc);
+                db.SetParameter("Description", SqlDbType.NVarChar, profiles.Description, 1000);
+                db.SetParameter("Keyword", SqlDbType.NVarChar, profiles.KeyWord, 200);
+                db.SetParameter("InforSign", SqlDbType.NVarChar, profiles.InfoSign, 200);
+                db.SetParameter("SheetNumber", SqlDbType.Int, profiles.SheetNumber);
+                db.SetParameter("PageNumber", SqlDbType.Int, profiles.PageNumber);
+                db.SetParameter("Format", SqlDbType.NVarChar, profiles.Format, 50);
+                db.SetParameter("CreateBy", SqlDbType.NVarChar, profiles.CreatedBy);
+                db.SetParameter("JSONFILE", SqlDbType.NVarChar, JsonStringFiles);
+                db.SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output);
+                db.SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 400, ParameterDirection.Output);
+                db.ExcuteNonQuery();
+                db.Complete();
+                db.GetOutValue("ErrorCode", out string outCode);
+                db.GetOutValue("ErrorMessage", out string outMessage);
+
+                if (outCode.ToString() != "0")
+                {
+                    result.Failed(outCode.ToString(), outMessage);
+                }
+                else
+                {
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+                    
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
+        }
+
+        // lấy danh sách loại hồ sơ
+        public ReturnResult<ProfileTypes> ProfileTypeGetAll()
+        {
+            var result = new ReturnResult<ProfileTypes>();
+            DbProvider db;
+            List<ProfileTypes> lst = new List<ProfileTypes>();
+            try
+            {
+                db = new DbProvider();
+                db.SetQuery("ProfileType_GET_ALL", CommandType.StoredProcedure)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                    .GetList<ProfileTypes>(out lst).Complete();
+
+                db.GetOutValue("ErrorCode", out string outCode)
+                    .GetOutValue("ErrorMessage", out string outMessage);
+
+                if (outCode != "0")
+                {
+                    result.Failed(outCode, outMessage);
+                }
+                else
+                {
+                    result.ItemList = lst;
                     result.ErrorCode = "0";
                     result.ErrorMessage = "";
                 }

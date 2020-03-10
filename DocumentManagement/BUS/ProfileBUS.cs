@@ -1,7 +1,7 @@
 ﻿using Common.Common;
 using DocumentManagement.Common;
 using DocumentManagement.DAL;
-
+using DocumentManagement.Models.Entity.ComputerFile;
 using DocumentManagement.Models.Entity.Profile;
 using System;
 using System.Collections.Generic;
@@ -94,6 +94,16 @@ namespace DocumentManagement.BUS
         public ReturnResult<Profiles> GetAllProfiles()
         {
             return profileDAL.GetAllProfiles();
+        }
+
+        public ReturnResult<Profiles> Create (Profiles profiles, List<ComputerFile> files = null)
+        {
+            return profileDAL.Create(profiles, files);
+        }
+
+        public ReturnResult<ProfileTypes> GetAllProfileTypes ()
+        {
+            return profileDAL.ProfileTypeGetAll();
         }
     }
 }

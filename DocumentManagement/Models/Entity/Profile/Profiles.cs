@@ -72,5 +72,9 @@ namespace DocumentManagement.Models.Entity.Profile
         public string ProfileTypeName { get; set; }
 
         public string GearBoxTitle { get; set; }
+
+        public string CreatedBy { get; set; }
+
+        public string UpdatedBy { get; set; }
     }
 }
