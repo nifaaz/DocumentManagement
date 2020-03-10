@@ -53,5 +53,20 @@ namespace DocumentManagement.Controllers
             var result = roleBUS.GetRolesByUserId(account);
             return Ok(result);
         }
+        //get all role
+        [HttpGet]
+        public IActionResult GetAllRole ()
+        {
+            try
+            {
+                RoleBUS roleBUS = new RoleBUS();
+                var result = roleBUS.GetAllRole();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

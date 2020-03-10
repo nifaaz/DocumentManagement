@@ -1,6 +1,7 @@
 ﻿using Common.Common;
 using DocumentManagement.Common;
 using DocumentManagement.Model;
+using DocumentManagement.Models.DTO;
 using DocumentManagement.Models.Entity.Account;
 using DocumentManagement.Models.Entity.Role;
 using System;
@@ -118,6 +119,40 @@ namespace DocumentManagement.DAL
             {
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
+            };
+        }
+
+
+        // get All Role
+        public ReturnResult<RoleDTO> GetAllRole ()
+        {
+            List<RoleDTO> roleDTOs = new List<RoleDTO>();
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            int totalRows = 0;
+            try
+            {
+                dbProvider.SetQuery("ROLE_GET_ALL", CommandType.StoredProcedure)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetList<RoleDTO>(out roleDTOs)
+                .Complete();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<RoleDTO>()
+            {
+                ItemList = roleDTOs,
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+                TotalRows = totalRows
             };
         }
     }
