@@ -26,7 +26,7 @@ namespace DocumentManagement.Models.Entity.Profile
         /// <summary>
         /// mã hộp 
         /// </summary>
-        public string GearBoxId { get; set; }
+        public int GearBoxId { get; set; }
         /// <summary>
         /// mục lục 
         /// </summary>

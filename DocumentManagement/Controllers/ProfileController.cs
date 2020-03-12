@@ -164,13 +164,13 @@ namespace DocumentManagement.Controllers
                                 System.IO.File.Delete(fileAlreadyExists.FileName);
                             }
 
-                            // overwrite file already exists
-                            //foreach (var file in files)
-                            //{
-                            //    var filePath = FilesUtillities.GetFilePath(file);
-                            //    //    await FilesUtillities.CopyFileToPhysicalDisk(file, filePath);
-                            //    FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
-                            //}
+                            //    overwrite file already exists
+                            foreach (var file in files)
+                            {
+                                var filePath = FilesUtillities.GetFilePath(file);
+                                //    await FilesUtillities.CopyFileToPhysicalDisk(file, filePath);
+                                FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
+                            }
 
                             //for (int i = 0; i < files.Count; i++)
                             //{
@@ -182,10 +182,11 @@ namespace DocumentManagement.Controllers
                             //        stream.Close();
                             //    }
                             //}
-                            foreach (var file in files)
-                            {
-                                
-                            }
+
+                            //foreach (var file in files)
+                            //{
+
+                            //}
                         }
                         else
                         {
@@ -194,7 +195,7 @@ namespace DocumentManagement.Controllers
                                 ReturnValue = Libs.SerializeObject(lstFilesExists.Select(item => item.FileName))
                             };
 
-                            fileResult.Failed("-1", "Tồn tại file đã được upload lên hệ thống.");
+                            fileResult.Failed("-2", "Tồn tại file đã được upload lên hệ thống.");
                             return Ok(fileResult);
                         }
                     }
@@ -221,25 +222,29 @@ namespace DocumentManagement.Controllers
                                 {
                                     FileName = file.FileName,
                                     Url = fileUrl,
-                                    PageNumber = GetNumberOfPdfPages(fileUrl)
+                                    PageNumber = GetNumberOfPdfPages(fileUrl),
+                                    CreatedDate = DateTime.Parse(DateTime.Now.ToString().Split('T')[0]),
+                                    CreatedBy = profile.CreatedBy
                                 });
                             }
                         }
                     }
 
-                    result = profileBUS.Create(profile, lstFileInfo);
+                    result = profileBUS.Create(profile, lstFiles);
                 }
                 else
                 {
                     // không tải file lên thì chỉ send thông tin hồ sơ
                     result = profileBUS.Create(profile);
                 }
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return Ok(new ErrorObject(1, ex.Message));
+                result.Failed("1", ex.Message);
+                return Ok(result);
             }
-            return Ok(result);
+            
         }
 
         /// <summary>
@@ -276,6 +281,12 @@ namespace DocumentManagement.Controllers
                 lstGearBox = gearBoxBUS.GetAllGearBox().ItemList,
                 lstProfileTypes = profileBUS.GetAllProfileTypes().ItemList
             });
+        }
+
+        [HttpGet]
+        public IActionResult GetProfilesById ([FromQuery] int profileId)
+        {
+            return Ok(profileBUS.GetProfileByID(profileId));
         }
     }
 }

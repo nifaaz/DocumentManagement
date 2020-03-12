@@ -119,30 +119,7 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Profile> GetProfileByID(int profileID)
-        {
-            List<Profile> profileList = new List<Profile>();
-            DbProvider dbProvider = new DbProvider();
-            string outCode = String.Empty;
-            string outMessage = String.Empty;
-            int totalRows = 0;
-            dbProvider.SetQuery("PROFILE_GET_BY_ID", CommandType.StoredProcedure)
-                .SetParameter("HoSoID", SqlDbType.Int, profileID, ParameterDirection.Input)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 255, ParameterDirection.Output)
-                .GetList<Profile>(out profileList)
-                .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
-
-            return new ReturnResult<Profile>()
-            {
-                ItemList = profileList,
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-                TotalRows = totalRows
-            };
-        }
+       
         public ReturnResult<Profile> GetProfileByGearBoxID(int gearBoxID)
         {
             List<Profile> profileList = new List<Profile>();
@@ -320,18 +297,19 @@ namespace DocumentManagement.DAL
                 {
                     JsonStringFiles = Libs.SerializeObject(files);
                 }
+
                 db.SetQuery("PROFILES_ADD_NEW", CommandType.StoredProcedure);
                 db.SetParameter("GearBoxId", SqlDbType.Int, profiles.GearBoxId);
                 db.SetParameter("ProfileType", SqlDbType.Int, profiles.ProfileTypeId);
-                db.SetParameter("FileCode", SqlDbType.Int, profiles.FileCode);
+                db.SetParameter("FileCode", SqlDbType.NVarChar, profiles.FileCode, 50);
                 db.SetParameter("FileCatalog", SqlDbType.Int, profiles.FileCatalog);
                 db.SetParameter("FileNotation", SqlDbType.NVarChar, profiles.FileNotation, 100);
                 db.SetParameter("Title", SqlDbType.NVarChar, profiles.Title, 1000);
                 db.SetParameter("Maintenance", SqlDbType.NVarChar, profiles.Maintenance, 200);
                 db.SetParameter("Rights", SqlDbType.NVarChar, profiles.Rights, 200);
                 db.SetParameter("Language", SqlDbType.NVarChar, profiles.Language, 50);
-                db.SetParameter("StartDate", SqlDbType.DateTime, profiles.StartDate);
-                db.SetParameter("EndDate", SqlDbType.DateTime, profiles.EndDate);
+                db.SetParameter("StartDate", SqlDbType.DateTime, profiles.StartDate != null ? profiles.StartDate : DateTime.Now);
+                db.SetParameter("EndDate", SqlDbType.DateTime, profiles.EndDate != null ? profiles.EndDate : DateTime.Now);
                 db.SetParameter("TotalDoc", SqlDbType.Int, profiles.TotalDoc);
                 db.SetParameter("Description", SqlDbType.NVarChar, profiles.Description, 1000);
                 db.SetParameter("Keyword", SqlDbType.NVarChar, profiles.KeyWord, 200);
@@ -366,6 +344,72 @@ namespace DocumentManagement.DAL
             return result;
         }
 
+        /// <summary>
+        /// Cập nhật thông tin hồ sơ
+        /// </summary>
+        /// <param name="profiles"></param>
+        /// <param name="files"></param>
+        /// <returns></returns>
+        public ReturnResult<Profiles> Update(Profiles profiles, List<ComputerFile> files = null)
+        {
+            ReturnResult<Profiles> result = new ReturnResult<Profiles>();
+            DbProvider db;
+            try
+            {
+                db = new DbProvider();
+                string JsonStringFiles = string.Empty;
+                if (files != null)
+                {
+                    JsonStringFiles = Libs.SerializeObject(files);
+                }
+
+                db.SetQuery("PROFILES_UPDATE", CommandType.StoredProcedure);
+                db.SetParameter("ProfileId", SqlDbType.Int, profiles.ProfileId);
+                db.SetParameter("GearBoxId", SqlDbType.Int, profiles.GearBoxId);
+                db.SetParameter("ProfileType", SqlDbType.Int, profiles.ProfileTypeId);
+                db.SetParameter("FileCode", SqlDbType.NVarChar, profiles.FileCode, 50);
+                db.SetParameter("FileCatalog", SqlDbType.Int, profiles.FileCatalog);
+                db.SetParameter("FileNotation", SqlDbType.NVarChar, profiles.FileNotation, 100);
+                db.SetParameter("Title", SqlDbType.NVarChar, profiles.Title, 1000);
+                db.SetParameter("Maintenance", SqlDbType.NVarChar, profiles.Maintenance, 200);
+                db.SetParameter("Rights", SqlDbType.NVarChar, profiles.Rights, 200);
+                db.SetParameter("Language", SqlDbType.NVarChar, profiles.Language, 50);
+                db.SetParameter("StartDate", SqlDbType.DateTime, profiles.StartDate != null ? profiles.StartDate : DateTime.Now);
+                db.SetParameter("EndDate", SqlDbType.DateTime, profiles.EndDate != null ? profiles.EndDate : DateTime.Now);
+                db.SetParameter("TotalDoc", SqlDbType.Int, profiles.TotalDoc);
+                db.SetParameter("Description", SqlDbType.NVarChar, profiles.Description, 1000);
+                db.SetParameter("Keyword", SqlDbType.NVarChar, profiles.KeyWord, 200);
+                db.SetParameter("InforSign", SqlDbType.NVarChar, profiles.InfoSign, 200);
+                db.SetParameter("SheetNumber", SqlDbType.Int, profiles.SheetNumber);
+                db.SetParameter("PageNumber", SqlDbType.Int, profiles.PageNumber);
+                db.SetParameter("Format", SqlDbType.NVarChar, profiles.Format, 50);
+                db.SetParameter("UpdateBy", SqlDbType.NVarChar, profiles.UpdatedBy);
+                db.SetParameter("JSONFILE", SqlDbType.NVarChar, JsonStringFiles);
+                db.SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output);
+                db.SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 400, ParameterDirection.Output);
+                db.ExcuteNonQuery();
+                db.Complete();
+                db.GetOutValue("ErrorCode", out string outCode);
+                db.GetOutValue("ErrorMessage", out string outMessage);
+
+                if (outCode.ToString() != "0")
+                {
+                    result.Failed(outCode.ToString(), outMessage);
+                }
+                else
+                {
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
+        }
+        //
         // lấy danh sách loại hồ sơ
         public ReturnResult<ProfileTypes> ProfileTypeGetAll()
         {
@@ -400,5 +444,28 @@ namespace DocumentManagement.DAL
             }
             return result;
         }
+
+        public ReturnResult<Profiles> GetProfileByID(int profileID)
+        {
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            dbProvider.SetQuery("PROFILE_GET_BY_ID", CommandType.StoredProcedure)
+                .SetParameter("ProfileId", SqlDbType.Int, profileID, ParameterDirection.Input)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 255, ParameterDirection.Output)
+                .GetSingle<Profiles>(out Profiles profiles)
+                .Complete();
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<Profiles>()
+            {
+                Item = profiles,
+                ErrorCode = outCode,
+                ErrorMessage = outMessage
+            };
+        }
+
     }
 }
