@@ -96,5 +96,11 @@ namespace DocumentManagement.Controllers
                 return Unauthorized();
             }
         }
+
+        [HttpPost]
+        public IActionResult GetFontsByOrganId(BaseCondition<CoQuan> condition)
+        {
+            return Ok(coQuanBUS.GetFontsByOrganId(condition));
+        }
     }
 }

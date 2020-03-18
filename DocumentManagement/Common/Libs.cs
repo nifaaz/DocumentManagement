@@ -19,6 +19,17 @@ namespace DocumentManagement.Common
             return JsonConvert.DeserializeObject<T>(jsonString);
         }
 
+        /// <summary>
+        /// convert object sang json string
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns>string</returns>
+        public static string SerializeObject (object obj)
+        {
+            if (obj == null)
+            {
+                return "";
+            }
         public static string SerializeObject (object obj)
         {
             return JsonConvert.SerializeObject(obj);

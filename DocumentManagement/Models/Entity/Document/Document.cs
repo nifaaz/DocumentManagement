@@ -74,5 +74,6 @@ namespace DocumentManagement.Models.Entity.Document
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }
         
+        public int ProfileId { get; set; }
     }
 }

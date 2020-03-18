@@ -1,7 +1,8 @@
 ﻿using Common.Common;
 using DocumentManagement.Common;
 using DocumentManagement.DAL;
-
+using DocumentManagement.Models.Entity.ComputerFile;
+using DocumentManagement.Models.Entity.Document;
 using DocumentManagement.Models.Entity.Profile;
 using System;
 using System.Collections.Generic;
@@ -49,6 +50,7 @@ namespace DocumentManagement.BUS
         //    var result = profileDAL.GetAllProfile();
         //    return result;
         //}
+
         public ReturnResult<Profiles> ExportProfile()
         {
             var result = profileDAL.ExportProfile();
@@ -94,6 +96,40 @@ namespace DocumentManagement.BUS
         public ReturnResult<Profiles> GetAllProfiles()
         {
             return profileDAL.GetAllProfiles();
+        }
+        public ReturnResult<Profiles> Create (Profiles profiles, List<ComputerFile> files = null)
+        {
+            return profileDAL.Create(profiles, files);
+        }
+
+        public ReturnResult<Profiles> Update(Profiles profiles, List<ComputerFile> files = null, List<ComputerFile> extFiles = null, string folderPath = "")
+        {
+            return profileDAL.Update(profiles, files, extFiles, folderPath);
+        }
+
+        public ReturnResult<ProfileTypes> GetAllProfileTypes ()
+        {
+            return profileDAL.ProfileTypeGetAll();
+        }
+
+        public ReturnResult<Profiles> GetProfileByID(int profileID)
+        {
+            return profileDAL.GetProfileByID(profileID);
+        }
+
+        public ReturnResult<Profiles> GetProfileByFileCode(string fileCode)
+        {
+            return profileDAL.GetProfileByFileCode(fileCode);
+        }
+
+        public ReturnResult<ComputerFile> GetListFilesByProfileId(BaseCondition<Profiles> condition)
+        {
+            return profileDAL.GetListFilesByProfileId(condition);
+        }
+
+        public ReturnResult<Document> GetDocumentsByProfileId (BaseCondition<Profiles> condition)
+        {
+            return profileDAL.GetDocumentsByProfileId(condition);
         }
     }
 }
