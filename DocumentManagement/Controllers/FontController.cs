@@ -75,12 +75,12 @@ namespace DocumentManagement.Controlleresult
         {
                 return Ok(fontBUS.GetFontByID(id));
         }
-        [HttpGet]
-        public IActionResult GetFontByCoQuanID(int CoQuanID)
+        [HttpPost]
+        public IActionResult GetFontByCoQuanID([FromBody]BaseCondition<Font> condition)
         {
             try
             {
-                var result = fontBUS.GetFontByCoQuanID(CoQuanID);
+                var result = fontBUS.GetFontByCoQuanID(condition);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -106,20 +106,11 @@ namespace DocumentManagement.Controlleresult
         [HttpPost]
         public IActionResult UpdateFont(Font font)
         {
-            Font fontModify = new Font();
-            fontModify.FontID = font.FontID;
-            fontModify.FontNumber = font.FontNumber;
-            fontModify.FontName = font.FontName;
-            fontModify.History = font.History;
-            fontModify.Lang = font.Lang;
-            fontModify.Updated = font.Updated;
-            fontModify.OrganID = font.OrganID;
-            fontModify.Note = font.Note;
             DateTime currentDate = DateTime.Now;
             font.UpdateTime = currentDate;
             try
             {
-                var result = fontBUS.UpdateFont(fontModify);
+                var result = fontBUS.UpdateFont(font);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -132,10 +123,6 @@ namespace DocumentManagement.Controlleresult
         {
             try
             {
-                if (font.Lang == null)
-                {
-                    font.Lang = "";
-                }
                 font.IsDeleted = 0;
                 DateTime currentDate = DateTime.Now;
                 font.CreateTime = currentDate;

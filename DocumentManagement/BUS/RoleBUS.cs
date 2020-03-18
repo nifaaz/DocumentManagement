@@ -22,6 +22,11 @@ namespace DocumentManagement.BUS
                 return _roleDAL;
             }
         }
+
+        public ReturnResult<Role> UserGroupGetSearchWithPaging(BaseCondition<Role> condi)
+        {
+            return RoleDAL.UserGroupGetSearchWithPaging(condi);
+        }
         public ReturnResult<Role> GetPaging(BaseCondition<Role> condition)
         {
             return RoleDAL.GetPaging(condition);
@@ -29,6 +34,12 @@ namespace DocumentManagement.BUS
         public ReturnResult<Role> CreateRole(Role role)
         {
             return RoleDAL.CreateRole(role);
+        }
+
+        public ReturnResult<Role> GetRoleByID(int id)
+        {
+            var rs = RoleDAL.GetRoleByID(id);
+            return rs;
         }
 
         public ReturnResult<Role> DeleteRole(Role role)
