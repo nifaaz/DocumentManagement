@@ -1,6 +1,7 @@
 ﻿using Common.Common;
 using DocumentManagement.Common;
 using DocumentManagement.DAL;
+using DocumentManagement.Models.DTO;
 using DocumentManagement.Models.Entity.Account;
 using DocumentManagement.Models.Entity.Role;
 using System;
@@ -43,6 +44,13 @@ namespace DocumentManagement.BUS
         public ReturnResult<Role> GetRolesByUserId(Account account)
         {
             return RoleDAL.GetRolesByUserId(account);
+        }
+
+        //get all role
+        public ReturnResult<RoleDTO> GetAllRole()
+        {
+            var result = RoleDAL.GetAllRole();
+            return result;
         }
     }
 }
