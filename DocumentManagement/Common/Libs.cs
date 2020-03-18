@@ -30,8 +30,6 @@ namespace DocumentManagement.Common
             {
                 return "";
             }
-        public static string SerializeObject (object obj)
-        {
             return JsonConvert.SerializeObject(obj);
         }
     }

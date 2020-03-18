@@ -480,27 +480,6 @@ namespace DocumentManagement.DAL
             return result;
         }
 
-        public ReturnResult<Profiles> GetProfileByID(int profileID)
-        {
-            DbProvider dbProvider = new DbProvider();
-            string outCode = String.Empty;
-            string outMessage = String.Empty;
-            dbProvider.SetQuery("PROFILE_GET_BY_ID", CommandType.StoredProcedure)
-                .SetParameter("ProfileId", SqlDbType.Int, profileID, ParameterDirection.Input)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 255, ParameterDirection.Output)
-                .GetSingle<Profiles>(out Profiles profiles)
-                .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
-
-            return new ReturnResult<Profiles>()
-            {
-                Item = profiles,
-                ErrorCode = outCode,
-                ErrorMessage = outMessage
-            };
-        }
 
         /// <summary>
         /// lấy danh sách file có trong hồ sơ có profileId
@@ -581,19 +560,6 @@ namespace DocumentManagement.DAL
                     .GetOutValue("ErrorMessage", out string errorMessage)
                     .GetOutValue("TotalRecords", out int totalRecords);
 
-                db.SetQuery("PROFILES_GET_SEARCH_WITH_PAGING", CommandType.StoredProcedure)
-                    .SetParameter("PageIndex", SqlDbType.Int, condition.PageIndex)
-                    .SetParameter("PageSize", SqlDbType.Int, condition.PageSize)
-                    .SetParameter("InWhere", SqlDbType.NVarChar, condition.IN_WHERE, 500)
-                    .SetParameter("InSort", SqlDbType.NVarChar, condition.IN_SORT, 200)
-                    .SetParameter("TotalRecords", SqlDbType.Int, DBNull.Value, ParameterDirection.Output)
-                    .SetParameter("ErrorCode", SqlDbType.Int, DBNull.Value, ParameterDirection.Output)
-                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 2000, ParameterDirection.Output)
-                    .GetList<Profiles>(out lstResult)
-                    .Complete();
-                db.GetOutValue("ErrorCode", out int errorCode)
-                    .GetOutValue("ErrorMessage", out string errorMessage)
-                    .GetOutValue("TotalRecords", out int totalRecords);
                 if (errorCode.ToString() != "0")
                 {
                     result.Failed(errorCode.ToString(), errorMessage);

@@ -112,11 +112,6 @@ namespace DocumentManagement.BUS
             return profileDAL.ProfileTypeGetAll();
         }
 
-        public ReturnResult<Profiles> GetProfileByID(int profileID)
-        {
-            return profileDAL.GetProfileByID(profileID);
-        }
-
         public ReturnResult<Profiles> GetProfileByFileCode(string fileCode)
         {
             return profileDAL.GetProfileByFileCode(fileCode);

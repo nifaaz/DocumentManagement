@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DocumentManagement.Models.Entity.Profile
 {
-    public class Profiles
+    public class Profile
     {
         // Hồ sơ ID
         public int ProfileID { get; set; }
