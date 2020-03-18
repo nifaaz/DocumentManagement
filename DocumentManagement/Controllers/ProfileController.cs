@@ -23,9 +23,11 @@ namespace DocumentManagement.Controllers
         //private static readonly string FILE_UPLOAD_DIR = Environment.CurrentDirectory + @"\FilesUpload";
         //private static readonly string CURRENT_DIRECTORY = Environment.CurrentDirectory;
         private static readonly GearBoxBUS gearBoxBUS = GearBoxBUS.GetGearBoxBUSInstance;
+        //private static readonly string FILE_UPLOAD_DIR = Environment.CurrentDirectory + @"\FilesUpload";
+        //private static readonly string CURRENT_DIRECTORY = Environment.CurrentDirectory;
 
         [HttpGet]
-        public IActionResult GetPagingWithSearchResults(BaseCondition<Profile> condition)
+        public IActionResult GetPagingWithSearchResults(BaseCondition<Profiles> condition)
         {
             var result = profileBUS.GetPagingWithSearchResults(condition);
             return Ok(result);
@@ -51,14 +53,14 @@ namespace DocumentManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateProfile(Profile profile)
+        public IActionResult CreateProfile(Profiles profile)
         {
             var result = profileBUS.CreateProfile(profile);
             return Ok(result);
         }
 
         [HttpPost]
-        public IActionResult UpdateProfile(Profile profile)
+        public IActionResult UpdateProfile(Profiles profile)
         {
             var result = profileBUS.UpdateProfile(profile);
             return Ok(result);
@@ -97,6 +99,7 @@ namespace DocumentManagement.Controllers
         public async Task<IActionResult> ProfilesAddNewAndUploadFile()
         {
             IFormCollection form;
+            //form = await Request.ReadFormAsync();
             object obj3 = Request.Form["profile"]; // object
             Profiles profile = Libs.DeserializeObject<Profiles>(obj3.ToString());
             ReturnResult<Profiles> result = new ReturnResult<Profiles>();
@@ -320,6 +323,46 @@ namespace DocumentManagement.Controllers
                                     var filePath = Path.Combine(directoryPathFileUpload, file.FileName);
                                     FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
                                 }
+                List<IFormFile> files = Request.Form.Files.ToList(); // danh sách file
+                List<ComputerFile> lstFilesExists = new List<ComputerFile>();
+
+
+                if (files.Count > 0)
+                {
+                    
+                    string[] lstDirFilesUpload = Directory.GetFiles(Const.FILE_UPLOAD_DIR);
+                    
+                    foreach (var fileAlreadyExsists in lstDirFilesUpload)
+                    {
+                        foreach (var file in files)
+                        {
+                            if (fileAlreadyExsists.IndexOf(file.FileName) > -1)
+                            {
+                                lstFilesExists.Add(new ComputerFile() { 
+                                    FileName = fileAlreadyExsists
+                                });
+                            }
+                        }
+
+                        //if (System.IO.File.Exists(fileAlreadyExsists))
+                        //{
+                        //    System.IO.File.Delete(fileAlreadyExsists);
+                        //}
+                    }
+                    string overwrite = Request.Form["overwrite"].ToString();
+                    if (lstFilesExists.Count > 0)
+                    {
+                        if (overwrite == "accept")
+                        {
+                            foreach (var fileAlreadyExists in lstFilesExists)
+                            {
+                                System.IO.File.Delete(fileAlreadyExists.FileName);
+                            }
+                            // overwrite file already exists
+                            foreach (var file in files)
+                            {
+                                var filePath = FilesUtillities.GetFilePath(file);
+                                await FilesUtillities.CopyFileToPhysicalDisk(file, filePath);
                             }
                         }
                         else
@@ -359,6 +402,22 @@ namespace DocumentManagement.Controllers
                     {
                         // không tải file lên thì chỉ send thông tin hồ sơ
                         result = profileBUS.Update(profile, null, null, directoryPathFileUpload);
+                            var fileResult = new ReturnResult<ComputerFile>()
+                            {
+                                ReturnValue = Libs.SerializeObject(lstFilesExists.Select(item => item.FileName))
+                            };
+
+                            fileResult.Failed("-1", "Tồn tại file đã được upload lên hệ thống.");
+                            return Ok(fileResult);
+                        }
+                    }
+                    else
+                    {
+                        foreach (var file in files)
+                        {
+                            var filePath = FilesUtillities.GetFilePath(file);
+                            await FilesUtillities.CopyFileToPhysicalDisk(file, filePath);
+                        }
                     }
                 }
                 else
@@ -561,6 +620,9 @@ namespace DocumentManagement.Controllers
                 #endregion 
 
 
+
+                }
+                // get all path
                 return Ok(result);
             }
             catch (Exception ex)
@@ -571,6 +633,13 @@ namespace DocumentManagement.Controllers
         }
 
 
+
+                return Ok(new ErrorObject() { 
+                    ErrorNumber = 1,
+                    ErrorMessage = ex.Message
+                });
+            }
+        }
 
         /// <summary>
         /// Lấy dữ liệu + tìm kiếm + phân trang cho hồ sơ

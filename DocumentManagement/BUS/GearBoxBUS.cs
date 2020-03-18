@@ -1,7 +1,10 @@
 ﻿using Common.Common;
 using DocumentManagement.Common;
 using DocumentManagement.DAL;
+using DocumentManagement.Model.Entity;
 using DocumentManagement.Model.Entity.GearBox;
+using DocumentManagement.Model.Entity.TableOfContens;
+using DocumentManagement.Models.Entity.Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,9 +66,14 @@ namespace DocumentManagement.BUS
             var result = gearBoxDAL.GetGearBoxByID(gearBoxID);
             return result;
         }
-        public ReturnResult<GearBox> GetGearBoxByTabOfContID(int tabOfContID)
+        public ReturnResult<GearBox> GetGearBoxByTabOfContID(BaseCondition<GearBox> condition)
         {
-            var result = gearBoxDAL.GetGearBoxByTableOfContentsID(tabOfContID);
+            var result = gearBoxDAL.GetGearBoxByTableOfContentsID(condition);
+            return result;
+        }
+        public ReturnResult<Profiles> GetProfileByGearBoxID(BaseCondition<Profiles> condition)
+        {
+            var result = gearBoxDAL.GetProfileByGearBoxID(condition);
             return result;
         }
         public ReturnResult<GearBox> CreateGearBox(GearBox gearBox)
@@ -82,6 +90,27 @@ namespace DocumentManagement.BUS
         {
             var result = gearBoxDAL.UpdateGearBox(gearBox);
             return result;
+        }
+        /// <summary>
+        /// get the list font by organID
+        /// </summary>
+        /// <param name="organID"></param>
+        /// <returns></returns>
+        public ReturnResult<Font> GetFontsByOrganID(int organID)
+        {
+            var rs = gearBoxDAL.GetFontsByOrganID(organID);
+            return rs;
+        }
+
+        /// <summary>
+        /// get the list tableofcontent by fontID
+        /// </summary>
+        /// <param name="fontID"></param>
+        /// <returns></returns>
+        public ReturnResult<TableOfContents> GetTableOfContentsByFontID(int fontID)
+        {
+            var rs = gearBoxDAL.GetTableOfContentsByFontID(fontID);
+            return rs;
         }
     }
 }

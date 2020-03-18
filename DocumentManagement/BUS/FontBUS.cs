@@ -63,9 +63,9 @@ namespace DocumentManagement.BUS
             var rs = fontDAL.GetFontByID(fontID);
             return rs;
         }
-        public ReturnResult<Font> GetFontByCoQuanID(int coQuanID)
+        public ReturnResult<Font> GetFontByCoQuanID(BaseCondition<Font> condition)
         {
-            var rs = fontDAL.GetFontByCoQuanID(coQuanID);
+            var rs = fontDAL.GetFontByCoQuanID(condition);
             return rs;
         }
         public ReturnResult<Font> FontSearch(string searchStr)

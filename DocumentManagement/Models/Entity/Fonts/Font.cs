@@ -22,5 +22,12 @@ namespace DocumentManagement.Model.Entity
         public int Status { get; set; }
         public string Note { get; set; }
         public int IsDeleted { get; set; }
+        public string LookupTools { get; set; }
+        public string KeyGroups { get; set; }
+        public string OrtherTypes { get; set; }
+        public int PaperDigital { get; set; }
+        public string CopyNumber { get; set; }
+        public string ArchivesTime { get; set; }
+        public int PaperTotal { get; set; }
     }
 }

@@ -18,7 +18,6 @@ namespace DocumentManagement.Common
                 await file.CopyToAsync(stream);
             }
         }
-
         public static void CopyFileToPhysicalDiskSync(IFormFile file, string filePath)
         {
             //var stream = new FileStream(filePath, FileMode.CreateNew);

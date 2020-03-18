@@ -17,8 +17,8 @@ namespace DocumentManagement.Controllers
     {
         readonly UserBUS userBUS = UserBUS.GetUserBUSInstance;
 
-        [HttpGet]
-        public IActionResult UserGetSearchWithPaging ([FromQuery] BaseCondition<User> condition)
+        [HttpPost]
+        public IActionResult UserGetSearchWithPaging ([FromBody] BaseCondition<User> condition)
         {
             ReturnResult<User> result = userBUS.UserGetSearchWithPaging(condition);
             return Ok(result);
