@@ -52,7 +52,7 @@ namespace DocumentManagement.BUS
             var result = DocumentDAL.GetDocumentById(document);
             return result;
         }
-        public ReturnResult<Document> GetListByProfileId(Profiles profile)
+        public ReturnResult<Document> GetListByProfileId(Profile profile)
         {
             var result = DocumentDAL.GetListByProfileId(profile);
             return result;

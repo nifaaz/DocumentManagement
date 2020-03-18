@@ -170,7 +170,7 @@ namespace DocumentManagement.DAL
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
-            var result = new ReturnResult<TableOfContents>();
+            int totalRows = 0;
             try
             {
                 dbProvider.SetQuery("TableOfContents_GET_BY_FONTID", CommandType.StoredProcedure)
@@ -183,32 +183,22 @@ namespace DocumentManagement.DAL
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
                 .GetList<TableOfContents>(out TableOfContentsList)
                 .Complete();
-
-                if (TableOfContentsList.Count > 0)
-                {
-                    result.ItemList = TableOfContentsList;
-                }
-                dbProvider.GetOutValue("ErrorCode", out outCode)
-                           .GetOutValue("ErrorMessage", out outMessage)
-                           .GetOutValue("TotalRecords", out string totalRows);
-
-                if (outCode != "0")
-                {
-                    result.ErrorCode = outCode;
-                    result.ErrorMessage = outMessage;
-                }
-                else
-                {
-                    result.ErrorCode = "";
-                    result.ErrorMessage = "";
-                    result.TotalRows = int.Parse(totalRows);
-                }
             }
             catch (Exception ex)
             {
-                result.ErrorMessage = ex.Message;
+
+                throw;
             }
-            return result;
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<TableOfContents>()
+            {
+                ItemList = TableOfContentsList,
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+                TotalRows = totalRows
+            };
         }
         public ReturnResult<TableOfContents> GetTableOfContentsByRepositoryID(int repositoryID)
         {

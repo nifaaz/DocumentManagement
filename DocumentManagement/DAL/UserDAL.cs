@@ -40,47 +40,48 @@ namespace DocumentManagement.DAL
 
         public ReturnResult<User> GetSearchUserWithPaging (BaseCondition<User> condition)
         {
-            DbProvider provider = new DbProvider();
-            List<User> list = new List<User>();
-            string outCode = String.Empty;
-            string outMessage = String.Empty;
-            string totalRecords = String.Empty;
+            DbProvider dbProvider = new DbProvider();
             var result = new ReturnResult<User>();
+            List<User> users = new List<User>();
             try
             {
-                provider.SetQuery("USER_GET_SEARCH_WITH_PAGING", System.Data.CommandType.StoredProcedure)
-                    .SetParameter("InWhere", System.Data.SqlDbType.NVarChar, condition.IN_WHERE ?? String.Empty)
-                    .SetParameter("InSort", System.Data.SqlDbType.NVarChar, condition.IN_SORT ?? String.Empty)
-                    .SetParameter("StartRow", System.Data.SqlDbType.Int, condition.PageIndex)
-                    .SetParameter("PageSize", System.Data.SqlDbType.Int, condition.PageSize)
-                    .SetParameter("TotalRecords", System.Data.SqlDbType.Int, DBNull.Value, System.Data.ParameterDirection.Output)
-                    .SetParameter("ErrorCode", System.Data.SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
-                    .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output).GetList<User>(out list).Complete();
+                dbProvider.SetQuery("USER_GET_SEARCH_WITH_PAGING", CommandType.StoredProcedure)
+                .SetParameter("PageIndex", SqlDbType.Int, condition.PageIndex)
+                .SetParameter("PageSize", SqlDbType.Int, condition.PageSize)
+                .SetParameter("InWhere", SqlDbType.VarChar, condition.IN_WHERE ?? string.Empty, 200)
+                .SetParameter("InSort", SqlDbType.VarChar, condition.IN_SORT ?? string.Empty, 200)
+                .SetParameter("TotalRows", SqlDbType.Int, DBNull.Value, ParameterDirection.Output)
+                .SetParameter("ErrorCode", SqlDbType.Int, DBNull.Value, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetList<User>(out users)
+                .Complete();
 
-                if (list.Count > 0)
-                {
-                    result.ItemList = list;
-                }
-                provider.GetOutValue("ErrorCode", out outCode)
-                           .GetOutValue("ErrorMessage", out outMessage)
-                           .GetOutValue("TotalRecords", out string totalRows);
+                // get output value
+                dbProvider.GetOutValue("ErrorCode", out string errorCode)
+                    .GetOutValue("ErrorMessage", out string errorMessage)
+                    .GetOutValue("TotalRows", out int totalRows);
 
-                if (outCode != "0")
+                if (int.Parse(errorCode) != 0)
                 {
-                    result.ErrorCode = outCode;
-                    result.ErrorMessage = outMessage;
+                    result.ErrorCode = errorCode;
+                    result.ErrorMessage = errorMessage;
+                    return result;
                 }
-                else
+                if (users != null)
                 {
-                    result.ErrorCode = "";
+                    result.ItemList = users;
+                    result.TotalRows = totalRows;
+                    result.ErrorCode = "0";
                     result.ErrorMessage = "";
-                    result.TotalRows = int.Parse(totalRows);
                 }
+                
             }
             catch (Exception ex)
             {
+                result.ErrorCode = "-1";
                 result.ErrorMessage = ex.Message;
             }
+            
             return result;
         }
     }

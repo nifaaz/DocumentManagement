@@ -47,8 +47,8 @@ namespace DocumentManagement.Controllers
             var result = tableOfContentsBUS.GetTableOfContentsByStorageID(storageID);
             return Ok(result);
         }
-        [HttpPost]
-        public IActionResult GetTableOfContentsByFontID([FromBody]BaseCondition<TableOfContents> condition)
+        [HttpGet]
+        public IActionResult GetTableOfContentsByFontID([FromQuery]BaseCondition<TableOfContents> condition)
         {
             var result = tableOfContentsBUS.GetTableOfContentsByFontID(condition);
             return Ok(result);

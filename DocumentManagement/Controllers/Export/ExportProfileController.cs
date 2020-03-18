@@ -29,7 +29,7 @@ namespace DocumentManagement.Controllers.Export
         public FileResult ExportProfile()
         {
             //
-            List<Profiles> lstProfile = new List<Profiles>();
+            List<Profile> lstProfile = new List<Profile>();
             try
             {
                 lstProfile = GetData();
@@ -50,9 +50,9 @@ namespace DocumentManagement.Controllers.Export
             return File(readStream, mimeType, fileName);
             //return File(fPath, System.Net.Mime.MediaTypeNames.Application.Octet, "DanhSachHoSo" + fi.Extension);
         }
-        private List<Profiles> GetData()
+        private List<Profile> GetData()
         {
-            List<Profiles> lstProfile = new List<Profiles>();
+            List<Profile> lstProfile = new List<Profile>();
             var result = profileBUS.ExportProfile();
             if (result.ItemList != null)
             {
@@ -60,7 +60,7 @@ namespace DocumentManagement.Controllers.Export
             }
             return lstProfile;
         }
-        public void CreateExport(List<Profiles> lst, string sWebRootFolder)
+        public void CreateExport(List<Profile> lst, string sWebRootFolder)
         {
             //Khởi tạo tham số đầu vào
             List<ProperTiesName> lstProperty = new List<ProperTiesName>();
@@ -73,7 +73,7 @@ namespace DocumentManagement.Controllers.Export
             lstProperty.Add(new ProperTiesName { PropsName = "ProfileTypeName", WidthSize = 20 });
             lstProperty.Add(new ProperTiesName { PropsName = "Note", WidthSize = 30 });
             //Tạo đối tượng dùng để Export
-            ExportCore<Profiles> exh = new ExportCore<Profiles>(4)
+            ExportCore<Profile> exh = new ExportCore<Profile>(4)
             {
                 FileName = "DanhSachHoSo",
                 LstObj = lst,

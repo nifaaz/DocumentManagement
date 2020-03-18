@@ -40,7 +40,7 @@ namespace DocumentManagement.DAL
                 _instance = value;
             }
         }
-        public ReturnResult<Profiles> GetPagingWithSearchResults(BaseCondition<Profiles> condition)
+        public ReturnResult<Profile> GetPagingWithSearchResults(BaseCondition<Profile> condition)
         {
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
@@ -57,7 +57,7 @@ namespace DocumentManagement.DAL
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Profiles>()
+            return new ReturnResult<Profile>()
             {
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
@@ -97,9 +97,9 @@ namespace DocumentManagement.DAL
             }
             return result;
         }
-        public ReturnResult<Profiles> ExportProfile()
+        public ReturnResult<Profile> ExportProfile()
         {
-            List<Profiles> profileList = new List<Profiles>();
+            List<Profile> profileList = new List<Profile>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
@@ -107,12 +107,12 @@ namespace DocumentManagement.DAL
             dbProvider.SetQuery("PROFILE_EXPORT", CommandType.StoredProcedure)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 255, ParameterDirection.Output)
-                .GetList<Profiles>(out profileList)
+                .GetList<Profile>(out profileList)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Profiles>()
+            return new ReturnResult<Profile>()
             {
                 ItemList = profileList,
                 ErrorCode = outCode,
@@ -121,34 +121,9 @@ namespace DocumentManagement.DAL
             };
         }
        
-        public ReturnResult<Profiles> GetProfileByID(int profileID)
+        public ReturnResult<Profile> GetProfileByGearBoxID(int gearBoxID)
         {
-            List<Profiles> profileList = new List<Profiles>();
-            DbProvider dbProvider = new DbProvider();
-            string outCode = String.Empty;
-            string outMessage = String.Empty;
-            int totalRows = 0;
-            dbProvider.SetQuery("PROFILE_GET_BY_ID", CommandType.StoredProcedure)
-                .SetParameter("HoSoID", SqlDbType.Int, profileID, ParameterDirection.Input)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 255, ParameterDirection.Output)
-                .GetList<Profiles>(out profileList)
-                .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
-
-            return new ReturnResult<Profiles>()
-            {
-                ItemList = profileList,
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-                TotalRows = totalRows
-            };
-        }
-      
-        public ReturnResult<Profiles> GetProfileByGearBoxID(int gearBoxID)
-        {
-            List<Profiles> profileList = new List<Profiles>();
+            List<Profile> profileList = new List<Profile>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
@@ -157,12 +132,12 @@ namespace DocumentManagement.DAL
                 .SetParameter("HopSoID", SqlDbType.Int, gearBoxID, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 255, ParameterDirection.Output)
-                .GetList<Profiles>(out profileList)
+                .GetList<Profile>(out profileList)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Profiles>()
+            return new ReturnResult<Profile>()
             {
                 ItemList = profileList,
                 ErrorCode = outCode,
@@ -170,9 +145,9 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Profiles> SearchProfile(string searchStr)
+        public ReturnResult<Profile> SearchProfile(string searchStr)
         {
-            List<Profiles> profileList = new List<Profiles>();
+            List<Profile> profileList = new List<Profile>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
@@ -181,12 +156,12 @@ namespace DocumentManagement.DAL
                .SetParameter("SearchStr", SqlDbType.NVarChar, searchStr, 500, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 255, ParameterDirection.Output)
-                .GetList<Profiles>(out profileList)
+                .GetList<Profile>(out profileList)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Profiles>()
+            return new ReturnResult<Profile>()
             {
                 ItemList = profileList,
                 ErrorCode = outCode,
@@ -194,7 +169,7 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Profiles> CreateProfile(Profiles profile)
+        public ReturnResult<Profile> CreateProfile(Profile profile)
         {
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
@@ -211,14 +186,14 @@ namespace DocumentManagement.DAL
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Profiles>()
+            return new ReturnResult<Profile>()
             {
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
             };
         }
 
-        public ReturnResult<Profiles> UpdateProfile(Profiles profile)
+        public ReturnResult<Profile> UpdateProfile(Profile profile)
         {
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
@@ -236,14 +211,14 @@ namespace DocumentManagement.DAL
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Profiles>()
+            return new ReturnResult<Profile>()
             {
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
             };
         }
 
-        public ReturnResult<Profiles> DeleteProfile(int profileId)
+        public ReturnResult<Profile> DeleteProfile(int profileId)
         {
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
@@ -257,7 +232,7 @@ namespace DocumentManagement.DAL
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Profiles>()
+            return new ReturnResult<Profile>()
             {
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
@@ -480,6 +455,27 @@ namespace DocumentManagement.DAL
             return result;
         }
 
+        public ReturnResult<Profiles> GetProfileByID(int profileID)
+        {
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            dbProvider.SetQuery("PROFILE_GET_BY_ID", CommandType.StoredProcedure)
+                .SetParameter("ProfileId", SqlDbType.Int, profileID, ParameterDirection.Input)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 255, ParameterDirection.Output)
+                .GetSingle<Profiles>(out Profiles profiles)
+                .Complete();
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<Profiles>()
+            {
+                Item = profiles,
+                ErrorCode = outCode,
+                ErrorMessage = outMessage
+            };
+        }
 
         /// <summary>
         /// lấy danh sách file có trong hồ sơ có profileId

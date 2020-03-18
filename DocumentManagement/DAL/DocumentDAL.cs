@@ -168,7 +168,7 @@ namespace DocumentManagement.DAL
             };
         }
 
-        public ReturnResult<Document> GetListByProfileId(Profiles profile) {
+        public ReturnResult<Document> GetListByProfileId(Profile profile) {
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;

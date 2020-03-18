@@ -23,16 +23,20 @@ namespace DocumentManagement.Controllers
         //private static readonly string FILE_UPLOAD_DIR = Environment.CurrentDirectory + @"\FilesUpload";
         //private static readonly string CURRENT_DIRECTORY = Environment.CurrentDirectory;
         private static readonly GearBoxBUS gearBoxBUS = GearBoxBUS.GetGearBoxBUSInstance;
-        //private static readonly string FILE_UPLOAD_DIR = Environment.CurrentDirectory + @"\FilesUpload";
-        //private static readonly string CURRENT_DIRECTORY = Environment.CurrentDirectory;
 
         [HttpGet]
-        public IActionResult GetPagingWithSearchResults(BaseCondition<Profiles> condition)
+        public IActionResult GetPagingWithSearchResults(BaseCondition<Profile> condition)
         {
             var result = profileBUS.GetPagingWithSearchResults(condition);
             return Ok(result);
         }
 
+        //[HttpGet]
+        //public IActionResult GetAllProfile()
+        //{
+        //    var result = profileBUS.GetAllProfile();
+        //    return Ok(result);
+        //}
         [HttpGet("{profileID}")]
         public IActionResult GetProfileByID(int profileID)
         {
@@ -47,14 +51,14 @@ namespace DocumentManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateProfile(Profiles profile)
+        public IActionResult CreateProfile(Profile profile)
         {
             var result = profileBUS.CreateProfile(profile);
             return Ok(result);
         }
 
         [HttpPost]
-        public IActionResult UpdateProfile(Profiles profile)
+        public IActionResult UpdateProfile(Profile profile)
         {
             var result = profileBUS.UpdateProfile(profile);
             return Ok(result);
@@ -93,7 +97,6 @@ namespace DocumentManagement.Controllers
         public async Task<IActionResult> ProfilesAddNewAndUploadFile()
         {
             IFormCollection form;
-            //form = await Request.ReadFormAsync();
             object obj3 = Request.Form["profile"]; // object
             Profiles profile = Libs.DeserializeObject<Profiles>(obj3.ToString());
             ReturnResult<Profiles> result = new ReturnResult<Profiles>();
@@ -233,7 +236,7 @@ namespace DocumentManagement.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ProfileUpdate()
+        public async Task<IActionResult> ProfileUpdate ()
         {
             IFormCollection form;
             object obj3 = Request.Form["profile"]; // object
@@ -282,137 +285,32 @@ namespace DocumentManagement.Controllers
                                     }
                                 }
                             }
-                                string overwrite = Request.Form["overwrite"].ToString();
-                                if (lstFilesExists.Count > 0)
+                            string overwrite = Request.Form["overwrite"].ToString();
+                            if (lstFilesExists.Count > 0)
+                            {
+                                if (overwrite == "accept")
                                 {
-                                    if (overwrite == "accept")
+                                    foreach (var fileAlreadyExists in lstFilesExists)
                                     {
-                                        foreach (var fileAlreadyExists in lstFilesExists)
-                                        {
-                                            System.IO.File.Delete(fileAlreadyExists.Url);
-                                        }
-                                        //    overwrite file already exists
-                                        foreach (var file in files)
-                                        {
-                                            string filePath = Path.Combine(directoryPathFileUpload, file.FileName);
-                                            FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
-                                        }
+                                        System.IO.File.Delete(fileAlreadyExists.Url);
                                     }
-                                    else
+
+                                    //    overwrite file already exists
+                                    foreach (var file in files)
                                     {
-                                        var fileResult = new ReturnResult<ComputerFile>()
-                                        {
-                                            ReturnValue = Libs.SerializeObject(lstFilesExists.Select(item => item.FileName))
-                                        };
-                                        fileResult.Failed("-2", "Tồn tại file đã được upload lên hệ thống.");
-                                        return Ok(fileResult);
+                                        string filePath = Path.Combine(directoryPathFileUpload, file.FileName);
+                                        FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
                                     }
                                 }
                                 else
                                 {
-                                    foreach (var file in files)
+                                    var fileResult = new ReturnResult<ComputerFile>()
                                     {
-                                        var filePath = Path.Combine(directoryPathFileUpload, file.FileName);
-                                        FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
-                                    }
-                                }
-                            }
-                        else
-                            {
-                                foreach (var file in files)
-                                {
-                                    var filePath = Path.Combine(directoryPathFileUpload, file.FileName);
-                                    FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
-                                }
-                            }
-                            // lấy lại danh sách file đã được tải lên
-                            string[] lstDirFilesUploaded = Directory.GetFiles(directoryPathFileUpload);
-                            foreach (var fileUrl in lstDirFilesUploaded)
-                            {
-                                string fileName = Path.GetFileName(fileUrl);
-                                foreach (var file in files)
-                                {
-                                    if (fileName.Equals(file.FileName))
-                                    {
-                                        lstFiles.Add(new ComputerFile()
-                                        {
-                                            FileName = file.FileName,
-                                            Size = (Math.Round((double)(file.Length / 1000000.0), 6)).ToString(),
-                                            Url = fileUrl,
-                                            PageNumber = GetNumberOfPdfPages(fileUrl),
-                                            CreatedBy = profile.CreatedBy,
-                                            FolderPath = directoryPathFileUpload
-                                        });
-                                    }
-                                }
-                            }
+                                        ReturnValue = Libs.SerializeObject(lstFilesExists.Select(item => item.FileName))
+                                    };
 
-                            result = profileBUS.Update(profile, lstFiles, lstFilesExists, directoryPathFileUpload);
-                        }
-                        else
-                        {
-                            // không tải file lên thì chỉ send thông tin hồ sơ
-                            result = profileBUS.Update(profile, null, null, directoryPathFileUpload);
-                        }
-                    }
-                    else
-                    {
-                        if (files.Count > 0)
-                        {
-                            string[] lstFilesDir = Directory.GetFiles(directoryPathFileUpload);
-                            if (lstFilesDir.Length > 0)
-                            {
-                                string[] lstDirFilesUpload = lstFilesDir;
-                                foreach (var fileAlreadyExsists in lstDirFilesUpload)
-                                {
-                                    foreach (var file in files)
-                                    {
-                                        if (fileAlreadyExsists.IndexOf(file.FileName) > -1)
-                                        {
-                                            lstFilesExists.Add(new ComputerFile()
-                                            {
-                                                FileName = Path.GetFileName(fileAlreadyExsists),
-                                                ProfileId = profile.ProfileId,
-                                                Url = fileAlreadyExsists
-                                            });
-                                        }
-                                    }
-                                }
-                                string overwrite = Request.Form["overwrite"].ToString();
-                                if (lstFilesExists.Count > 0)
-                                {
-                                    if (overwrite == "accept")
-                                    {
-                                        foreach (var fileAlreadyExists in lstFilesExists)
-                                        {
-                                            System.IO.File.Delete(fileAlreadyExists.Url);
-                                        }
-
-                                        //    overwrite file already exists
-                                        foreach (var file in files)
-                                        {
-                                            string filePath = Path.Combine(directoryPathFileUpload, file.FileName);
-                                            FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        var fileResult = new ReturnResult<ComputerFile>()
-                                        {
-                                            ReturnValue = Libs.SerializeObject(lstFilesExists.Select(item => item.FileName))
-                                        };
-
-                                        fileResult.Failed("-2", "Tồn tại file đã được upload lên hệ thống.");
-                                        return Ok(fileResult);
-                                    }
-                                }
-                                else
-                                {
-                                    foreach (var file in files)
-                                    {
-                                        var filePath = Path.Combine(directoryPathFileUpload, file.FileName);
-                                        FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
-                                    }
+                                    fileResult.Failed("-2", "Tồn tại file đã được upload lên hệ thống.");
+                                    return Ok(fileResult);
                                 }
                             }
                             else
@@ -423,136 +321,248 @@ namespace DocumentManagement.Controllers
                                     FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
                                 }
                             }
-                            // lấy lại danh sách file đã được tải lên
-                            string[] lstDirFilesUploaded = Directory.GetFiles(directoryPathFileUpload);
-                            foreach (var fileUrl in lstDirFilesUploaded)
+                        }
+                        else
+                        {
+                            foreach (var file in files)
                             {
-                                string fileName = Path.GetFileName(fileUrl);
+                                var filePath = Path.Combine(directoryPathFileUpload, file.FileName);
+                                FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
+                            }
+                        }
+                        // lấy lại danh sách file đã được tải lên
+                        string[] lstDirFilesUploaded = Directory.GetFiles(directoryPathFileUpload);
+
+                        foreach (var fileUrl in lstDirFilesUploaded)
+                        {
+                            string fileName = Path.GetFileName(fileUrl);
+                            foreach (var file in files)
+                            {
+                                if (fileName.Equals(file.FileName))
+                                {
+                                    lstFiles.Add(new ComputerFile()
+                                    {
+                                        FileName = file.FileName,
+                                        Size = (Math.Round((double)(file.Length / 1000000.0), 6)).ToString(),
+                                        Url = fileUrl,
+                                        PageNumber = GetNumberOfPdfPages(fileUrl),
+                                        CreatedBy = profile.CreatedBy,
+                                        FolderPath = directoryPathFileUpload
+                                    });
+                                }
+                            }
+                        }
+
+                        result = profileBUS.Update(profile, lstFiles, lstFilesExists, directoryPathFileUpload);
+                    }
+                    else
+                    {
+                        // không tải file lên thì chỉ send thông tin hồ sơ
+                        result = profileBUS.Update(profile, null, null, directoryPathFileUpload);
+                    }
+                }
+                else
+                {
+                    if (files.Count > 0)
+                    {
+                        string[] lstFilesDir = Directory.GetFiles(directoryPathFileUpload);
+                        if (lstFilesDir.Length > 0)
+                        {
+                            string[] lstDirFilesUpload = lstFilesDir;
+                            foreach (var fileAlreadyExsists in lstDirFilesUpload)
+                            {
                                 foreach (var file in files)
                                 {
-                                    if (fileName.Equals(file.FileName))
+                                    if (fileAlreadyExsists.IndexOf(file.FileName) > -1)
                                     {
-                                        lstFiles.Add(new ComputerFile()
+                                        lstFilesExists.Add(new ComputerFile()
                                         {
-                                            FileName = file.FileName,
-                                            Size = (Math.Round((double)(file.Length / 1000000.0), 6)).ToString(),
-                                            Url = fileUrl,
-                                            PageNumber = GetNumberOfPdfPages(fileUrl),
-                                            CreatedBy = profile.CreatedBy,
-                                            FolderPath = directoryPathFileUpload
+                                            FileName = Path.GetFileName(fileAlreadyExsists),
+                                            ProfileId = profile.ProfileId,
+                                            Url = fileAlreadyExsists
                                         });
                                     }
                                 }
                             }
-                            result = profileBUS.Update(profile, lstFiles, lstFilesExists, directoryPathFileUpload);
+                            string overwrite = Request.Form["overwrite"].ToString();
+                            if (lstFilesExists.Count > 0)
+                            {
+                                if (overwrite == "accept")
+                                {
+                                    foreach (var fileAlreadyExists in lstFilesExists)
+                                    {
+                                        System.IO.File.Delete(fileAlreadyExists.Url);
+                                    }
+
+                                    //    overwrite file already exists
+                                    foreach (var file in files)
+                                    {
+                                        string filePath = Path.Combine(directoryPathFileUpload, file.FileName);
+                                        FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
+                                    }
+                                }
+                                else
+                                {
+                                    var fileResult = new ReturnResult<ComputerFile>()
+                                    {
+                                        ReturnValue = Libs.SerializeObject(lstFilesExists.Select(item => item.FileName))
+                                    };
+
+                                    fileResult.Failed("-2", "Tồn tại file đã được upload lên hệ thống.");
+                                    return Ok(fileResult);
+                                }
+                            }
+                            else
+                            {
+                                foreach (var file in files)
+                                {
+                                    var filePath = Path.Combine(directoryPathFileUpload, file.FileName);
+                                    FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
+                                }
+                            }
                         }
                         else
                         {
-                            // không tải file lên thì chỉ send thông tin hồ sơ
-                            result = profileBUS.Update(profile, null, null, directoryPathFileUpload);
+                            foreach (var file in files)
+                            {
+                                var filePath = Path.Combine(directoryPathFileUpload, file.FileName);
+                                FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
+                            }
                         }
+                        // lấy lại danh sách file đã được tải lên
+                        string[] lstDirFilesUploaded = Directory.GetFiles(directoryPathFileUpload);
+
+                        foreach (var fileUrl in lstDirFilesUploaded)
+                        {
+                            string fileName = Path.GetFileName(fileUrl);
+                            foreach (var file in files)
+                            {
+                                if (fileName.Equals(file.FileName))
+                                {
+                                    lstFiles.Add(new ComputerFile()
+                                    {
+                                        FileName = file.FileName,
+                                        Size = (Math.Round((double)(file.Length / 1000000.0), 6)).ToString(),
+                                        Url = fileUrl,
+                                        PageNumber = GetNumberOfPdfPages(fileUrl),
+                                        CreatedBy = profile.CreatedBy,
+                                        FolderPath = directoryPathFileUpload
+                                    });
+                                }
+                            }
+                        }
+
+                        result = profileBUS.Update(profile, lstFiles, lstFilesExists, directoryPathFileUpload);
                     }
-                    // check FileCode was edit ?
-                    #region FILE UPLOAD
-                    //if (files.Count > 0)
-                    //{
-                    //    string[] lstFilesDir = Directory.GetFiles(directoryPathFileUpload);
-                    //    if (lstFilesDir.Length > 0)
-                    //    {
-                    //        string[] lstDirFilesUpload = lstFilesDir;
-                    //        foreach (var fileAlreadyExsists in lstDirFilesUpload)
-                    //        {
-                    //            foreach (var file in files)
-                    //            {
-                    //                if (fileAlreadyExsists.IndexOf(file.FileName) > -1)
-                    //                {
-                    //                    lstFilesExists.Add(new ComputerFile()
-                    //                    {
-                    //                        FileName = fileAlreadyExsists,
-                    //                        ProfileId = profile.ProfileId,
-                    //                        Url = fileAlreadyExsists
-                    //                    });
-                    //                }
-                    //            }
-                    //        }
-                    //        string overwrite = Request.Form["overwrite"].ToString();
-                    //        if (lstFilesExists.Count > 0)
-                    //        {
-                    //            if (overwrite == "accept")
-                    //            {
-                    //                foreach (var fileAlreadyExists in lstFilesExists)
-                    //                {
-                    //                    System.IO.File.Delete(fileAlreadyExists.FileName);
-                    //                }
-
-                    //                //    overwrite file already exists
-                    //                foreach (var file in files)
-                    //                {
-                    //                    string filePath = Path.Combine(directoryPathFileUpload, file.FileName);
-                    //                    FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
-                    //                }
-                    //            }
-                    //            else
-                    //            {
-                    //                var fileResult = new ReturnResult<ComputerFile>()
-                    //                {
-                    //                    ReturnValue = Libs.SerializeObject(lstFilesExists.Select(item => item.FileName))
-                    //                };
-
-                    //                fileResult.Failed("-2", "Tồn tại file đã được upload lên hệ thống.");
-                    //                return Ok(fileResult);
-                    //            }
-                    //        }
-                    //        else
-                    //        {
-                    //            foreach (var file in files)
-                    //            {
-                    //                var filePath = Path.Combine(directoryPathFileUpload, file.FileName);
-                    //                FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
-                    //            }
-                    //        }
-                    //    }
-                    //    else
-                    //    {
-                    //        foreach (var file in files)
-                    //        {
-                    //            var filePath = Path.Combine(directoryPathFileUpload, file.FileName);
-                    //            FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
-                    //        }
-                    //    }
-                    //    // lấy lại danh sách file đã được tải lên
-                    //    string[] lstDirFilesUploaded = Directory.GetFiles(directoryPathFileUpload);
-
-                    //    foreach (var fileUrl in lstDirFilesUploaded)
-                    //    {
-                    //        string fileName = Path.GetFileName(fileUrl);
-                    //        foreach (var file in files)
-                    //        {
-                    //            if (fileName.Equals(file.FileName))
-                    //            {
-                    //                lstFiles.Add(new ComputerFile()
-                    //                {
-                    //                    FileName = file.FileName,
-                    //                    Size = (Math.Round((double)(file.Length / 1000000.0), 6)).ToString(),
-                    //                    Url = fileUrl,
-                    //                    PageNumber = GetNumberOfPdfPages(fileUrl),
-                    //                    CreatedBy = profile.CreatedBy,
-                    //                    FolderPath = directoryPathFileUpload
-                    //                });
-                    //            }
-                    //        }
-                    //    }
-
-                    //    result = profileBUS.Update(profile, lstFiles, lstFilesExists, directoryPathFileUpload);
-                    //}
-                    //else
-                    //{
-                    //    // không tải file lên thì chỉ send thông tin hồ sơ
-                    //    result = profileBUS.Update(profile, null, null, directoryPathFileUpload);
-                    //}
-                    #endregion
-                    return Ok(result);
+                    else
+                    {
+                        // không tải file lên thì chỉ send thông tin hồ sơ
+                        result = profileBUS.Update(profile, null, null, directoryPathFileUpload);
+                    }
                 }
+                // check FileCode was edit ?
+                #region FILE UPLOAD
+                //if (files.Count > 0)
+                //{
+                //    string[] lstFilesDir = Directory.GetFiles(directoryPathFileUpload);
+                //    if (lstFilesDir.Length > 0)
+                //    {
+                //        string[] lstDirFilesUpload = lstFilesDir;
+                //        foreach (var fileAlreadyExsists in lstDirFilesUpload)
+                //        {
+                //            foreach (var file in files)
+                //            {
+                //                if (fileAlreadyExsists.IndexOf(file.FileName) > -1)
+                //                {
+                //                    lstFilesExists.Add(new ComputerFile()
+                //                    {
+                //                        FileName = fileAlreadyExsists,
+                //                        ProfileId = profile.ProfileId,
+                //                        Url = fileAlreadyExsists
+                //                    });
+                //                }
+                //            }
+                //        }
+                //        string overwrite = Request.Form["overwrite"].ToString();
+                //        if (lstFilesExists.Count > 0)
+                //        {
+                //            if (overwrite == "accept")
+                //            {
+                //                foreach (var fileAlreadyExists in lstFilesExists)
+                //                {
+                //                    System.IO.File.Delete(fileAlreadyExists.FileName);
+                //                }
+
+                //                //    overwrite file already exists
+                //                foreach (var file in files)
+                //                {
+                //                    string filePath = Path.Combine(directoryPathFileUpload, file.FileName);
+                //                    FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
+                //                }
+                //            }
+                //            else
+                //            {
+                //                var fileResult = new ReturnResult<ComputerFile>()
+                //                {
+                //                    ReturnValue = Libs.SerializeObject(lstFilesExists.Select(item => item.FileName))
+                //                };
+
+                //                fileResult.Failed("-2", "Tồn tại file đã được upload lên hệ thống.");
+                //                return Ok(fileResult);
+                //            }
+                //        }
+                //        else
+                //        {
+                //            foreach (var file in files)
+                //            {
+                //                var filePath = Path.Combine(directoryPathFileUpload, file.FileName);
+                //                FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
+                //            }
+                //        }
+                //    }
+                //    else
+                //    {
+                //        foreach (var file in files)
+                //        {
+                //            var filePath = Path.Combine(directoryPathFileUpload, file.FileName);
+                //            FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
+                //        }
+                //    }
+                //    // lấy lại danh sách file đã được tải lên
+                //    string[] lstDirFilesUploaded = Directory.GetFiles(directoryPathFileUpload);
+                    
+                //    foreach (var fileUrl in lstDirFilesUploaded)
+                //    {
+                //        string fileName = Path.GetFileName(fileUrl);
+                //        foreach (var file in files)
+                //        {
+                //            if (fileName.Equals(file.FileName))
+                //            {
+                //                lstFiles.Add(new ComputerFile()
+                //                {
+                //                    FileName = file.FileName,
+                //                    Size = (Math.Round((double)(file.Length / 1000000.0), 6)).ToString(),
+                //                    Url = fileUrl,
+                //                    PageNumber = GetNumberOfPdfPages(fileUrl),
+                //                    CreatedBy = profile.CreatedBy,
+                //                    FolderPath = directoryPathFileUpload
+                //                });
+                //            }
+                //        }
+                //    }
+
+                //    result = profileBUS.Update(profile, lstFiles, lstFilesExists, directoryPathFileUpload);
+                //}
+                //else
+                //{
+                //    // không tải file lên thì chỉ send thông tin hồ sơ
+                //    result = profileBUS.Update(profile, null, null, directoryPathFileUpload);
+                //}
+                #endregion 
+
+
+                return Ok(result);
+            }
             catch (Exception ex)
             {
                 result.Failed("1", ex.Message);
@@ -597,6 +607,13 @@ namespace DocumentManagement.Controllers
                 lstProfileTypes = profileBUS.GetAllProfileTypes().ItemList
             });
         }
+
+        [HttpGet]
+        public IActionResult GetProfilesById ([FromQuery] int profileId)
+        {
+            return Ok(profileBUS.GetProfileByID(profileId));
+        }
+
         [HttpPost]
         public IActionResult GetListFilesByProfileId([FromBody] BaseCondition<Profiles> condition)
         {

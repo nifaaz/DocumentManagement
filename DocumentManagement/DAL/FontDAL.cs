@@ -226,51 +226,29 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Font> GetFontByCoQuanID(BaseCondition<Font> condition)
+        public ReturnResult<Font> GetFontByCoQuanID(int coQuanID)
         {
-            List<Font> fonts = new List<Font>();
+            List<Font> fontList = new List<Font>();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
-            var result = new ReturnResult<Font>();
-            try
-            {
-                dbProvider.SetQuery("FONT_GET_BY_COQUANID", CommandType.StoredProcedure)
-                .SetParameter("InWhere", System.Data.SqlDbType.NVarChar, condition.IN_WHERE == null ? "" : condition.IN_WHERE)
-                .SetParameter("InSort", System.Data.SqlDbType.NVarChar, condition.IN_SORT == null ? "" : condition.IN_SORT)
-                .SetParameter("StartRow", System.Data.SqlDbType.Int, condition.PageIndex)
-                .SetParameter("PageSize", System.Data.SqlDbType.Int, condition.PageSize)
-                .SetParameter("TotalRecords", System.Data.SqlDbType.Int, DBNull.Value, System.Data.ParameterDirection.Output)
+            int totalRows = 0;
+            dbProvider.SetQuery("FONT_GET_BY_COQUANID", CommandType.StoredProcedure)
+                .SetParameter("CoQuanID", SqlDbType.Int, coQuanID, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<Font>(out fonts)
+                .GetList<Font>(out fontList)
                 .Complete();
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
 
-                if (fonts.Count > 0)
-                {
-                    result.ItemList = fonts;
-                }
-                dbProvider.GetOutValue("ErrorCode", out outCode)
-                           .GetOutValue("ErrorMessage", out outMessage)
-                           .GetOutValue("TotalRecords", out string totalRows);
-
-                if (outCode != "0")
-                {
-                    result.ErrorCode = outCode;
-                    result.ErrorMessage = outMessage;
-                }
-                else
-                {
-                    result.ErrorCode = "";
-                    result.ErrorMessage = "";
-                    result.TotalRows = int.Parse(totalRows);
-                }
-            }
-            catch (Exception ex)
+            return new ReturnResult<Font>()
             {
-                result.ErrorMessage = ex.Message;
-            }
-            return result;
+                ItemList = fontList,
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+                TotalRows = totalRows
+            };
         }
         public ReturnResult<Font> DeleteFont(int PhongID)
         {
@@ -317,7 +295,7 @@ namespace DocumentManagement.DAL
                 result = new ReturnResult<Font>();
                 db = new DbProvider();
                 db.SetQuery("FONT_EDIT", CommandType.StoredProcedure)
-                    .SetParameter("PhongID", SqlDbType.Int, font.FontID, ParameterDirection.Input)
+                     .SetParameter("PhongID", SqlDbType.Int, font.FontID, ParameterDirection.Input)
                     .SetParameter("PhongSo", SqlDbType.NChar, font.FontNumber, 10, ParameterDirection.Input)
                     .SetParameter("CoQuanID", SqlDbType.Int, font.OrganID, ParameterDirection.Input)
                     .SetParameter("TenPhong", SqlDbType.NVarChar, font.FontName, 50, ParameterDirection.Input)

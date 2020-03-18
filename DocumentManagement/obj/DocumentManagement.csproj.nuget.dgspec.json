@@ -1,28 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/Users/tunguyenduy/Desktop/DocumentManagement/DocumentManagement/DocumentManagement.csproj": {}
+    "C:\\Users\\tunguyenduy\\Desktop\\tund-merge\\DocumentManagement-b71156a56aabb31b35df71a8b606b9442787d68f\\DocumentManagement\\DocumentManagement.csproj": {}
   },
   "projects": {
-    "/Users/tunguyenduy/Desktop/DocumentManagement/DocumentManagement/DocumentManagement.csproj": {
+    "C:\\Users\\tunguyenduy\\Desktop\\tund-merge\\DocumentManagement-b71156a56aabb31b35df71a8b606b9442787d68f\\DocumentManagement\\DocumentManagement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/tunguyenduy/Desktop/DocumentManagement/DocumentManagement/DocumentManagement.csproj",
+        "projectUniqueName": "C:\\Users\\tunguyenduy\\Desktop\\tund-merge\\DocumentManagement-b71156a56aabb31b35df71a8b606b9442787d68f\\DocumentManagement\\DocumentManagement.csproj",
         "projectName": "DocumentManagement",
-        "projectPath": "/Users/tunguyenduy/Desktop/DocumentManagement/DocumentManagement/DocumentManagement.csproj",
-        "packagesPath": "/Users/tunguyenduy/.nuget/packages/",
-        "outputPath": "/Users/tunguyenduy/Desktop/DocumentManagement/DocumentManagement/obj/",
+        "projectPath": "C:\\Users\\tunguyenduy\\Desktop\\tund-merge\\DocumentManagement-b71156a56aabb31b35df71a8b606b9442787d68f\\DocumentManagement\\DocumentManagement.csproj",
+        "packagesPath": "C:\\Users\\tunguyenduy\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tunguyenduy\\Desktop\\tund-merge\\DocumentManagement-b71156a56aabb31b35df71a8b606b9442787d68f\\DocumentManagement\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "/Users/tunguyenduy/.config/NuGet/NuGet.Config"
+          "C:\\Users\\tunguyenduy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -79,7 +78,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.101/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

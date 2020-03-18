@@ -62,7 +62,7 @@ namespace DocumentManagement.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetListByProfileId(Profiles profile)
+        public IActionResult GetListByProfileId(Profile profile)
         {
             DocumentBUS documentBUS = new DocumentBUS();
             var result = documentBUS.GetListByProfileId(profile);

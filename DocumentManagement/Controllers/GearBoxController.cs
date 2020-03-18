@@ -4,10 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Common.Common;
 using DocumentManagement.BUS;
-using DocumentManagement.Model.Entity;
 using DocumentManagement.Model.Entity.GearBox;
-using DocumentManagement.Model.Entity.TableOfContens;
-using DocumentManagement.Models.Entity.Profile;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,8 +16,8 @@ namespace DocumentManagement.Controllers
     {
         private static GearBoxBUS gearBoxBUS = GearBoxBUS.GetGearBoxBUSInstance;
 
-        [HttpPost]
-        public IActionResult GetPagingWithSearchResults([FromBody]BaseCondition<GearBox> condition)
+        [HttpGet]
+        public IActionResult GetPagingWithSearchResults([FromQuery]BaseCondition<GearBox> condition)
         {
             var result = gearBoxBUS.GetPagingWithSearchResults(condition);
             return Ok(result);
@@ -44,17 +41,10 @@ namespace DocumentManagement.Controllers
             var result = gearBoxBUS.GetGearBoxByID(gearBoxID);
             return Ok(result);
         }
-        [HttpPost]
-        public IActionResult GetGearBoxByTabOfContID([FromBody]BaseCondition<GearBox> condition)
+        [HttpGet]
+        public IActionResult GetGearBoxByTabOfContID(int tabOfContID)
         {
-            var result = gearBoxBUS.GetGearBoxByTabOfContID(condition);
-            return Ok(result);
-        }
-
-        [HttpPost]
-        public IActionResult GetProfileByGearBoxID([FromBody]BaseCondition<Profiles> condition)
-        {
-            var result = gearBoxBUS.GetProfileByGearBoxID(condition);
+            var result = gearBoxBUS.GetGearBoxByTabOfContID(tabOfContID);
             return Ok(result);
         }
 
@@ -104,36 +94,6 @@ namespace DocumentManagement.Controllers
 
                 throw;
             }
-        }
-
-        [HttpGet]
-        public IActionResult GetFontsByOrganID([FromQuery] int organID)
-        {
-            IList<Font> fonts = new List<Font>();
-            fonts = gearBoxBUS.GetFontsByOrganID(organID).ItemList.Select(item =>
-            {
-                return new Font()
-                {
-                    FontID = item.FontID,
-                    FontName = item.FontName,
-                };
-            }).Distinct().ToList();
-            return Ok(fonts);
-        }
-
-        [HttpGet]
-        public IActionResult GetTableOfContentsByFontID([FromQuery] int fontID)
-        {
-            IList<TableOfContents> tableOfContents = new List<TableOfContents>();
-            tableOfContents = gearBoxBUS.GetTableOfContentsByFontID(fontID).ItemList.Select(x =>
-            {
-                return new TableOfContents()
-                {
-                    TabOfContID = x.TabOfContID,
-                    TabOfContName = x.TabOfContName,
-                };
-            }).Distinct().ToList();
-            return Ok(tableOfContents);
         }
     }
 }
