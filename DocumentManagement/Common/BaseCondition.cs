@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Common.Common
 {
-    public class BaseCondition<T>
+    public class BaseCondition<T> where T : new()
     {
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
@@ -260,7 +260,7 @@ namespace Common.Common
 
         }
         public string IN_SORT { get; set; }
-        T Item { get; set; }
+        public T Item { get; set; } = new T();
         private string KillSqlInjection(string sqlString)
         {
             if (!string.IsNullOrEmpty(sqlString))

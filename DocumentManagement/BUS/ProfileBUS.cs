@@ -2,6 +2,7 @@
 using DocumentManagement.Common;
 using DocumentManagement.DAL;
 using DocumentManagement.Models.Entity.ComputerFile;
+using DocumentManagement.Models.Entity.Document;
 using DocumentManagement.Models.Entity.Profile;
 using System;
 using System.Collections.Generic;
@@ -97,9 +98,9 @@ namespace DocumentManagement.BUS
             return profileDAL.Create(profiles, files);
         }
 
-        public ReturnResult<Profiles> Update(Profiles profiles, List<ComputerFile> files = null)
+        public ReturnResult<Profiles> Update(Profiles profiles, List<ComputerFile> files = null, List<ComputerFile> extFiles = null, string folderPath = "")
         {
-            return profileDAL.Update(profiles, files);
+            return profileDAL.Update(profiles, files, extFiles, folderPath);
         }
 
         public ReturnResult<ProfileTypes> GetAllProfileTypes ()
@@ -110,6 +111,21 @@ namespace DocumentManagement.BUS
         public ReturnResult<Profiles> GetProfileByID(int profileID)
         {
             return profileDAL.GetProfileByID(profileID);
+        }
+
+        public ReturnResult<Profiles> GetProfileByFileCode(string fileCode)
+        {
+            return profileDAL.GetProfileByFileCode(fileCode);
+        }
+
+        public ReturnResult<ComputerFile> GetListFilesByProfileId(BaseCondition<Profiles> condition)
+        {
+            return profileDAL.GetListFilesByProfileId(condition);
+        }
+
+        public ReturnResult<Document> GetDocumentsByProfileId (BaseCondition<Profiles> condition)
+        {
+            return profileDAL.GetDocumentsByProfileId(condition);
         }
     }
 }

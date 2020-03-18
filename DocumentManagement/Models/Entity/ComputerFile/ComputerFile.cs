@@ -14,8 +14,15 @@ namespace DocumentManagement.Models.Entity.ComputerFile
         /// <summary>
         /// id hồ sơ gắn với file văn bản
         /// </summary>
-        public int profileId { get; set; }
+        public int ProfileId { get; set; }
         public int SheetNumber { get; set; }
         public int PageNumber { get; set; }
+
+        /// <summary>
+        /// dung lượng file
+        /// </summary>
+        public string Size { get; set; }
+
+        public string FolderPath { get; set; }
     }
 }
