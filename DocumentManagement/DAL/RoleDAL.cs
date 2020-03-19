@@ -177,25 +177,41 @@ namespace DocumentManagement.DAL
             return result;
         }
 
-        public ReturnResult<Role> DeleteRole(Role role)
+        public ReturnResult<Role> DeleteRole(int id)
         {
-            DbProvider dbProvider = new DbProvider();
+            DbProvider provider = new DbProvider();
+            var result = new ReturnResult<Role>();
             string outCode = String.Empty;
             string outMessage = String.Empty;
-            dbProvider.SetQuery("ROLE_DELETE", CommandType.StoredProcedure)
-                .SetParameter("RoleId", SqlDbType.Int, role.RoleId, ParameterDirection.Input)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .ExcuteNonQuery()
-                .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
-
-            return new ReturnResult<Role>()
+            string totalRecords = String.Empty;
+            Role item = new Role();
+            try
             {
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-            };
+                provider.SetQuery("ROLE_DELETE", CommandType.StoredProcedure)
+                     .SetParameter("RoleId", SqlDbType.Int, id, ParameterDirection.Input)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output)
+                    .ExcuteNonQuery().Complete();
+
+                provider.GetOutValue("ErrorCode", out outCode)
+                          .GetOutValue("ErrorMessage", out outMessage);
+
+                if (outCode != "0")
+                {
+                    result.Failed(outCode, outMessage);
+                }
+                else
+                {
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return result;
         }
 
 

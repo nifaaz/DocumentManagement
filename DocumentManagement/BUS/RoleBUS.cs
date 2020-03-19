@@ -42,9 +42,9 @@ namespace DocumentManagement.BUS
             return rs;
         }
 
-        public ReturnResult<Role> DeleteRole(Role role)
+        public ReturnResult<Role> DeleteRole(int id)
         {
-            return RoleDAL.DeleteRole(role);
+            return RoleDAL.DeleteRole(id);
         }
 
         public ReturnResult<Role> EditRole(Role role)

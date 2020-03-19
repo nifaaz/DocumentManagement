@@ -70,8 +70,9 @@ namespace DocumentManagement.Controlleresult
                 throw;
             }
         }
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetFontByID(int id)
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult GetFontByID(int id)
         {
                 return Ok(fontBUS.GetFontByID(id));
         }
