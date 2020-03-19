@@ -66,7 +66,7 @@ namespace DocumentManagement.Models.Entity.Document
         /// <summary>
         /// Tình trạng vật lý
         /// </summary>
-        public string Format { get; set; }
+        public string FormatId { get; set; }
         public int ComputerFileId { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedDate { get; set; }

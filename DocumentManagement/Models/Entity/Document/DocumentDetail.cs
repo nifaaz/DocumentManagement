@@ -84,6 +84,10 @@ namespace DocumentManagement.Models.Entity.Document
         /// <summary>
         /// Tên tệp lưu trữ
         /// </summary>
+        public int LanguageId { get; set; }
+        public int ConfidenceLevelId { get; set; }
+        public int FormatId { get; set; }
+        public int DocTypeId { get;set; }
         public string ComputerFileName { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedDate { get; set; }
