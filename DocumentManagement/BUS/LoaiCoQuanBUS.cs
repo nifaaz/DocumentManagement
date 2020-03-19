@@ -29,5 +29,30 @@ namespace DocumentManagement.BUS
         {
             return loaiCoQuanDAL.GetAllOrganType();
         }
+
+        public ReturnResult<OrganType> OrganTypeGetSearchWithPaging(BaseCondition<OrganType> condi)
+        {
+            return loaiCoQuanDAL.OrganTypeGetSearchWithPaging(condi);
+        }
+        public ReturnResult<OrganType> CreateOrganType(OrganType organType)
+        {
+            return loaiCoQuanDAL.CreateOrganType(organType);
+        }
+
+        public ReturnResult<OrganType> GetOrganTypeByID(int id)
+        {
+            var rs = loaiCoQuanDAL.GetOrganTypeByID(id);
+            return rs;
+        }
+
+        public ReturnResult<OrganType> DeleteOrganType(int id)
+        {
+            return loaiCoQuanDAL.DeleteOrganType(id);
+        }
+
+        public ReturnResult<OrganType> EditOrganType(OrganType organType)
+        {
+            return loaiCoQuanDAL.EditOrganType(organType);
+        }
     }
 }

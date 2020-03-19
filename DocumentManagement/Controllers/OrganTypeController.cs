@@ -7,6 +7,7 @@ using DocumentManagement.BUS;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using DocumentManagement.Model.Entity.OrganType;
+using DocumentManagement.Common;
 
 namespace DocumentManagement.Controllers
 {
@@ -29,5 +30,40 @@ namespace DocumentManagement.Controllers
             }).Distinct().ToList();
             return Ok(lstOrganType);
         }
+
+        [HttpPost]
+        public IActionResult OrganTypeGetSearchWithPaging([FromBody] BaseCondition<OrganType> condition)
+        {
+            ReturnResult<OrganType> result = loaiCoQuanBUS.OrganTypeGetSearchWithPaging(condition);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public IActionResult CreateOrganType(OrganType OrganType)
+        {
+            var result = loaiCoQuanBUS.CreateOrganType(OrganType);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateOrganType(OrganType OrganType)
+        {
+            var result = loaiCoQuanBUS.EditOrganType(OrganType);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteOrganType([FromQuery] int id)
+        {
+            return Ok(loaiCoQuanBUS.DeleteOrganType(id));
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult GetOrganTypeByID(int id)
+        {
+            return Ok(loaiCoQuanBUS.GetOrganTypeByID(id));
+        }
+
     }
 }
