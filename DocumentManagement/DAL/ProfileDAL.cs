@@ -123,27 +123,38 @@ namespace DocumentManagement.DAL
        
         public ReturnResult<Profiles> GetProfileByID(int profileID)
         {
-            List<Profiles> profileList = new List<Profiles>();
+            var result = new ReturnResult<Profiles>();
+            Profiles profiles = new Profiles();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
-            int totalRows = 0;
-            dbProvider.SetQuery("PROFILE_GET_BY_ID", CommandType.StoredProcedure)
-                .SetParameter("HoSoID", SqlDbType.Int, profileID, ParameterDirection.Input)
+            try
+            {
+                dbProvider.SetQuery("PROFILE_GET_BY_ID", CommandType.StoredProcedure)
+                .SetParameter("ProfileId", SqlDbType.Int, profileID, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 255, ParameterDirection.Output)
-                .GetList<Profiles>(out profileList)
+                .GetSingle<Profiles>(out profiles)
                 .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
+                dbProvider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Profiles>()
+                if (outCode.ToString() != "0")
+                {
+                    result.Failed(outCode, outMessage);
+                }
+                else
+                {
+                    result.Item = profiles;
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+            }
+            catch (Exception ex)
             {
-                ItemList = profileList,
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-                TotalRows = totalRows
-            };
+                result.Failed("-1", ex.Message);
+            }
+            return result;
         }
       
         public ReturnResult<Profiles> GetProfileByGearBoxID(int gearBoxID)
