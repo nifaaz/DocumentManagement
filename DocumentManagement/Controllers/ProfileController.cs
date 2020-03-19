@@ -33,10 +33,10 @@ namespace DocumentManagement.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{profileID}")]
-        public IActionResult GetProfileByID(int profileID)
+        [HttpGet]
+        public IActionResult GetProfilesById([FromQuery] int profileId)
         {
-            var result = profileBUS.GetProfileByID(profileID);
+            var result = profileBUS.GetProfileByID(profileId);
             return Ok(result);
         }
         [HttpGet("{gearboxID}")]
