@@ -49,14 +49,13 @@ namespace DocumentManagement.Controllers
             return Ok(result);
         }
 
-
         [HttpPost]
-        public IActionResult DeleteRole(Role role)
+        public IActionResult DeleteRole([FromQuery] int id)
         {
             RoleBUS roleBUS = new RoleBUS();
-            var result = roleBUS.DeleteRole(role);
-            return Ok(result);
+            return Ok(roleBUS.DeleteRole(id));
         }
+
 
         [HttpGet]
         public IActionResult GetRolesByUserId(Account account)
@@ -66,8 +65,9 @@ namespace DocumentManagement.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetRoleByID(int id)
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult GetRoleByID(int id)
         {
             RoleBUS roleBUS = new RoleBUS();
             return Ok(roleBUS.GetRoleByID(id));
