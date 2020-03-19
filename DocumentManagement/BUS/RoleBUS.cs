@@ -1,6 +1,7 @@
 ﻿using Common.Common;
 using DocumentManagement.Common;
 using DocumentManagement.DAL;
+using DocumentManagement.Models.DTO;
 using DocumentManagement.Models.Entity.Account;
 using DocumentManagement.Models.Entity.Role;
 using System;
@@ -21,6 +22,11 @@ namespace DocumentManagement.BUS
                 return _roleDAL;
             }
         }
+
+        public ReturnResult<Role> UserGroupGetSearchWithPaging(BaseCondition<Role> condi)
+        {
+            return RoleDAL.UserGroupGetSearchWithPaging(condi);
+        }
         public ReturnResult<Role> GetPaging(BaseCondition<Role> condition)
         {
             return RoleDAL.GetPaging(condition);
@@ -30,9 +36,15 @@ namespace DocumentManagement.BUS
             return RoleDAL.CreateRole(role);
         }
 
-        public ReturnResult<Role> DeleteRole(Role role)
+        public ReturnResult<Role> GetRoleByID(int id)
         {
-            return RoleDAL.DeleteRole(role);
+            var rs = RoleDAL.GetRoleByID(id);
+            return rs;
+        }
+
+        public ReturnResult<Role> DeleteRole(int id)
+        {
+            return RoleDAL.DeleteRole(id);
         }
 
         public ReturnResult<Role> EditRole(Role role)
@@ -43,6 +55,13 @@ namespace DocumentManagement.BUS
         public ReturnResult<Role> GetRolesByUserId(Account account)
         {
             return RoleDAL.GetRolesByUserId(account);
+        }
+
+        //get all role
+        public ReturnResult<RoleDTO> GetAllRole()
+        {
+            var result = RoleDAL.GetAllRole();
+            return result;
         }
     }
 }

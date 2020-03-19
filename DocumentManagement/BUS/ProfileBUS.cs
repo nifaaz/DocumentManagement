@@ -1,7 +1,8 @@
 ﻿using Common.Common;
 using DocumentManagement.Common;
 using DocumentManagement.DAL;
-
+using DocumentManagement.Models.Entity.ComputerFile;
+using DocumentManagement.Models.Entity.Document;
 using DocumentManagement.Models.Entity.Profile;
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ namespace DocumentManagement.BUS
                 _instance = value;
             }
         }
-        public ReturnResult<Profile> GetPagingWithSearchResults(BaseCondition<Profile> condition)
+        public ReturnResult<Profiles> GetPagingWithSearchResults(BaseCondition<Profiles> condition)
         {
             var result = profileDAL.GetPagingWithSearchResults(condition);
             return result;
@@ -49,37 +50,38 @@ namespace DocumentManagement.BUS
         //    var result = profileDAL.GetAllProfile();
         //    return result;
         //}
-        public ReturnResult<Profile> ExportProfile()
+
+        public ReturnResult<Profiles> ExportProfile()
         {
             var result = profileDAL.ExportProfile();
             return result;
         }
-        public ReturnResult<Profile> ProfileSearch(string serachStr)
+        public ReturnResult<Profiles> ProfileSearch(string serachStr)
         {
             var result = profileDAL.SearchProfile(serachStr);
             return result;
         }
-        public ReturnResult<Profile> GetProfileByID(int profileID)
+        public ReturnResult<Profiles> GetProfileByID(int profileID)
         {
             var result = profileDAL.GetProfileByID(profileID);
             return result;
         }
-        public ReturnResult<Profile> GetProfileByGearBoxID(int gearBoxID)
+        public ReturnResult<Profiles> GetProfileByGearBoxID(int gearBoxID)
         {
             var result = profileDAL.GetProfileByGearBoxID(gearBoxID);
             return result;
         }
-        public ReturnResult<Profile> CreateProfile(Profile profile)
+        public ReturnResult<Profiles> CreateProfile(Profiles profile)
         {
             var result = profileDAL.CreateProfile(profile);
             return result;
         }
-        public ReturnResult<Profile> DeleteProfile(int profileId)
+        public ReturnResult<Profiles> DeleteProfile(int profileId)
         {
             var result = profileDAL.DeleteProfile(profileId);
             return result;
         }
-        public ReturnResult<Profile> UpdateProfile(Profile profile)
+        public ReturnResult<Profiles> UpdateProfile(Profiles profile)
         {
             var result = profileDAL.UpdateProfile(profile);
             return result;
@@ -94,6 +96,35 @@ namespace DocumentManagement.BUS
         public ReturnResult<Profiles> GetAllProfiles()
         {
             return profileDAL.GetAllProfiles();
+        }
+        public ReturnResult<Profiles> Create (Profiles profiles, List<ComputerFile> files = null)
+        {
+            return profileDAL.Create(profiles, files);
+        }
+
+        public ReturnResult<Profiles> Update(Profiles profiles, List<ComputerFile> files = null, List<ComputerFile> extFiles = null, string folderPath = "")
+        {
+            return profileDAL.Update(profiles, files, extFiles, folderPath);
+        }
+
+        public ReturnResult<ProfileTypes> GetAllProfileTypes ()
+        {
+            return profileDAL.ProfileTypeGetAll();
+        }
+
+        public ReturnResult<Profiles> GetProfileByFileCode(string fileCode)
+        {
+            return profileDAL.GetProfileByFileCode(fileCode);
+        }
+
+        public ReturnResult<ComputerFile> GetListFilesByProfileId(BaseCondition<Profiles> condition)
+        {
+            return profileDAL.GetListFilesByProfileId(condition);
+        }
+
+        public ReturnResult<Document> GetDocumentsByProfileId (BaseCondition<Profiles> condition)
+        {
+            return profileDAL.GetDocumentsByProfileId(condition);
         }
     }
 }

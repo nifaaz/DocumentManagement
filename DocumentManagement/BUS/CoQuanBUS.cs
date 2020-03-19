@@ -1,6 +1,7 @@
 ﻿using Common.Common;
 using DocumentManagement.Common;
 using DocumentManagement.DAL;
+using DocumentManagement.Model.Entity;
 using DocumentManagement.Models.Entity;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,10 @@ namespace DocumentManagement.BUS
         public ReturnResult<CoQuan> GetAllCoQuan ()
         {
             return coQuanDAL.GetAllCoQuan();
+        }
+        public ReturnResult<Font> GetFontsByOrganId(BaseCondition<CoQuan> condition)
+        {
+            return coQuanDAL.GetFontsByOrganId(condition);
         }
     }
 }

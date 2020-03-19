@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Data;
 using DocumentManagement.Models.Entity.Organ;
 using System.Collections;
+using DocumentManagement.Model.Entity;
 
 namespace DocumentManagement.DAL
 {
@@ -94,10 +95,10 @@ namespace DocumentManagement.DAL
             CoQuan item = new CoQuan();
             try
             {
-                provider.SetQuery("COQUAN_GET_BY_ID", System.Data.CommandType.StoredProcedure)
-                    .SetParameter("CoQuanID", System.Data.SqlDbType.Int, id, System.Data.ParameterDirection.Input)
-                    .SetParameter("ErrorCode", System.Data.SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
-                    .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output)
+                provider.SetQuery("COQUAN_GET_BY_ID", CommandType.StoredProcedure)
+                    .SetParameter("CoQuanID", SqlDbType.Int, id, ParameterDirection.Input)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
                     .GetSingle<CoQuan>(out item).Complete();
 
                 provider.GetOutValue("ErrorCode", out outCode)
@@ -117,7 +118,7 @@ namespace DocumentManagement.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                result.Failed("-1", ex.Message);
             }
 
             return result;
@@ -129,39 +130,44 @@ namespace DocumentManagement.DAL
             string outCode = String.Empty;
             string outMessage = String.Empty;
             string totalRecords = String.Empty;
+       
             try
             {
-                provider.SetQuery("[Organ_INSERT]", System.Data.CommandType.StoredProcedure)
-                    .SetParameter("TenCoQuan", System.Data.SqlDbType.NVarChar, coQuan.TenCoQuan)
-                    .SetParameter("TinhID", System.Data.SqlDbType.Int, coQuan.TinhID, System.Data.ParameterDirection.Input)
-                    .SetParameter("HuyenID", System.Data.SqlDbType.Int, coQuan.HuyenID, System.Data.ParameterDirection.Input)
-                    .SetParameter("XaPhuongID", System.Data.SqlDbType.Int, coQuan.XaPhuongID, System.Data.ParameterDirection.Input)
-                    .SetParameter("LoaiCoQuan", System.Data.SqlDbType.Int, coQuan.LoaiCoQuanID, System.Data.ParameterDirection.Input)
+                provider.SetQuery("[Organ_INSERT]", CommandType.StoredProcedure)
+                    .SetParameter("OrganCode", SqlDbType.NVarChar, coQuan.OrganCode)
+                    .SetParameter("TenCoQuan", SqlDbType.NVarChar, coQuan.TenCoQuan)
+                    .SetParameter("TinhID", SqlDbType.Int, coQuan.TinhID, ParameterDirection.Input)
+                    .SetParameter("HuyenID", SqlDbType.Int, coQuan.HuyenID, ParameterDirection.Input)
+                    .SetParameter("XaPhuongID", SqlDbType.Int, coQuan.XaPhuongID, ParameterDirection.Input)
+                    .SetParameter("LoaiCoQuan", SqlDbType.Int, coQuan.LoaiCoQuanID, ParameterDirection.Input)
                     .SetParameter("CreateBy", SqlDbType.VarChar, coQuan.CreateBy, 50)
-                    .SetParameter("ErrorCode", System.Data.SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
-                    .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output)
-                    .GetSingle<CoQuan>(out coQuan).Complete();
+                    .SetParameter("Description", SqlDbType.NVarChar, coQuan.Description, 1000)
+                    .SetParameter("Notes", SqlDbType.NVarChar, coQuan.Notes, 1000)
+                    .SetParameter("AddressDetail", SqlDbType.NVarChar, coQuan.AddressDetail, 500)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                    .ExcuteNonQuery()
+                    .Complete();
 
                 provider.GetOutValue("ErrorCode", out outCode)
                           .GetOutValue("ErrorMessage", out outMessage);
 
                 if (outCode != "0" || outCode == "")
                 {
-                    result.ErrorCode = outCode;
-                    result.ErrorMessage = outMessage;
+                    result.Failed(outCode, outMessage);
+
                 }
                 else
                 {
                     result.Item = coQuan;
-                    result.ErrorCode = outCode;
-                    result.ErrorMessage = outMessage;
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
                 }
             }
             catch (Exception ex)
             {
-                throw ex;
+                result.Failed("-1", ex.Message);
             }
-
             return result;
         }
 
@@ -172,27 +178,30 @@ namespace DocumentManagement.DAL
         /// <returns></returns>
         public ReturnResult<CoQuan> UpdateCoQuan(CoQuan coQuan)
         {
-            ReturnResult<CoQuan> result;
+            ReturnResult<CoQuan> result = new ReturnResult<CoQuan>(); ;
             DbProvider db;
             try
             {
-                result = new ReturnResult<CoQuan>();
                 db = new DbProvider();
-                db.SetQuery("Organ_EDIT", CommandType.StoredProcedure)
-                    .SetParameter("CoQuanID", SqlDbType.Int, coQuan.CoQuanID)
-                    .SetParameter("DiaChiID", SqlDbType.Int, coQuan.DiaChiID)
-                    .SetParameter("TenCoQuan", SqlDbType.NVarChar, coQuan.TenCoQuan, 500)
-                    .SetParameter("LoaiCoQuan", SqlDbType.Int, coQuan.LoaiCoQuanID)
-                    .SetParameter("TinhID", SqlDbType.Int, coQuan.TinhID)
-                    .SetParameter("HuyenID", SqlDbType.Int, coQuan.HuyenID)
-                    .SetParameter("XaPhuongID", SqlDbType.Int, coQuan.XaPhuongID)
-                    .SetParameter("UpdatedBy", SqlDbType.NVarChar, coQuan.UpdatedBy, 50)
-                    .SetParameter("ErrorCode", SqlDbType.Int, DBNull.Value, ParameterDirection.Output)
-                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                    .ExcuteNonQuery()
-                    .Complete();
-                db.GetOutValue("ErrorCode", out string errorCode)
-                    .GetOutValue("ErrorMessage", out string errorMessage);
+                db.SetQuery("Organ_EDIT", CommandType.StoredProcedure);
+                db.SetParameter("CoQuanID", SqlDbType.Int, coQuan.CoQuanID);
+                db.SetParameter("OrganCode", SqlDbType.NVarChar, coQuan.OrganCode);
+                db.SetParameter("DiaChiID", SqlDbType.Int, coQuan.DiaChiID);
+                db.SetParameter("TenCoQuan", SqlDbType.NVarChar, coQuan.TenCoQuan, 500);
+                db.SetParameter("LoaiCoQuan", SqlDbType.Int, coQuan.LoaiCoQuanID);
+                db.SetParameter("AddressDetail", SqlDbType.NVarChar, coQuan.AddressDetail, 500);
+                db.SetParameter("TinhID", SqlDbType.Int, coQuan.TinhID);
+                db.SetParameter("HuyenID", SqlDbType.Int, coQuan.HuyenID);
+                db.SetParameter("XaPhuongID", SqlDbType.Int, coQuan.XaPhuongID);
+                db.SetParameter("UpdatedBy", SqlDbType.NVarChar, coQuan.UpdatedBy, 50);
+                db.SetParameter("Description", SqlDbType.NVarChar, coQuan.Description, 1000);
+                db.SetParameter("Notes", SqlDbType.NVarChar, coQuan.Notes, 1000);
+                db.SetParameter("ErrorCode", SqlDbType.Int, DBNull.Value, ParameterDirection.Output);
+                db.SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output);
+                db.ExcuteNonQuery();
+                db.Complete();
+                db.GetOutValue("ErrorCode", out string errorCode);
+                db.GetOutValue("ErrorMessage", out string errorMessage);
                 if (errorCode.ToString() == "0")
                 {
                     result.ErrorCode = "0";
@@ -205,7 +214,7 @@ namespace DocumentManagement.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                result.Failed("-1", ex.Message);
             }
             return result;
         }
@@ -283,6 +292,50 @@ namespace DocumentManagement.DAL
             }
             return result;
         }
+
+        public ReturnResult<Font> GetFontsByOrganId(BaseCondition<CoQuan> condition)
+        {
+            ReturnResult<Font> result = new ReturnResult<Font>();
+            DbProvider db;
+            List<Font> lstResult;
+            try
+            {
+                db = new DbProvider();
+                lstResult = new List<Font>();
+                db.SetQuery("ORGAN_GET_ALL_FOND_WITH_PAGING", CommandType.StoredProcedure);
+                db.SetParameter("OrganId", SqlDbType.Int, condition.Item.CoQuanID);
+                db.SetParameter("StartRow", SqlDbType.Int, condition.PageIndex);
+                db.SetParameter("PageSize", SqlDbType.Int, condition.PageSize);
+                db.SetParameter("InWhere", SqlDbType.NVarChar, condition.IN_WHERE == null ? "" : condition.IN_WHERE, 500);
+                db.SetParameter("InSort", SqlDbType.NVarChar, condition.IN_SORT == null ? "" : condition.IN_SORT, 200);
+                db.SetParameter("TotalRecords", SqlDbType.Int, DBNull.Value, ParameterDirection.Output);
+                db.SetParameter("ErrorCode", SqlDbType.Int, DBNull.Value, ParameterDirection.Output);
+                db.SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 2000, ParameterDirection.Output);
+                db.GetList<Font>(out lstResult);
+                db.Complete();
+                db.GetOutValue("ErrorCode", out int errorCode);
+                db.GetOutValue("ErrorMessage", out string errorMessage);
+                    db.GetOutValue("TotalRecords", out int totalRecords);
+
+                if (errorCode.ToString() != "0")
+                {
+                    result.Failed(errorCode.ToString(), errorMessage);
+                }
+                else
+                {
+                    result.ItemList = lstResult;
+                    result.TotalRows = totalRecords;
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
+        }
+
     }
 
 }

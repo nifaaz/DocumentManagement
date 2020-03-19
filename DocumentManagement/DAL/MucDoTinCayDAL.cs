@@ -1,9 +1,7 @@
 ﻿using Common.Common;
 using DocumentManagement.Common;
 using DocumentManagement.Model;
-using DocumentManagement.Models.DTO;
-using DocumentManagement.Models.Entity.Account;
-using DocumentManagement.Models.Entity.Role;
+using DocumentManagement.Models.Entity.Category;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,27 +10,56 @@ using System.Threading.Tasks;
 
 namespace DocumentManagement.DAL
 {
-    public class RoleDAL
+    public class MucDoTinCayDAL
     {
+        private MucDoTinCayDAL() { }
 
-        public ReturnResult<Role> UserGroupGetSearchWithPaging(BaseCondition<Role> condition)
+        private static volatile MucDoTinCayDAL _instance;
+
+        static object key = new object();
+
+        public static MucDoTinCayDAL GetMucDoTinCayDALInstance
+        {
+            get
+            {
+                lock (key)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new MucDoTinCayDAL();
+                    }
+                }
+
+                return _instance;
+            }
+
+            private set
+            {
+                _instance = value;
+            }
+        }
+
+        //
+
+
+        public ReturnResult<MucDoTinCay> MucDoTinCayGetSearchWithPaging(BaseCondition<MucDoTinCay> condition)
         {
             DbProvider provider = new DbProvider();
-            List<Role> list = new List<Role>();
+            List<MucDoTinCay> list = new List<MucDoTinCay>();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             string totalRecords = String.Empty;
-            var result = new ReturnResult<Role>();
+            var result = new ReturnResult<MucDoTinCay>();
             try
             {
-                provider.SetQuery("Role_GET_SEARCH_WITH_PAGING", System.Data.CommandType.StoredProcedure)
+                provider.SetQuery("MucDoTinCay_GET_SEARCH_WITH_PAGING", System.Data.CommandType.StoredProcedure)
                     .SetParameter("InWhere", System.Data.SqlDbType.NVarChar, condition.IN_WHERE ?? String.Empty)
                     .SetParameter("InSort", System.Data.SqlDbType.NVarChar, condition.IN_SORT ?? String.Empty)
                     .SetParameter("StartRow", System.Data.SqlDbType.Int, condition.PageIndex)
                     .SetParameter("PageSize", System.Data.SqlDbType.Int, condition.PageSize)
                     .SetParameter("TotalRecords", System.Data.SqlDbType.Int, DBNull.Value, System.Data.ParameterDirection.Output)
                     .SetParameter("ErrorCode", System.Data.SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
-                    .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output).GetList<Role>(out list).Complete();
+                    .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output).GetList<MucDoTinCay>(out list).Complete();
 
                 if (list.Count > 0)
                 {
@@ -60,12 +87,12 @@ namespace DocumentManagement.DAL
             }
             return result;
         }
-        public ReturnResult<Role> GetPaging(BaseCondition<Role> condition)
+        public ReturnResult<MucDoTinCay> GetPaging(BaseCondition<MucDoTinCay> condition)
         {
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
-            dbProvider.SetQuery("ROLE_GET_PAGING", CommandType.StoredProcedure)
+            dbProvider.SetQuery("MucDoTinCay_GET_PAGING", CommandType.StoredProcedure)
                 .SetParameter("FromRecord", SqlDbType.NVarChar, condition.FromRecord, 50, ParameterDirection.Input)
                 .SetParameter("PageSize", SqlDbType.NVarChar, condition.PageSize, 50, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
@@ -75,27 +102,27 @@ namespace DocumentManagement.DAL
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Role>()
+            return new ReturnResult<MucDoTinCay>()
             {
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
             };
         }
-        public ReturnResult<Role> CreateRole(Role role)
+        public ReturnResult<MucDoTinCay> CreateMucDoTinCay(MucDoTinCay MucDoTinCay)
         {
 
             DbProvider provider = new DbProvider();
-            var result = new ReturnResult<Role>();
+            var result = new ReturnResult<MucDoTinCay>();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             string totalRecords = String.Empty;
             try
             {
-                provider.SetQuery("[ROLE_CREATE]", System.Data.CommandType.StoredProcedure)
-                    .SetParameter("RoleName", SqlDbType.NVarChar, role.RoleName, 50, ParameterDirection.Input)
+                provider.SetQuery("MucDoTinCay_CREATE", System.Data.CommandType.StoredProcedure)
+                    .SetParameter("LoaiMucDoTinCay", SqlDbType.NVarChar, MucDoTinCay.LoaiMucDoTinCay, 50, ParameterDirection.Input)
                     .SetParameter("ErrorCode", System.Data.SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
                     .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output)
-                    .GetSingle<Role>(out role).Complete();
+                    .GetSingle<MucDoTinCay>(out MucDoTinCay).Complete();
 
                 provider.GetOutValue("ErrorCode", out outCode)
                           .GetOutValue("ErrorMessage", out outMessage);
@@ -107,7 +134,7 @@ namespace DocumentManagement.DAL
                 }
                 else
                 {
-                    result.Item = role;
+                    result.Item = MucDoTinCay;
                     result.ErrorCode = outCode;
                     result.ErrorMessage = outMessage;
                 }
@@ -120,40 +147,17 @@ namespace DocumentManagement.DAL
             return result;
         }
 
-        public ReturnResult<Role> GetRolesByUserId(Account account)
+        public ReturnResult<MucDoTinCay> EditMucDoTinCay(MucDoTinCay MucDoTinCay)
         {
-            DbProvider dbProvider = new DbProvider();
-            string outCode = String.Empty;
-            string outMessage = String.Empty;
-            var result = new List<Role>();
-            dbProvider.SetQuery("ROLE_GET_ROLE_BY_Role_ID", CommandType.StoredProcedure)
-                .SetParameter("RoleId", SqlDbType.Int, account.UserId, ParameterDirection.Input)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<Role>(out result)
-                .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
-
-            return new ReturnResult<Role>()
-            {
-                ItemList = result,
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-            };
-        }
-
-        public ReturnResult<Role> EditRole(Role role)
-        {
-            ReturnResult<Role> result;
+            ReturnResult<MucDoTinCay> result;
             DbProvider db;
             try
             {
-                result = new ReturnResult<Role>();
+                result = new ReturnResult<MucDoTinCay>();
                 db = new DbProvider();
-                db.SetQuery("ROLE_EDIT", CommandType.StoredProcedure)
-                    .SetParameter("RoleId", SqlDbType.Int, role.RoleId, ParameterDirection.Input)
-                    .SetParameter("RoleName", SqlDbType.NVarChar, role.RoleName, 50, ParameterDirection.Input)
+                db.SetQuery("MucDoTinCay_EDIT", CommandType.StoredProcedure)
+                    .SetParameter("MucDoTinCayID", SqlDbType.Int, MucDoTinCay.MucDoTinCayID, ParameterDirection.Input)
+                    .SetParameter("LoaiMucDoTinCay", SqlDbType.NVarChar, MucDoTinCay.LoaiMucDoTinCay, 50, ParameterDirection.Input)
                     .SetParameter("ErrorCode", SqlDbType.Int, DBNull.Value, ParameterDirection.Output)
                     .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
                     .ExcuteNonQuery()
@@ -177,18 +181,18 @@ namespace DocumentManagement.DAL
             return result;
         }
 
-        public ReturnResult<Role> DeleteRole(int id)
+        public ReturnResult<MucDoTinCay> DeleteMucDoTinCay(int id)
         {
             DbProvider provider = new DbProvider();
-            var result = new ReturnResult<Role>();
+            var result = new ReturnResult<MucDoTinCay>();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             string totalRecords = String.Empty;
-            Role item = new Role();
+            MucDoTinCay item = new MucDoTinCay();
             try
             {
-                provider.SetQuery("ROLE_DELETE", CommandType.StoredProcedure)
-                     .SetParameter("RoleId", SqlDbType.Int, id, ParameterDirection.Input)
+                provider.SetQuery("MucDoTinCay_DELETE", CommandType.StoredProcedure)
+                     .SetParameter("MucDoTinCayID", SqlDbType.Int, id, ParameterDirection.Input)
                     .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
                     .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output)
                     .ExcuteNonQuery().Complete();
@@ -214,55 +218,21 @@ namespace DocumentManagement.DAL
             return result;
         }
 
-
-        // get All Role
-        public ReturnResult<RoleDTO> GetAllRole ()
+        public ReturnResult<MucDoTinCay> GetMucDoTinCayByID(int MucDoTinCayId)
         {
-            List<RoleDTO> roleDTOs = new List<RoleDTO>();
+            var result = new ReturnResult<MucDoTinCay>();
+            MucDoTinCay item = new MucDoTinCay();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
             try
             {
-                dbProvider.SetQuery("ROLE_GET_ALL", CommandType.StoredProcedure)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<RoleDTO>(out roleDTOs)
-                .Complete();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
-
-            return new ReturnResult<RoleDTO>()
-            {
-                ItemList = roleDTOs,
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-                TotalRows = totalRows
-            };
-        }
-
-        public ReturnResult<Role> GetRoleByID(int roleId)
-        {
-            var result = new ReturnResult<Role>();
-            Role item = new Role();
-            DbProvider dbProvider = new DbProvider();
-            string outCode = String.Empty;
-            string outMessage = String.Empty;
-            int totalRows = 0;
-            try
-            {
-                dbProvider.SetQuery("ROLE_GET_BY_ID", CommandType.StoredProcedure)
-               .SetParameter("RoleID", SqlDbType.Int, roleId, ParameterDirection.Input)
+                dbProvider.SetQuery("MucDoTinCay_GET_BY_ID", CommandType.StoredProcedure)
+               .SetParameter("MucDoTinCayID", SqlDbType.Int, MucDoTinCayId, ParameterDirection.Input)
                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-               .GetSingle<Role>(out item)
+               .GetSingle<MucDoTinCay>(out item)
                .Complete();
 
             }
@@ -274,7 +244,7 @@ namespace DocumentManagement.DAL
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Role>()
+            return new ReturnResult<MucDoTinCay>()
             {
                 Item = item,
                 ErrorCode = outCode,
@@ -282,6 +252,5 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
-
     }
 }

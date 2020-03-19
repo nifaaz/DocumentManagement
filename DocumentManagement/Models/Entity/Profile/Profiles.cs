@@ -8,7 +8,7 @@ namespace DocumentManagement.Models.Entity.Profile
     public class Profiles
     {
         /// <summary>
-        /// mã hồ sơ
+        /// mã định danh hồ sơ
         /// </summary>
         public int ProfileId { get; set; }
         /// <summary>
@@ -26,7 +26,7 @@ namespace DocumentManagement.Models.Entity.Profile
         /// <summary>
         /// mã hộp 
         /// </summary>
-        public string GearBoxId { get; set; }
+        public int GearBoxId { get; set; }
         /// <summary>
         /// mục lục 
         /// </summary>
@@ -55,7 +55,7 @@ namespace DocumentManagement.Models.Entity.Profile
         /// <summary>
         /// kí hiệu thông tin
         /// </summary>
-        public string InfoSign { get; set; }
+        public string InforSign { get; set; }
         /// <summary>
         /// từ khoá
         /// </summary>
@@ -72,5 +72,38 @@ namespace DocumentManagement.Models.Entity.Profile
         public string ProfileTypeName { get; set; }
 
         public string GearBoxTitle { get; set; }
+
+        public string CreatedBy { get; set; }
+
+        public string UpdatedBy { get; set; }
+
+        public int TotalFiles { get; set; }
+        // Hồ sơ ID
+        public int ProfileID { get; set; }
+        // Hộp số ID
+        public int GearBoxID { get; set; }
+        //Mã hồ sơ
+        public string ProfileCode { get; set; }
+        // Tiêu đề hồ sơ
+        public string ProfileTitle { get; set; }
+        // Tên hồ sơ
+        public string ProfileName { get; set; }
+        // Ngày tạo
+        public DateTime CreateTime { get; set; }
+        // Ngày Cập nhật
+        public DateTime UpdateTime { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public string Note { get; set; }
+        public int ShelfLife { get; set; }
+        public string GearBoxCode { get; set; }
+        public string ProfileNumber { get; set; }
+        /// kí hiệu thông tin
+        /// </summary>
+        public string InfoSign { get; set; }
+
+
+
+
     }
 }

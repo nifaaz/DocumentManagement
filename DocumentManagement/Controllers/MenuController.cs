@@ -33,12 +33,12 @@ namespace DocumentManagement.Controlleresult
             var result = fontBUS.GetFontByID(fontID);
             return Ok(result);
         }
-        [HttpGet]
-        public IActionResult GetFontByCoQuanID(int CoQuanID)
-        {
-            var result = fontBUS.GetFontByCoQuanID(CoQuanID);
-            return Ok(result);
-        }
+        //[HttpGet]
+        //public IActionResult GetFontByCoQuanID(int CoQuanID)
+        //{
+        //    var result = fontBUS.GetFontByCoQuanID(CoQuanID);
+        //    return Ok(result);
+        //}
         [HttpPost]
         public IActionResult DeleteFont(int FontID)
         {

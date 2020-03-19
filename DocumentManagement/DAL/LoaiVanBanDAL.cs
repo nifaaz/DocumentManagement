@@ -1,9 +1,7 @@
 ﻿using Common.Common;
 using DocumentManagement.Common;
 using DocumentManagement.Model;
-using DocumentManagement.Models.DTO;
-using DocumentManagement.Models.Entity.Account;
-using DocumentManagement.Models.Entity.Role;
+using DocumentManagement.Models.Entity.Category;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,27 +10,56 @@ using System.Threading.Tasks;
 
 namespace DocumentManagement.DAL
 {
-    public class RoleDAL
+    public class LoaiVanBanDAL
     {
+        private LoaiVanBanDAL() { }
 
-        public ReturnResult<Role> UserGroupGetSearchWithPaging(BaseCondition<Role> condition)
+        private static volatile LoaiVanBanDAL _instance;
+
+        static object key = new object();
+
+        public static LoaiVanBanDAL GetLoaiVanBanDALInstance
+        {
+            get
+            {
+                lock (key)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new LoaiVanBanDAL();
+                    }
+                }
+
+                return _instance;
+            }
+
+            private set
+            {
+                _instance = value;
+            }
+        }
+
+        //
+
+
+        public ReturnResult<LoaiVanBan> LoaiVanBanGetSearchWithPaging(BaseCondition<LoaiVanBan> condition)
         {
             DbProvider provider = new DbProvider();
-            List<Role> list = new List<Role>();
+            List<LoaiVanBan> list = new List<LoaiVanBan>();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             string totalRecords = String.Empty;
-            var result = new ReturnResult<Role>();
+            var result = new ReturnResult<LoaiVanBan>();
             try
             {
-                provider.SetQuery("Role_GET_SEARCH_WITH_PAGING", System.Data.CommandType.StoredProcedure)
+                provider.SetQuery("LoaiVanBan_GET_SEARCH_WITH_PAGING", System.Data.CommandType.StoredProcedure)
                     .SetParameter("InWhere", System.Data.SqlDbType.NVarChar, condition.IN_WHERE ?? String.Empty)
                     .SetParameter("InSort", System.Data.SqlDbType.NVarChar, condition.IN_SORT ?? String.Empty)
                     .SetParameter("StartRow", System.Data.SqlDbType.Int, condition.PageIndex)
                     .SetParameter("PageSize", System.Data.SqlDbType.Int, condition.PageSize)
                     .SetParameter("TotalRecords", System.Data.SqlDbType.Int, DBNull.Value, System.Data.ParameterDirection.Output)
                     .SetParameter("ErrorCode", System.Data.SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
-                    .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output).GetList<Role>(out list).Complete();
+                    .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output).GetList<LoaiVanBan>(out list).Complete();
 
                 if (list.Count > 0)
                 {
@@ -60,12 +87,12 @@ namespace DocumentManagement.DAL
             }
             return result;
         }
-        public ReturnResult<Role> GetPaging(BaseCondition<Role> condition)
+        public ReturnResult<LoaiVanBan> GetPaging(BaseCondition<LoaiVanBan> condition)
         {
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
-            dbProvider.SetQuery("ROLE_GET_PAGING", CommandType.StoredProcedure)
+            dbProvider.SetQuery("LoaiVanBan_GET_PAGING", CommandType.StoredProcedure)
                 .SetParameter("FromRecord", SqlDbType.NVarChar, condition.FromRecord, 50, ParameterDirection.Input)
                 .SetParameter("PageSize", SqlDbType.NVarChar, condition.PageSize, 50, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
@@ -75,27 +102,27 @@ namespace DocumentManagement.DAL
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Role>()
+            return new ReturnResult<LoaiVanBan>()
             {
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
             };
         }
-        public ReturnResult<Role> CreateRole(Role role)
+        public ReturnResult<LoaiVanBan> CreateLoaiVanBan(LoaiVanBan LoaiVanBan)
         {
 
             DbProvider provider = new DbProvider();
-            var result = new ReturnResult<Role>();
+            var result = new ReturnResult<LoaiVanBan>();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             string totalRecords = String.Empty;
             try
             {
-                provider.SetQuery("[ROLE_CREATE]", System.Data.CommandType.StoredProcedure)
-                    .SetParameter("RoleName", SqlDbType.NVarChar, role.RoleName, 50, ParameterDirection.Input)
+                provider.SetQuery("LoaiVanBan_CREATE", System.Data.CommandType.StoredProcedure)
+                    .SetParameter("TenLoaiVanBan", SqlDbType.NVarChar, LoaiVanBan.TenLoaiVanBan, 50, ParameterDirection.Input)
                     .SetParameter("ErrorCode", System.Data.SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
                     .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output)
-                    .GetSingle<Role>(out role).Complete();
+                    .GetSingle<LoaiVanBan>(out LoaiVanBan).Complete();
 
                 provider.GetOutValue("ErrorCode", out outCode)
                           .GetOutValue("ErrorMessage", out outMessage);
@@ -107,7 +134,7 @@ namespace DocumentManagement.DAL
                 }
                 else
                 {
-                    result.Item = role;
+                    result.Item = LoaiVanBan;
                     result.ErrorCode = outCode;
                     result.ErrorMessage = outMessage;
                 }
@@ -120,40 +147,17 @@ namespace DocumentManagement.DAL
             return result;
         }
 
-        public ReturnResult<Role> GetRolesByUserId(Account account)
+        public ReturnResult<LoaiVanBan> EditLoaiVanBan(LoaiVanBan LoaiVanBan)
         {
-            DbProvider dbProvider = new DbProvider();
-            string outCode = String.Empty;
-            string outMessage = String.Empty;
-            var result = new List<Role>();
-            dbProvider.SetQuery("ROLE_GET_ROLE_BY_Role_ID", CommandType.StoredProcedure)
-                .SetParameter("RoleId", SqlDbType.Int, account.UserId, ParameterDirection.Input)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<Role>(out result)
-                .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
-
-            return new ReturnResult<Role>()
-            {
-                ItemList = result,
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-            };
-        }
-
-        public ReturnResult<Role> EditRole(Role role)
-        {
-            ReturnResult<Role> result;
+            ReturnResult<LoaiVanBan> result;
             DbProvider db;
             try
             {
-                result = new ReturnResult<Role>();
+                result = new ReturnResult<LoaiVanBan>();
                 db = new DbProvider();
-                db.SetQuery("ROLE_EDIT", CommandType.StoredProcedure)
-                    .SetParameter("RoleId", SqlDbType.Int, role.RoleId, ParameterDirection.Input)
-                    .SetParameter("RoleName", SqlDbType.NVarChar, role.RoleName, 50, ParameterDirection.Input)
+                db.SetQuery("LoaiVanBan_EDIT", CommandType.StoredProcedure)
+                    .SetParameter("LoaiVanBanID", SqlDbType.Int, LoaiVanBan.LoaiVanBanID, ParameterDirection.Input)
+                    .SetParameter("TenLoaiVanBan", SqlDbType.NVarChar, LoaiVanBan.TenLoaiVanBan, 50, ParameterDirection.Input)
                     .SetParameter("ErrorCode", SqlDbType.Int, DBNull.Value, ParameterDirection.Output)
                     .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
                     .ExcuteNonQuery()
@@ -177,18 +181,18 @@ namespace DocumentManagement.DAL
             return result;
         }
 
-        public ReturnResult<Role> DeleteRole(int id)
+        public ReturnResult<LoaiVanBan> DeleteLoaiVanBan(int id)
         {
             DbProvider provider = new DbProvider();
-            var result = new ReturnResult<Role>();
+            var result = new ReturnResult<LoaiVanBan>();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             string totalRecords = String.Empty;
-            Role item = new Role();
+            LoaiVanBan item = new LoaiVanBan();
             try
             {
-                provider.SetQuery("ROLE_DELETE", CommandType.StoredProcedure)
-                     .SetParameter("RoleId", SqlDbType.Int, id, ParameterDirection.Input)
+                provider.SetQuery("LoaiVanBan_DELETE", CommandType.StoredProcedure)
+                     .SetParameter("LoaiVanBanID", SqlDbType.Int, id, ParameterDirection.Input)
                     .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
                     .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output)
                     .ExcuteNonQuery().Complete();
@@ -214,55 +218,21 @@ namespace DocumentManagement.DAL
             return result;
         }
 
-
-        // get All Role
-        public ReturnResult<RoleDTO> GetAllRole ()
+        public ReturnResult<LoaiVanBan> GetLoaiVanBanByID(int LoaiVanBanId)
         {
-            List<RoleDTO> roleDTOs = new List<RoleDTO>();
+            var result = new ReturnResult<LoaiVanBan>();
+            LoaiVanBan item = new LoaiVanBan();
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
             int totalRows = 0;
             try
             {
-                dbProvider.SetQuery("ROLE_GET_ALL", CommandType.StoredProcedure)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<RoleDTO>(out roleDTOs)
-                .Complete();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
-
-            return new ReturnResult<RoleDTO>()
-            {
-                ItemList = roleDTOs,
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-                TotalRows = totalRows
-            };
-        }
-
-        public ReturnResult<Role> GetRoleByID(int roleId)
-        {
-            var result = new ReturnResult<Role>();
-            Role item = new Role();
-            DbProvider dbProvider = new DbProvider();
-            string outCode = String.Empty;
-            string outMessage = String.Empty;
-            int totalRows = 0;
-            try
-            {
-                dbProvider.SetQuery("ROLE_GET_BY_ID", CommandType.StoredProcedure)
-               .SetParameter("RoleID", SqlDbType.Int, roleId, ParameterDirection.Input)
+                dbProvider.SetQuery("LoaiVanBan_GET_BY_ID", CommandType.StoredProcedure)
+               .SetParameter("LoaiVanBanID", SqlDbType.Int, LoaiVanBanId, ParameterDirection.Input)
                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-               .GetSingle<Role>(out item)
+               .GetSingle<LoaiVanBan>(out item)
                .Complete();
 
             }
@@ -274,7 +244,7 @@ namespace DocumentManagement.DAL
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Role>()
+            return new ReturnResult<LoaiVanBan>()
             {
                 Item = item,
                 ErrorCode = outCode,
@@ -282,6 +252,5 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
-
     }
 }
