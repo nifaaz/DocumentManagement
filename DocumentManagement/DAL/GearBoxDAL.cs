@@ -330,8 +330,8 @@ namespace DocumentManagement.DAL
                 db = new DbProvider();
                 db.SetQuery("GearBox_EDIT", CommandType.StoredProcedure)
                     .SetParameter("HopSoID", SqlDbType.Int, gearBox.GearBoxID,ParameterDirection.Input)
-                    .SetParameter("MaHopSo", SqlDbType.NVarChar, gearBox.GearBoxCode, 10, ParameterDirection.Input)
-                    .SetParameter("TieuDeHopSo", SqlDbType.NVarChar, gearBox.GearBoxTitle,300, ParameterDirection.Input)
+                    .SetParameter("MaHopSo", SqlDbType.NVarChar, gearBox.GearBoxCode, 50, ParameterDirection.Input)
+                    .SetParameter("TieuDeHopSo", SqlDbType.NVarChar, gearBox.GearBoxTitle, 50, ParameterDirection.Input)
                     .SetParameter("MucLucHoSoID", SqlDbType.Int, gearBox.TabOfContID, ParameterDirection.Input)
                     .SetParameter("GhiChu", SqlDbType.NVarChar, gearBox.Note, 300, ParameterDirection.Input)
                     .SetParameter("NgayBatDau", SqlDbType.NVarChar, gearBox.StDate.ToString(), 100, ParameterDirection.Input)
@@ -369,8 +369,8 @@ namespace DocumentManagement.DAL
             try
             {
                 provider.SetQuery("[GearBox_INSERT]", System.Data.CommandType.StoredProcedure)
-                .SetParameter("MaHopSo", SqlDbType.NVarChar, gearBox.GearBoxCode, 10, ParameterDirection.Input)
-                .SetParameter("TieuDeHopSo", SqlDbType.NVarChar, gearBox.GearBoxTitle,300, ParameterDirection.Input)
+                .SetParameter("MaHopSo", SqlDbType.NVarChar, gearBox.GearBoxCode, 50, ParameterDirection.Input)
+                .SetParameter("TieuDeHopSo", SqlDbType.NVarChar, gearBox.GearBoxTitle, 50, ParameterDirection.Input)
                 .SetParameter("MucLucHoSoID", SqlDbType.Int, gearBox.TabOfContID, ParameterDirection.Input)
                 .SetParameter("GhiChu", SqlDbType.NVarChar, gearBox.Note, 300, ParameterDirection.Input)
                 .SetParameter("NgayBatDau", SqlDbType.NVarChar, gearBox.StDate.ToString(), 100, ParameterDirection.Input)
