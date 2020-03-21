@@ -17,6 +17,12 @@ namespace DocumentManagement.Models.Entity.Document
         /// </summary>
         public string FileCode { get; set; }
         /// <summary>
+        /// Hồ sơ Id
+        /// </summary>
+        public int FileId { get; set; }
+        public int FontId { get; set; }
+        public int OrganId { get; set; }
+        /// <summary>
         /// Số thứ tự văn bản
         /// </summary>
         public int DocOrdinal { get; set; }
@@ -88,6 +94,7 @@ namespace DocumentManagement.Models.Entity.Document
         public int ConfidenceLevelId { get; set; }
         public int FormatId { get; set; }
         public int DocTypeId { get;set; }
+        public string ComputerFileId { get; set; }
         public string ComputerFileName { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedDate { get; set; }

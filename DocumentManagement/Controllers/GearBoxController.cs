@@ -45,12 +45,21 @@ namespace DocumentManagement.Controllers
             return Ok(result);
         }
         [HttpPost]
+
         public IActionResult GetGearBoxByTabOfContID([FromBody]BaseCondition<GearBox> condition)
         {
             var result = gearBoxBUS.GetGearBoxByTabOfContID(condition);
             return Ok(result);
         }
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult GetGearBoxByTabOfContID(string id)
+        {
+            var result = gearBoxBUS.GetGearBoxByTabOfContID(id);
+            return Ok(result);
+        }
 
+        
         [HttpPost]
         public IActionResult GetProfileByGearBoxID([FromBody]BaseCondition<Profiles> condition)
         {

@@ -45,7 +45,14 @@ namespace DocumentManagement.Controllers
             var result = profileBUS.GetProfileByGearBoxID(gearboxID);
             return Ok(result);
         }
-
+        // For select2
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult GetProfileByGearBoxId(string id)
+        {
+            var result = profileBUS.GetProfileByGearBoxId(id);
+            return Ok(result);
+        }
         [HttpPost]
         public IActionResult CreateProfile(Profiles profile)
         {
@@ -600,13 +607,21 @@ namespace DocumentManagement.Controllers
         [HttpPost]
         public IActionResult GetListFilesByProfileId([FromBody] BaseCondition<Profiles> condition)
         {
-            return Ok(profileBUS.GetListFilesByProfileId(condition));
+            var result = profileBUS.GetListFilesByProfileId(condition);
+            return Ok(result);
         }
-
+        [HttpGet]
+        [Route("{profileId}")]
+        public IActionResult GetComputerFileByProfileId(string profileId)
+        {
+            var result = profileBUS.GetComputerFileByProfileId(profileId);
+            return Ok(result);
+        }
         [HttpPost]
         public IActionResult GetDocumentsByProfileId (BaseCondition<Profiles> condition)
         {
             return Ok(profileBUS.GetDocumentsByProfileId(condition));
         }
     }
+    
 }

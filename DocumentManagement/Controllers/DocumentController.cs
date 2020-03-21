@@ -31,7 +31,7 @@ namespace DocumentManagement.Controllers
             return Ok(result);
         }
         [HttpPost]
-        public IActionResult CreateDocument([FromBody]Document document)
+        public IActionResult CreateDocument(Document document)
         {
             DocumentBUS documentBUS = new DocumentBUS();
             var result = documentBUS.CreateDocument(document);
