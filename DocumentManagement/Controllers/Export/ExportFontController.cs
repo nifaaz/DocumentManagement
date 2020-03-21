@@ -25,7 +25,8 @@ namespace DocumentManagement.Controllers.Export
             _hostingEnvironment = environment;
         }
         // GET: Export Gear Box
-        public FileResult FontExport(DateTime? startDate, DateTime? enDate)
+        [HttpGet]
+        public FileResult FontExport()
         {
             //
             List<Font> lstFont = new List<Font>();

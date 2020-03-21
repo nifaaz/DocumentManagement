@@ -73,7 +73,7 @@ namespace DocumentManagement.DAL
             int totalRows = 0;
             try
             {
-                dbProvider.SetQuery("Organ_GET_ALL", CommandType.StoredProcedure)
+                dbProvider.SetQuery("ORGAN_GET_ALL_GETIDANDNAME", CommandType.StoredProcedure)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
                 .GetList<OrganDTO>(out OrganList)
