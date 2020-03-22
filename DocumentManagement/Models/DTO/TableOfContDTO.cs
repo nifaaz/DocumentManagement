@@ -10,4 +10,10 @@ namespace DocumentManagement.Models.DTO
         public string TabOfContName { get; set; }
         public int TabOfContID { get; set; }
     }
+
+    public class TableOfContSelect2
+    {
+        public string Text { get; set; }
+        public int Id { get; set; }
+    }
 }

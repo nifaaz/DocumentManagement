@@ -392,5 +392,38 @@ namespace DocumentManagement.DAL
 
             return result;
         }
+
+        //
+        public ReturnResult<FontSelect2> GetAllFontSelect2()
+        {
+            List<FontSelect2> fontSelect2s = new List<FontSelect2>();
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            int totalRows = 0;
+            try
+            {
+                dbProvider.SetQuery("FONT_GET_ALL_GETIDANDNAME_SELECT2", CommandType.StoredProcedure)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetList<FontSelect2>(out fontSelect2s)
+                .Complete();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<FontSelect2>()
+            {
+                ItemList = fontSelect2s,
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+                TotalRows = totalRows
+            };
+        }
     }
 }

@@ -7,6 +7,7 @@ using DocumentManagement.BUS;
 using DocumentManagement.Model.Entity;
 using DocumentManagement.Model.Entity.GearBox;
 using DocumentManagement.Model.Entity.TableOfContens;
+using DocumentManagement.Models.DTO;
 using DocumentManagement.Models.Entity.Profile;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -128,6 +129,20 @@ namespace DocumentManagement.Controllers
                 };
             }).Distinct().ToList();
             return Ok(fonts);
+        }
+
+        [HttpGet]
+        public IActionResult GetFontsByOrganIDSelect2([FromQuery] int organID)
+        {
+            var fonts = gearBoxBUS.GetFontsByOrganIDSelect2(organID);
+            return Ok(fonts.ItemList);
+        }
+
+        [HttpGet]
+        public IActionResult GetTableOfContentsByFontIDSelect2([FromQuery] int fontID)
+        {
+            var tableOfContents = gearBoxBUS.GetTableOfContentsByFontIDSelect2(fontID);
+            return Ok(tableOfContents.ItemList);
         }
 
         [HttpGet]

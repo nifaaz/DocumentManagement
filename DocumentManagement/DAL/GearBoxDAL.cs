@@ -4,6 +4,7 @@ using DocumentManagement.Model;
 using DocumentManagement.Model.Entity;
 using DocumentManagement.Model.Entity.GearBox;
 using DocumentManagement.Model.Entity.TableOfContens;
+using DocumentManagement.Models.DTO;
 using DocumentManagement.Models.Entity.Profile;
 using System;
 using System.Collections.Generic;
@@ -468,6 +469,58 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
+
+        public ReturnResult<FontSelect2> GetFontsByOrganIDSelect2(int organID)
+        {
+            List<FontSelect2> fons = new List<FontSelect2>();
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            int totalRows = 0;
+            dbProvider.SetQuery("GET_FONTS_BY_ORGAN_ID_Select2", CommandType.StoredProcedure)
+                .SetParameter("CoQuanID", SqlDbType.Int, organID, ParameterDirection.Input)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetList<FontSelect2>(out fons)
+                .Complete();
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<FontSelect2>()
+            {
+                ItemList = fons,
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+                TotalRows = totalRows
+            };
+        }
+
+        public ReturnResult<TableOfContSelect2> GetTableOfContentsByFontIDSelect2(int fontID)
+        {
+            List<TableOfContSelect2> tableOfContSelect2s = new List<TableOfContSelect2>();
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            int totalRows = 0;
+            dbProvider.SetQuery("GET_TABOFCONTS_BY_FONT_ID_Select2", CommandType.StoredProcedure)
+                .SetParameter("PhongID", SqlDbType.Int, fontID, ParameterDirection.Input)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetList<TableOfContSelect2>(out tableOfContSelect2s)
+                .Complete();
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<TableOfContSelect2>()
+            {
+                ItemList = tableOfContSelect2s,
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+                TotalRows = totalRows
+            };
+        }
+
+
         public ReturnResult<TableOfContents> GetTableOfContentsByFontID(int fontID)
         {
             List<TableOfContents> tableOfContens = new List<TableOfContents>();

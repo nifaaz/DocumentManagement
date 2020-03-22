@@ -135,5 +135,12 @@ namespace DocumentManagement.Controlleresult
                 throw;
             }
         }
+
+        [HttpGet]
+        public IActionResult GetAllFontSelect2()
+        {
+            var rs = fontBUS.GetAllFontSelect2();
+            return Ok(rs.ItemList);
+        }
     }
 }

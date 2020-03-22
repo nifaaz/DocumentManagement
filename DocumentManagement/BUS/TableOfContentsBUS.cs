@@ -90,5 +90,11 @@ namespace DocumentManagement.BUS
             var rs = tableOfContentsDAL.InsertTableOfContents(TableOfContents);
             return rs;
         }
+
+        public ReturnResult<TableOfContSelect2> GetAllTabSelect2()
+        {
+            var result = tableOfContentsDAL.GetAllTabSelect2();
+            return result;
+        }
     }
 }
