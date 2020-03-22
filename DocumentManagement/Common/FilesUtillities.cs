@@ -37,5 +37,33 @@ namespace DocumentManagement.Common
             string filePath = FILE_DIRECTORY_PATH + file.FileName;
             return filePath;
         }
+
+        public static string ConvertImageToBase64String (string imagePath)
+        {
+            string base64String = "";
+            try
+            {
+                if (!string.IsNullOrEmpty(imagePath))
+                {
+                    string[] lstFile = Directory.GetFiles(Const.FILE_UPLOAD_DIGITAL_SIGNATURE);
+                    if (lstFile.Length > 0)
+                    {
+                        foreach (var item in lstFile)
+                        {
+                            if (Path.GetFileName(item) == Path.GetFileName(imagePath))
+                            {
+                                base64String = "data:image/png;base64," + Convert.ToBase64String(File.ReadAllBytes(imagePath));
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                return "";
+            }
+            return base64String;
+        }
     }
 }

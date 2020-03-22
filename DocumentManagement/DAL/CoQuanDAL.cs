@@ -45,13 +45,13 @@ namespace DocumentManagement.DAL
             try
             {
                 provider.SetQuery("COQUAN_GET_SEARCH_WITH_PAGING", System.Data.CommandType.StoredProcedure)
-                    .SetParameter("InWhere", System.Data.SqlDbType.NVarChar, condition.IN_WHERE ?? String.Empty)
-                    .SetParameter("InSort", System.Data.SqlDbType.NVarChar, condition.IN_SORT ?? String.Empty)
-                    .SetParameter("StartRow", System.Data.SqlDbType.Int, condition.PageIndex)
-                    .SetParameter("PageSize", System.Data.SqlDbType.Int, condition.PageSize)
-                    .SetParameter("TotalRecords", System.Data.SqlDbType.Int, DBNull.Value, System.Data.ParameterDirection.Output)
-                    .SetParameter("ErrorCode", System.Data.SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
-                    .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output).GetList<CoQuan>(out list).Complete();
+                    .SetParameter("InWhere", SqlDbType.NVarChar, condition.IN_WHERE ?? String.Empty)
+                    .SetParameter("InSort", SqlDbType.NVarChar, condition.IN_SORT ?? String.Empty)
+                    .SetParameter("StartRow", SqlDbType.Int, condition.PageIndex)
+                    .SetParameter("PageSize", SqlDbType.Int, condition.PageSize)
+                    .SetParameter("TotalRecords", SqlDbType.Int, DBNull.Value, ParameterDirection.Output)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output).GetList<CoQuan>(out list).Complete();
 
                 if (list.Count > 0)
                 {
@@ -75,7 +75,7 @@ namespace DocumentManagement.DAL
             }
             catch (Exception ex)
             {
-                result.ErrorMessage = ex.Message;
+                result.Failed("-1", ex.Message);
             }
             return result;
         }
