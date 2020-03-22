@@ -47,6 +47,8 @@ namespace DocumentManagement.Models.Entity.Document
         /// </summary>
         public string OrganName { get; set; }
         
+        public int TableOfContentId { get; set; }
+        public int GearBoxId { get; set; }
         /// <summary>
         /// Nội dung
         /// </summary>

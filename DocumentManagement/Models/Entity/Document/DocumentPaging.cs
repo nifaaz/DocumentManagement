@@ -23,7 +23,7 @@ namespace DocumentManagement.Models.Entity.Document
         /// <summary>
         /// Mã hồ sơ
         /// </summary>
-        public int FileCode { get; set; }
+        public string FileCode { get; set; }
         /// <summary>
         /// Số của văn bản
         /// </summary>
