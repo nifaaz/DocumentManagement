@@ -43,5 +43,25 @@ namespace DocumentManagement.BUS
             return userDAL.GetSearchUserWithPaging(condition);
         }
 
+        public ReturnResult<User> GetUserByID (int id)
+        {
+            var rs = userDAL.GetUserByID(id);
+            return rs;
+        }
+
+        public ReturnResult<User> CreateUser(User user)
+        {
+            return userDAL.CreateUser(user);
+        }
+
+        public ReturnResult<User> DeleteUser(int id)
+        {
+            return userDAL.DeleteUser(id);
+        }
+
+        public ReturnResult<User> EditUser(User user)
+        {
+            return userDAL.EditUser(user);
+        }
     }
 }

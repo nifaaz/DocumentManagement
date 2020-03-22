@@ -19,5 +19,6 @@ namespace DocumentManagement.Models.Entity.User
         public Token Token { get; set; }
         public int RoleID { get; set; }
         public string UserRole { get; set; }
+        public string RoleName { get; set; }
     }
 }

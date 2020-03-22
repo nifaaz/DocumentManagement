@@ -25,6 +25,7 @@ namespace DocumentManagement.Controllers.Export
             _hostingEnvironment = environment;
         }
         // GET: Export Gear Box
+        [HttpGet]
         public FileResult FontExport()
         {
             //
@@ -63,8 +64,8 @@ namespace DocumentManagement.Controllers.Export
         {
             //Khởi tạo tham số đầu vào
             List<ProperTiesName> lstProperty = new List<ProperTiesName>();
-            lstProperty.Add(new ProperTiesName { PropsName = "OrganID", WidthSize = 20 });
-            lstProperty.Add(new ProperTiesName { PropsName = "FontID", WidthSize = 20 });
+            lstProperty.Add(new ProperTiesName { PropsName = "OrganName", WidthSize = 20 });
+            lstProperty.Add(new ProperTiesName { PropsName = "FontNumber", WidthSize = 20 });
             lstProperty.Add(new ProperTiesName { PropsName = "FontName", WidthSize = 50 });
             lstProperty.Add(new ProperTiesName { PropsName = "History", WidthSize = 20 });
             lstProperty.Add(new ProperTiesName { PropsName = "Lang", WidthSize = 25 });
@@ -90,7 +91,7 @@ namespace DocumentManagement.Controllers.Export
             List<HeaderLocation> lstHeaderLocation = new List<HeaderLocation>()
             {
                 new HeaderLocation(1,1,20,"Thống kê danh sách phông"),
-                new HeaderLocation(2,1,20,"Mã cơ quan"),new HeaderLocation(2,2,20,"Mã phông"),new HeaderLocation(2,3,50,"Tên phông"),
+                new HeaderLocation(2,1,20,"Tên cơ quan"),new HeaderLocation(2,2,20,"Mã phông"),new HeaderLocation(2,3,50,"Tên phông"),
                 new HeaderLocation(2,4,20,"Lịch sử"),new HeaderLocation(2,5,25,"Ngôn ngữ"),new HeaderLocation(2,6,30,"Ghi chú")
             };
             // tạo danh sách các ô bị merge(từ hàng , từ cột, đến hàng,đến cột)
