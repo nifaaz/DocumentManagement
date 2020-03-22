@@ -41,6 +41,7 @@ namespace DocumentManagement.DAL
                 _instance = value;
             }
         }
+        
         public ReturnResult<GearBox> GetPagingWithSearchResults(BaseCondition<GearBox> condition)
         {
             DbProvider provider = new DbProvider();
@@ -86,6 +87,45 @@ namespace DocumentManagement.DAL
             }
             return result;
         }
+        public ReturnResult<GearBox> GetGearBoxByTabOfContID(string id)
+        {
+            DbProvider provider = new DbProvider();
+            List<GearBox> list = new List<GearBox>();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            string totalRecords = String.Empty;
+            var result = new ReturnResult<GearBox>();
+            try
+            {
+                provider.SetQuery("GEARBOX_GET_BY_TABLE_OF_CONTENT_ID", System.Data.CommandType.StoredProcedure)
+                    .SetParameter("Id", System.Data.SqlDbType.NVarChar, id ?? String.Empty)
+                    .SetParameter("ErrorCode", System.Data.SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output).GetList<GearBox>(out list).Complete();
+                if (list.Count > 0)
+                {
+                    result.ItemList = list;
+                }
+                provider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage);
+
+                if (outCode != "0")
+                {
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
+                }
+                else
+                {
+                    result.ErrorCode = "";
+                    result.ErrorMessage = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+        
         public ReturnResult<GearBox> GearBoxExport()
         {
             List<GearBox> GearBoxList = new List<GearBox>();

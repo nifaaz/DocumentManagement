@@ -47,9 +47,9 @@ namespace DocumentManagement.BUS
             var result = DocumentDAL.UpdateDocument(document);
             return result;
         }
-        public ReturnResult<Document> GetDocumentById(Document document)
+        public ReturnResult<DocumentDetail> GetDocumentById(int documentId)
         {
-            var result = DocumentDAL.GetDocumentById(document);
+            var result = DocumentDAL.GetDocumentById(documentId);
             return result;
         }
         public ReturnResult<Document> GetListByProfileId(Profiles profile)

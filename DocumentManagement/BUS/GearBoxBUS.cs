@@ -51,6 +51,12 @@ namespace DocumentManagement.BUS
             var result = gearBoxDAL.GearBoxExport();
             return result;
         }
+        public ReturnResult<GearBox> GetGearBoxByTabOfContID(string id)
+        {
+            var result = gearBoxDAL.GetGearBoxByTabOfContID(id);
+            return result;
+        }
+        
         public ReturnResult<GearBox> GetAllGearBox()
         {
             var result = gearBoxDAL.GetAllGearBox();

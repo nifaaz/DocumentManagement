@@ -71,6 +71,12 @@ namespace DocumentManagement.BUS
             var result = profileDAL.GetProfileByGearBoxID(gearBoxID);
             return result;
         }
+
+        public ReturnResult<Profile> GetProfileByGearBoxId(string gearBoxID)
+        {
+            var result = profileDAL.GetProfileByGearBoxId(gearBoxID);
+            return result;
+        }
         public ReturnResult<Profiles> CreateProfile(Profiles profile)
         {
             var result = profileDAL.CreateProfile(profile);
@@ -121,7 +127,11 @@ namespace DocumentManagement.BUS
         {
             return profileDAL.GetListFilesByProfileId(condition);
         }
-
+   
+        public ReturnResult<ComputerFile> GetComputerFileByProfileId(string profileId)
+        {
+            return profileDAL.GetComputerFileByProfileId(profileId);
+        }
         public ReturnResult<Document> GetDocumentsByProfileId (BaseCondition<Profiles> condition)
         {
             return profileDAL.GetDocumentsByProfileId(condition);

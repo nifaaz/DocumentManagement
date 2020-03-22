@@ -23,10 +23,11 @@ namespace DocumentManagement.Controllers
             return Ok(result);
         }
         [HttpGet]
-        public IActionResult GetDocumentById(Document document)
+        [Route("{documentId}")]
+        public IActionResult GetDocumentById(int documentId)
         {
             DocumentBUS documentBUS = new DocumentBUS();
-            var result = documentBUS.GetDocumentById(document);
+            var result = documentBUS.GetDocumentById(documentId);
             return Ok(result);
         }
         [HttpPost]
@@ -53,9 +54,10 @@ namespace DocumentManagement.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult GetPagingWithSearchResults(BaseCondition<DocumentPaging> condition)
         {
+
             DocumentBUS documentBUS = new DocumentBUS();
             var result = documentBUS.GetPagingWithSearchResults(condition);
             return Ok(result);
