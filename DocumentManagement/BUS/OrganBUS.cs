@@ -50,6 +50,12 @@ namespace DocumentManagement.BUS
             var result = organDAL.GetAllOrgan();
             return result;
         }
+
+        public ReturnResult<OrganSelect2> GetAllOrganSelect2()
+        {
+            var result = organDAL.GetAllOrganSelect2();
+            return result;
+        }
         public ReturnResult<Organ> GetOrganByID(int OrganID)
         {
             var rs = organDAL.GetOrganByID(OrganID);

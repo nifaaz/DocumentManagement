@@ -18,22 +18,27 @@ namespace DocumentManagement.DAL
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
-            List<DocumentPaging> documentList;
+            int totalRecords = 0;
+            List<DocumentPaging> documentList = new List<DocumentPaging>();
             dbProvider.SetQuery("DOCUMENT_GET_PAGING", CommandType.StoredProcedure)
                 .SetParameter("FromRecord", SqlDbType.NVarChar, condition.FromRecord,  ParameterDirection.Input)
                 .SetParameter("PageSize", SqlDbType.NVarChar, condition.PageSize,  ParameterDirection.Input)
                 .SetParameter("InWhere", SqlDbType.NVarChar, condition.IN_WHERE, ParameterDirection.Input)
                 .SetParameter("InSort", SqlDbType.NVarChar, condition. IN_SORT, ParameterDirection.Input)
+                .SetParameter("TotalRecords", System.Data.SqlDbType.Int, DBNull.Value, System.Data.ParameterDirection.Output)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
                 .GetList<DocumentPaging>(out documentList)
                 .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
+            dbProvider.GetOutValue("ErrorMessage", out outMessage)
+                        .GetOutValue("TotalRecords", out totalRecords)
+                       .GetOutValue("ErrorCode", out outCode);
+                       
 
             return new ReturnResult<DocumentPaging>()
             {
                 ItemList = documentList,
+                TotalRows = totalRecords,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
             };
@@ -84,7 +89,7 @@ namespace DocumentManagement.DAL
                 .SetParameter("Mode", SqlDbType.NVarChar, document.Mode, ParameterDirection.Input)
                 .SetParameter("ConfidenceLevelId", SqlDbType.Int, document.ConfidenceLevelId, ParameterDirection.Input)
                 .SetParameter("Autograph", SqlDbType.NVarChar, document.Autograph, ParameterDirection.Input)
-                .SetParameter("Format", SqlDbType.NVarChar, document.Format, ParameterDirection.Input)
+                .SetParameter("FormatId", SqlDbType.Int, document.FormatId, ParameterDirection.Input)
                 .SetParameter("ComputerFileId", SqlDbType.Int, document.ComputerFileId, ParameterDirection.Input)
                 .SetParameter("CreatedDate", SqlDbType.Date, document.CreatedDate, ParameterDirection.Input)
                 .SetParameter("CreatedBy", SqlDbType.NVarChar, document.CreatedBy, ParameterDirection.Input)
@@ -125,7 +130,7 @@ namespace DocumentManagement.DAL
                 .SetParameter("Mode", SqlDbType.NVarChar, document.Mode, ParameterDirection.Input)
                 .SetParameter("ConfidenceLevelId", SqlDbType.Int, document.ConfidenceLevelId, ParameterDirection.Input)
                 .SetParameter("Autograph", SqlDbType.NVarChar, document.Autograph, ParameterDirection.Input)
-                .SetParameter("Format", SqlDbType.NVarChar, document.Format, ParameterDirection.Input)
+                .SetParameter("Format", SqlDbType.Int, document.FormatId, ParameterDirection.Input)
                 .SetParameter("ComputerFileId", SqlDbType.Int, document.ComputerFileId, ParameterDirection.Input)
                 .SetParameter("CreatedDate", SqlDbType.Date, document.CreatedDate, ParameterDirection.Input)
                 .SetParameter("UpdatedDate", SqlDbType.Date, document.UpdatedDate, ParameterDirection.Input)
@@ -189,24 +194,24 @@ namespace DocumentManagement.DAL
                 ErrorMessage = outMessage,
             };
         }
-        public ReturnResult<Document> GetDocumentById(Document document)
+        public ReturnResult<DocumentDetail> GetDocumentById(int documentId)
         {
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
-            var resultList = new List<Document>();
+            var document = new DocumentDetail();
             dbProvider.SetQuery("DOCUMENT_GET_BY_ID", CommandType.StoredProcedure)
-                .SetParameter("DocumentId", SqlDbType.Int, document.DocumentId, ParameterDirection.Input)
+                .SetParameter("DocumentId", SqlDbType.Int, documentId, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                 .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList(out resultList)
+                .GetSingle<DocumentDetail>(out document)
                 .Complete();
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Document>()
+            return new ReturnResult<DocumentDetail>()
             {
-                ItemList = resultList,
+                Item = document,
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
             };

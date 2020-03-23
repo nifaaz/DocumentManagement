@@ -88,5 +88,11 @@ namespace DocumentManagement.BUS
             var rs = fontDAL.InsertFont(font);
             return rs;
         }
+
+        public ReturnResult<FontSelect2> GetAllFontSelect2()
+        {
+            var result = fontDAL.GetAllFontSelect2();
+            return result;
+        }
     }
 }

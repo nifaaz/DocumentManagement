@@ -10,4 +10,10 @@ namespace DocumentManagement.Models.DTO
         public string FontName { get; set; }
         public int FontID { get; set; }
     }
+
+    public class FontSelect2
+    {
+        public string Text { get; set; }
+        public int Id { get; set; }
+    }
 }

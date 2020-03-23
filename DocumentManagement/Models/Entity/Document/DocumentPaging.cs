@@ -19,11 +19,11 @@ namespace DocumentManagement.Models.Entity.Document
         /// <summary>
         /// Tên loại văn bản
         /// </summary>
-        public string DocumentType { get; set; }
+        public string TypeName { get; set; }
         /// <summary>
         /// Mã hồ sơ
         /// </summary>
-        public int FileId { get; set; }
+        public string FileCode { get; set; }
         /// <summary>
         /// Số của văn bản
         /// </summary>

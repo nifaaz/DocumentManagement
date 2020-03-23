@@ -103,5 +103,12 @@ namespace DocumentManagement.Controllers
             var result = tableOfContentsBUS.InsertTableOfContents(tableOfContentsModify);
             return Ok(result);
         }
+
+        [HttpGet]
+        public IActionResult GetAllTabSelect2()
+        {
+            var rs = tableOfContentsBUS.GetAllTabSelect2();
+            return Ok(rs.ItemList);
+        }
     }
 }

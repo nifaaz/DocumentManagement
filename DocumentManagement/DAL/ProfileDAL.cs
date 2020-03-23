@@ -40,6 +40,29 @@ namespace DocumentManagement.DAL
                 _instance = value;
             }
         }
+        public ReturnResult<ComputerFile> GetComputerFileByProfileId(string profileId)
+        {
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            var list = new List<ComputerFile>();
+            dbProvider.SetQuery("COMPUTER_GET_BY_PROFILE_ID", CommandType.StoredProcedure)
+                .SetParameter("ProfileId", SqlDbType.NVarChar, profileId, ParameterDirection.Input)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetList<ComputerFile>(out list)
+                .Complete();
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<ComputerFile>()
+            {
+                ItemList = list,
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+            };
+        }
+        
         public ReturnResult<Profiles> GetPagingWithSearchResults(BaseCondition<Profiles> condition)
         {
             DbProvider dbProvider = new DbProvider();
@@ -156,7 +179,49 @@ namespace DocumentManagement.DAL
             }
             return result;
         }
-      
+        public ReturnResult<Profile> GetProfileByGearBoxId(string gearBoxId)
+        {
+            DbProvider provider = new DbProvider();
+            List<Profile> list = new List<Profile>();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            string totalRecords = String.Empty;
+            var result = new ReturnResult<Profile>();
+            try
+            {
+                provider.SetQuery("PROFILE_GET_BY_GEAR_BOX_ID", System.Data.CommandType.StoredProcedure)
+                    .SetParameter("GearBoxId", System.Data.SqlDbType.Int, gearBoxId ?? String.Empty)
+                    .SetParameter("ErrorCode", System.Data.SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output)
+                    .GetList<Profile>(out list)
+                    .Complete();
+
+                if (list.Count > 0)
+                {
+                    result.ItemList = list;
+                }
+                provider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage);
+
+
+                if (outCode != "0")
+                {
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
+                }
+                else
+                {
+                    result.ErrorCode = "";
+                    result.ErrorMessage = "";
+
+                }
+            }
+            catch (Exception ex)
+            {
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
         public ReturnResult<Profiles> GetProfileByGearBoxID(int gearBoxID)
         {
             List<Profiles> profileList = new List<Profiles>();
@@ -522,9 +587,9 @@ namespace DocumentManagement.DAL
                 {
                     for (int i = 0; i < lst.Count; i++)
                     {
-                        string[] urlArr = lst[i].Url.Split('\\');
+                        string[] urlArr = lst[i].FolderPath.Split('\\');
                         int length = urlArr.Length;
-                        lst[i].Url = urlArr[length - 2] + "\\" + urlArr[length - 1];
+                        lst[i].Url = urlArr[length - 1] + "\\" + lst[i].FileName;
                     }
                 }
                 

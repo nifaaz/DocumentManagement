@@ -296,10 +296,10 @@ namespace DocumentManagement.DAL
                  .SetParameter("LuuTruID", SqlDbType.Int, tableOfContents.StorageID, ParameterDirection.Input)
                  .SetParameter("PhongID", SqlDbType.Int, tableOfContents.FontID, ParameterDirection.Input)
                  //.SetParameter("KhoID", SqlDbType.Int, tableOfContents.RepositoryID, ParameterDirection.Input)
-                 .SetParameter("MucLucSo", SqlDbType.NVarChar, tableOfContents.TabOfContNumber,100, ParameterDirection.Input)
+                 .SetParameter("MucLucSo", SqlDbType.NVarChar, tableOfContents.TabOfContNumber, 50, ParameterDirection.Input)
                  .SetParameter("MaDanhMuc", SqlDbType.NVarChar, tableOfContents.TabOfContCode, 50, ParameterDirection.Input)
                  .SetParameter("GhiChu", SqlDbType.NVarChar, tableOfContents.Note, 50, ParameterDirection.Input)
-                 .SetParameter("NgayCapNhat", SqlDbType.NVarChar, tableOfContents.UpdateTime,100, ParameterDirection.Input)
+                 .SetParameter("NgayCapNhat", SqlDbType.NVarChar, tableOfContents.UpdateTime, 50, ParameterDirection.Input)
                  .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                  .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
                  .ExcuteNonQuery()
@@ -340,8 +340,8 @@ namespace DocumentManagement.DAL
                 .SetParameter("PhongID", SqlDbType.Int, TableOfContents.FontID, ParameterDirection.Input)
                 .SetParameter("isDeleted", SqlDbType.Int, TableOfContents.IsDeleted, ParameterDirection.Input)
                 //.SetParameter("KhoID", SqlDbType.Int, TableOfContents.RepositoryID, ParameterDirection.Input)
-                .SetParameter("MucLucSo", SqlDbType.NVarChar, TableOfContents.TabOfContNumber,100, ParameterDirection.Input)
-                .SetParameter("NgayTao", SqlDbType.NVarChar, TableOfContents.CreatTime,100, ParameterDirection.Input)
+                .SetParameter("MucLucSo", SqlDbType.NVarChar, TableOfContents.TabOfContNumber, 50, ParameterDirection.Input)
+                .SetParameter("NgayTao", SqlDbType.NVarChar, TableOfContents.CreatTime, 50, ParameterDirection.Input)
                 .SetParameter("MaDanhMuc", SqlDbType.NVarChar, TableOfContents.TabOfContCode, 50, ParameterDirection.Input)
                 .SetParameter("GhiChu", SqlDbType.NVarChar, TableOfContents.Note, 50, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
@@ -369,6 +369,39 @@ namespace DocumentManagement.DAL
                 throw;
             }
             return result;
+        }
+
+        //Phi
+        public ReturnResult<TableOfContSelect2> GetAllTabSelect2()
+        {
+            List<TableOfContSelect2> tableOfContSelect2s = new List<TableOfContSelect2>();
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            int totalRows = 0;
+            try
+            {
+                dbProvider.SetQuery("Tab_GET_ALL_GETIDANDNAME_SELECT2", CommandType.StoredProcedure)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetList<TableOfContSelect2>(out tableOfContSelect2s)
+                .Complete();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<TableOfContSelect2>()
+            {
+                ItemList = tableOfContSelect2s,
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+                TotalRows = totalRows
+            };
         }
     }
 }

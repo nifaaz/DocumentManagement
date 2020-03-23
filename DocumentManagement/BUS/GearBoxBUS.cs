@@ -4,6 +4,7 @@ using DocumentManagement.DAL;
 using DocumentManagement.Model.Entity;
 using DocumentManagement.Model.Entity.GearBox;
 using DocumentManagement.Model.Entity.TableOfContens;
+using DocumentManagement.Models.DTO;
 using DocumentManagement.Models.Entity.Profile;
 using System;
 using System.Collections.Generic;
@@ -51,6 +52,12 @@ namespace DocumentManagement.BUS
             var result = gearBoxDAL.GearBoxExport();
             return result;
         }
+        public ReturnResult<GearBox> GetGearBoxByTabOfContID(string id)
+        {
+            var result = gearBoxDAL.GetGearBoxByTabOfContID(id);
+            return result;
+        }
+        
         public ReturnResult<GearBox> GetAllGearBox()
         {
             var result = gearBoxDAL.GetAllGearBox();
@@ -101,6 +108,20 @@ namespace DocumentManagement.BUS
             var rs = gearBoxDAL.GetFontsByOrganID(organID);
             return rs;
         }
+
+        public ReturnResult<FontSelect2> GetFontsByOrganIDSelect2(int organID)
+        {
+            var rs = gearBoxDAL.GetFontsByOrganIDSelect2(organID);
+            return rs;
+        }
+
+        public ReturnResult<TableOfContSelect2> GetTableOfContentsByFontIDSelect2(int fontID)
+        {
+            var rs = gearBoxDAL.GetTableOfContentsByFontIDSelect2(fontID);
+            return rs;
+        }
+
+
 
         /// <summary>
         /// get the list tableofcontent by fontID

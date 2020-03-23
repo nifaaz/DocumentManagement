@@ -24,53 +24,54 @@ namespace DocumentManagement.Controllers
             return Ok(result);
         }
 
-        //// GET: User/Details/5
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
-
-        //// GET: User/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        // POST: User/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(User user)
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult GetUserByID(int id)
         {
-           
-            return Ok();
+            return Ok(userBUS.GetUserByID(id));
         }
 
-        //// GET: User/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
 
-        //// POST: User/Edit/5
-        //[HttpPost]
+        [HttpPost]
         //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    return View();
-        //}
+        public IActionResult CreateUser(User user)
+        {
+            DateTime currentDate = DateTime.Now;
+            user.CreateDate = currentDate;
+            var result = userBUS.CreateUser(user);
+            return Ok(result);
+        }
 
-        //// GET: User/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
+        [HttpPost]
+        public IActionResult UpdateUser(User user)
+        {
+            DateTime currentDate = DateTime.Now;
+            user.UpdatedDate = currentDate;
+            var result = userBUS.EditUser(user);
+            return Ok(result);
+        }
 
-        //// POST: User/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    return View();
-        //}
+        [HttpPost]
+        public IActionResult DeleteUser([FromQuery] int id)
+        {
+            return Ok(userBUS.DeleteUser(id));
+        }
+
+
+        //get all role
+        [HttpGet]
+        public IActionResult GetAllRole()
+        {
+            try
+            {
+                RoleBUS roleBUS = new RoleBUS();
+                var result = roleBUS.GetAllRole();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

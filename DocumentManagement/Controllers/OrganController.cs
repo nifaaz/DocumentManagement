@@ -30,6 +30,14 @@ namespace DocumentManagement.Controllers
             var rs = organBUS.GetAllOrgan();
             return Ok(rs);
         }
+
+        [HttpGet]
+        public IActionResult GetAllOrganSelect2()
+        {
+            var rs = organBUS.GetAllOrganSelect2();
+            return Ok(rs.ItemList);
+        }
+
         [HttpGet]
         public IActionResult Search(string searchStr)
         {

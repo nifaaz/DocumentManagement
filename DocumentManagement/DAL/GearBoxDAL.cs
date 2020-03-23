@@ -4,6 +4,7 @@ using DocumentManagement.Model;
 using DocumentManagement.Model.Entity;
 using DocumentManagement.Model.Entity.GearBox;
 using DocumentManagement.Model.Entity.TableOfContens;
+using DocumentManagement.Models.DTO;
 using DocumentManagement.Models.Entity.Profile;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,7 @@ namespace DocumentManagement.DAL
                 _instance = value;
             }
         }
+        
         public ReturnResult<GearBox> GetPagingWithSearchResults(BaseCondition<GearBox> condition)
         {
             DbProvider provider = new DbProvider();
@@ -86,6 +88,45 @@ namespace DocumentManagement.DAL
             }
             return result;
         }
+        public ReturnResult<GearBox> GetGearBoxByTabOfContID(string id)
+        {
+            DbProvider provider = new DbProvider();
+            List<GearBox> list = new List<GearBox>();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            string totalRecords = String.Empty;
+            var result = new ReturnResult<GearBox>();
+            try
+            {
+                provider.SetQuery("GEARBOX_GET_BY_TABLE_OF_CONTENT_ID", System.Data.CommandType.StoredProcedure)
+                    .SetParameter("Id", System.Data.SqlDbType.NVarChar, id ?? String.Empty)
+                    .SetParameter("ErrorCode", System.Data.SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output).GetList<GearBox>(out list).Complete();
+                if (list.Count > 0)
+                {
+                    result.ItemList = list;
+                }
+                provider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage);
+
+                if (outCode != "0")
+                {
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
+                }
+                else
+                {
+                    result.ErrorCode = "";
+                    result.ErrorMessage = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+        
         public ReturnResult<GearBox> GearBoxExport()
         {
             List<GearBox> GearBoxList = new List<GearBox>();
@@ -330,8 +371,8 @@ namespace DocumentManagement.DAL
                 db = new DbProvider();
                 db.SetQuery("GearBox_EDIT", CommandType.StoredProcedure)
                     .SetParameter("HopSoID", SqlDbType.Int, gearBox.GearBoxID,ParameterDirection.Input)
-                    .SetParameter("MaHopSo", SqlDbType.NVarChar, gearBox.GearBoxCode, 10, ParameterDirection.Input)
-                    .SetParameter("TieuDeHopSo", SqlDbType.NVarChar, gearBox.GearBoxTitle,300, ParameterDirection.Input)
+                    .SetParameter("MaHopSo", SqlDbType.NVarChar, gearBox.GearBoxCode, 50, ParameterDirection.Input)
+                    .SetParameter("TieuDeHopSo", SqlDbType.NVarChar, gearBox.GearBoxTitle, 50, ParameterDirection.Input)
                     .SetParameter("MucLucHoSoID", SqlDbType.Int, gearBox.TabOfContID, ParameterDirection.Input)
                     .SetParameter("GhiChu", SqlDbType.NVarChar, gearBox.Note, 300, ParameterDirection.Input)
                     .SetParameter("NgayBatDau", SqlDbType.NVarChar, gearBox.StDate.ToString(), 100, ParameterDirection.Input)
@@ -369,8 +410,8 @@ namespace DocumentManagement.DAL
             try
             {
                 provider.SetQuery("[GearBox_INSERT]", System.Data.CommandType.StoredProcedure)
-                .SetParameter("MaHopSo", SqlDbType.NVarChar, gearBox.GearBoxCode, 10, ParameterDirection.Input)
-                .SetParameter("TieuDeHopSo", SqlDbType.NVarChar, gearBox.GearBoxTitle,300, ParameterDirection.Input)
+                .SetParameter("MaHopSo", SqlDbType.NVarChar, gearBox.GearBoxCode, 50, ParameterDirection.Input)
+                .SetParameter("TieuDeHopSo", SqlDbType.NVarChar, gearBox.GearBoxTitle, 50, ParameterDirection.Input)
                 .SetParameter("MucLucHoSoID", SqlDbType.Int, gearBox.TabOfContID, ParameterDirection.Input)
                 .SetParameter("GhiChu", SqlDbType.NVarChar, gearBox.Note, 300, ParameterDirection.Input)
                 .SetParameter("NgayBatDau", SqlDbType.NVarChar, gearBox.StDate.ToString(), 100, ParameterDirection.Input)
@@ -428,6 +469,58 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
+
+        public ReturnResult<FontSelect2> GetFontsByOrganIDSelect2(int organID)
+        {
+            List<FontSelect2> fons = new List<FontSelect2>();
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            int totalRows = 0;
+            dbProvider.SetQuery("GET_FONTS_BY_ORGAN_ID_Select2", CommandType.StoredProcedure)
+                .SetParameter("CoQuanID", SqlDbType.Int, organID, ParameterDirection.Input)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetList<FontSelect2>(out fons)
+                .Complete();
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<FontSelect2>()
+            {
+                ItemList = fons,
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+                TotalRows = totalRows
+            };
+        }
+
+        public ReturnResult<TableOfContSelect2> GetTableOfContentsByFontIDSelect2(int fontID)
+        {
+            List<TableOfContSelect2> tableOfContSelect2s = new List<TableOfContSelect2>();
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            int totalRows = 0;
+            dbProvider.SetQuery("GET_TABOFCONTS_BY_FONT_ID_Select2", CommandType.StoredProcedure)
+                .SetParameter("PhongID", SqlDbType.Int, fontID, ParameterDirection.Input)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetList<TableOfContSelect2>(out tableOfContSelect2s)
+                .Complete();
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<TableOfContSelect2>()
+            {
+                ItemList = tableOfContSelect2s,
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+                TotalRows = totalRows
+            };
+        }
+
+
         public ReturnResult<TableOfContents> GetTableOfContentsByFontID(int fontID)
         {
             List<TableOfContents> tableOfContens = new List<TableOfContents>();

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DocumentManagement.Models.Entity.Document
 {
-    public class Document
+    public class DocumentDetail
     {
         public int DocumentId { get; set; }
         /// <summary>
@@ -13,14 +13,23 @@ namespace DocumentManagement.Models.Entity.Document
         /// </summary>
         public string DocumentCode { get; set; }
         /// <summary>
+        /// Mã hồ sơ
+        /// </summary>
+        public string FileCode { get; set; }
+        /// <summary>
+        /// Hồ sơ Id
+        /// </summary>
+        public int FileId { get; set; }
+        public int FontId { get; set; }
+        public int OrganId { get; set; }
+        /// <summary>
         /// Số thứ tự văn bản
         /// </summary>
         public int DocOrdinal { get; set; }
         /// <summary>
-        /// Mã hồ sơ
+        /// kiêu vản bản
         /// </summary>
-        public int FileId { get; set; }
-        public int DocTypeId { get; set; }
+        public int TypeName { get; set; }
         /// <summary>
         /// Số của văn bản
         /// </summary>
@@ -34,10 +43,16 @@ namespace DocumentManagement.Models.Entity.Document
         /// </summary>
         public DateTime IssuedDate { get; set; }
         /// <summary>
+        /// Tên cơ quan
+        /// </summary>
+        public string OrganName { get; set; }
+        
+        public int TableOfContentId { get; set; }
+        public int GearBoxId { get; set; }
+        /// <summary>
         /// Nội dung
         /// </summary>
         public string Subject { get; set; }
-        public int LanguageId { get; set; }
         /// <summary>
         /// Số lượng trang văn bản
         /// </summary>
@@ -58,7 +73,10 @@ namespace DocumentManagement.Models.Entity.Document
         /// Chế độ sử dụng
         /// </summary>
         public string Mode { get; set; }
-        public int ConfidenceLevelId { get; set; }
+        /// <summary>
+        /// Mức độ bảo mật
+        /// </summary>
+        public string ConfidenceLevel { get; set; }
         /// <summary>
         /// Bút tích
         /// </summary>
@@ -66,14 +84,24 @@ namespace DocumentManagement.Models.Entity.Document
         /// <summary>
         /// Tình trạng vật lý
         /// </summary>
-        public string FormatId { get; set; }
-        public int ComputerFileId { get; set; }
+        public string Format { get; set; }
+        /// <summary>
+        /// Ngôn ngữ
+        /// </summary>
+        public string Language { get; set; }
+        /// <summary>
+        /// Tên tệp lưu trữ
+        /// </summary>
+        public int LanguageId { get; set; }
+        public int ConfidenceLevelId { get; set; }
+        public int FormatId { get; set; }
+        public int DocTypeId { get;set; }
+        public string ComputerFileId { get; set; }
+        public string ComputerFileName { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }
-        
-        public int ProfileId { get; set; }
     }
 }
