@@ -17,7 +17,7 @@ namespace DocumentManagement.Controllers
         private static TableOfContentsBUS tableOfContentsBUS = TableOfContentsBUS.GetTableOfContentsBUSInstance;
 
         [HttpPost]
-        public IActionResult GetPagingWithSearchResults([FromBody]BaseCondition<TableOfContents> condition)
+        public async Task<IActionResult> GetPagingWithSearchResults([FromBody]BaseCondition<TableOfContents> condition)
         {
             var result = tableOfContentsBUS.GetPagingWithSearchResults(condition);
             return Ok(result);
