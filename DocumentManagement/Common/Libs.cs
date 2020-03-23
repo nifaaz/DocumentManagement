@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -31,6 +32,15 @@ namespace DocumentManagement.Common
                 return "";
             }
             return JsonConvert.SerializeObject(obj);
+        }
+
+        public static string GetFullPathDirectoryFileUpload ()
+        {
+            string currentPath = Environment.CurrentDirectory;
+            DirectoryInfo di = Directory.GetParent(currentPath);
+            string parentBothPath = di.Parent.FullName;
+            string clientFileUploadPath = @"SoHoa_v1\SoHoaV1\src\assets\pdf";
+            return Path.Combine(parentBothPath, clientFileUploadPath);
         }
     }
 }

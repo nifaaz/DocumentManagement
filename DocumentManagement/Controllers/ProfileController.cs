@@ -110,9 +110,22 @@ namespace DocumentManagement.Controllers
                 List<ComputerFile> lstFilesExists = new List<ComputerFile>();
                 List<ComputerFile> lstFileInfo = new List<ComputerFile>();
 
+                string path = Libs.GetFullPathDirectoryFileUpload();
+
+                #region
+                //string clientPath = Path.Combine(path, "pdffile");
+                //if (!Directory.Exists(clientPath))
+                //{
+                //    Directory.CreateDirectory(clientPath);
+                //}
                 // directory of profile
+
                 // mỗi hồ sơ có thư mục lưu trữ riêng ứng với FileCode
-                string directoryPathFileUpload = Const.FILE_UPLOAD_DIR + profile.FileCode;
+                //string directoryPathFileUpload = Const.FILE_UPLOAD_DIR + profile.FileCode;
+                #endregion
+
+
+                string directoryPathFileUpload = Path.Combine(path, profile.FileCode);
                 var profileCheck = profileBUS.GetProfileByFileCode(profile.FileCode);
                 if (Directory.Exists(directoryPathFileUpload) || profile.FileCode == profileCheck.Item.FileCode)
                 {
@@ -252,14 +265,18 @@ namespace DocumentManagement.Controllers
                 List<ComputerFile> lstFilesExists = new List<ComputerFile>();
                 List<ComputerFile> lstFileInfo = new List<ComputerFile>();
                 List<ComputerFile> lstFiles = new List<ComputerFile>();
-                string directoryPathFileUpload = Const.FILE_UPLOAD_DIR + profile.FileCode;
 
+                string path = Libs.GetFullPathDirectoryFileUpload();
+
+                //string directoryPathFileUpload = Const.FILE_UPLOAD_DIR + profile.FileCode;
+
+                string directoryPathFileUpload = Path.Combine(path, profile.FileCode);
                 if (!Directory.Exists(directoryPathFileUpload))
                 {
                     // FileCode changed
                     //    string[] directories = Directory.GetDirectories(Const.FILE_UPLOAD_DIR);
                     var profileCheck = profileBUS.GetProfileByID(profile.ProfileId);
-                    string directoryOfProfile = Const.FILE_UPLOAD_DIR + profileCheck.Item.FileCode;
+                    string directoryOfProfile = Path.Combine(path, profileCheck.Item.FileCode);
                     if (Directory.Exists(directoryOfProfile))
                     {
                         Directory.Move(directoryOfProfile, directoryPathFileUpload);

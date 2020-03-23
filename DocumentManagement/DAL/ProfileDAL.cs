@@ -587,9 +587,9 @@ namespace DocumentManagement.DAL
                 {
                     for (int i = 0; i < lst.Count; i++)
                     {
-                        string[] urlArr = lst[i].Url.Split('\\');
+                        string[] urlArr = lst[i].FolderPath.Split('\\');
                         int length = urlArr.Length;
-                        lst[i].Url = urlArr[length - 2] + "\\" + urlArr[length - 1];
+                        lst[i].Url = urlArr[length - 1] + "\\" + lst[i].FileName;
                     }
                 }
                 
