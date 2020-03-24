@@ -37,42 +37,20 @@ namespace DocumentManagement.Services
             account.Password = Utilities.KillSqlInjection(account.Password);
             AccountBUS accountBusiness = new AccountBUS();
             var result = accountBusiness.GetUserByUserName(account);
-
             if (result.Item == null)
             {
                 return false;
             }
-            //var saltDemo = "123456789123";
-            //var resultSalt = Convert.FromBase64String(saltDemo);
-            //string passwodDemo = Hash(login.Password, resultSalt);
+            AuthenticationHelper _authenticationHelper = new AuthenticationHelper();
+            var userDTO = accountBusiness.GetUserToCheck(result.Item.Id);
+            string passwordSalt = userDTO.PasswordSalt;
+            string passwordInput = _authenticationHelper.GetMd5Hash(passwordSalt + account.Password);
+            string passwordUser = userDTO.Password;
 
-            // Get the value of the "HashedPassword" column in db"
-            var storageHashedPasswod = result.Item.Password;
-
-            // Split the salt from "HashedPassword" column in database"
-            //var salt = SplitSaltFromPasswordCol(storageHashedPasswod);
-
-            //// Hash the password from user input and concat it with salt
-            //string hashedPassword = Hash(account.Password, salt);
-            //string saltString = Convert.ToBase64String(salt);
-            //var inputPassword = hashedPassword + "$" + saltString;
-            //if (inputPassword.Equals(storageHashedPasswod))
-            //{
-            //    return true;
-            //}
-            //else
-            //{
-            //    return false;
-            //}
-
-            if (account.Password == storageHashedPasswod)
-            {
+            if (passwordInput.Equals(passwordUser))
                 return true;
-            }
             else
-            {
                 return false;
-            }
         }
 
         public string CreateHashedPassword(string password)

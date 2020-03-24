@@ -1,5 +1,6 @@
 ﻿using DocumentManagement.Common;
 using DocumentManagement.Model;
+using DocumentManagement.Models.DTO;
 using DocumentManagement.Models.Entity.Account;
 using DocumentManagement.Models.Entity.User;
 using System;
@@ -110,6 +111,23 @@ namespace DocumentManagement.DAL
                 ErrorCode = outCode,
                 ErrorMessage = outMessage,
             };
+        }
+        public UserDTO GetUserToCheck(int UserID)
+        {
+            DbProvider dbProvider = new DbProvider();
+            var user = new UserDTO();
+            dbProvider.SetQuery("USER_GET_CHECK_LOGIN", CommandType.StoredProcedure)
+                .SetParameter("UserID", SqlDbType.Int, UserID, ParameterDirection.Input)
+                .GetSingle<UserDTO>(out user)
+                .Complete();
+            if (user!=null)
+            {
+                return user;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

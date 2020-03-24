@@ -30,8 +30,13 @@ namespace DocumentManagement.Controllers
                 {
                     // Create Jwt token for client-side
                     var jwtToken = loginService.CreateToken();
-                    User user = new User()
+                    AccountBUS accountBusiness = new AccountBUS();
+                    var quser = accountBusiness.GetUserByUserName(account);
+                    var user = new User()
                     {
+                        Status = quser.Item.Status,
+                        RoleName = quser.Item.RoleName,
+                        UserRole = quser.Item.UserRole,
                         UserName = account.UserName,
                         Token = new Token()
                         {
