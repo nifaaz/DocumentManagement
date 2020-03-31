@@ -69,85 +69,117 @@ namespace DocumentManagement.DAL
 
         public ReturnResult<Document> CreateDocument(Document document)
         {
-            DbProvider dbProvider = new DbProvider();
+            DbProvider dbProvider;
             string outCode = String.Empty;
             string outMessage = String.Empty;
-            dbProvider.SetQuery("DOCUMENT_CREATE", CommandType.StoredProcedure)
-                .SetParameter("DocumentCode", SqlDbType.NVarChar, document.DocumentCode, ParameterDirection.Input)
-                .SetParameter("DocOrdinal", SqlDbType.Int, document.DocOrdinal, ParameterDirection.Input)
-                .SetParameter("FileId", SqlDbType.Int, document.FileId, ParameterDirection.Input)
-                .SetParameter("DocTypeId", SqlDbType.Int, document.DocTypeId, ParameterDirection.Input)
-                .SetParameter("CodeNumber", SqlDbType.NVarChar, document.CodeNumber, ParameterDirection.Input)
-                .SetParameter("CodeNotation", SqlDbType.NVarChar, document.CodeNotation, ParameterDirection.Input)
-                .SetParameter("IssuedDate", SqlDbType.Date, document.IssuedDate, ParameterDirection.Input)
-                .SetParameter("Subject", SqlDbType.NVarChar, document.Subject, ParameterDirection.Input)
-                .SetParameter("LanguageId", SqlDbType.Int, document.LanguageId, ParameterDirection.Input)
-                .SetParameter("PageAmount", SqlDbType.Int, document.PageAmount, ParameterDirection.Input)
-                .SetParameter("Description", SqlDbType.NVarChar, document.Description, ParameterDirection.Input)
-                .SetParameter("InforSign", SqlDbType.NVarChar, document.InforSign, ParameterDirection.Input)
-                .SetParameter("Keyword", SqlDbType.NVarChar, document.Keyword, ParameterDirection.Input)
-                .SetParameter("Mode", SqlDbType.NVarChar, document.Mode, ParameterDirection.Input)
-                .SetParameter("ConfidenceLevelId", SqlDbType.Int, document.ConfidenceLevelId, ParameterDirection.Input)
-                .SetParameter("Autograph", SqlDbType.NVarChar, document.Autograph, ParameterDirection.Input)
-                .SetParameter("FormatId", SqlDbType.Int, document.FormatId, ParameterDirection.Input)
-                .SetParameter("ComputerFileId", SqlDbType.Int, document.ComputerFileId, ParameterDirection.Input)
-                .SetParameter("CreatedDate", SqlDbType.Date, document.CreatedDate, ParameterDirection.Input)
-                .SetParameter("CreatedBy", SqlDbType.NVarChar, document.CreatedBy, ParameterDirection.Input)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .ExcuteNonQuery()
-                .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
-
-            return new ReturnResult<Document>()
+            ReturnResult<Document> result = new ReturnResult<Document>();
+            try
             {
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-            };
+                dbProvider = new DbProvider();
+                dbProvider.SetQuery("DOCUMENT_CREATE", CommandType.StoredProcedure);
+                dbProvider.SetParameter("DocumentCode", SqlDbType.NVarChar, document.DocumentCode, ParameterDirection.Input);
+                dbProvider.SetParameter("DocOrdinal", SqlDbType.Int, document.DocOrdinal, ParameterDirection.Input);
+                dbProvider.SetParameter("FileId", SqlDbType.Int, document.FileId, ParameterDirection.Input);
+                dbProvider.SetParameter("DocTypeId", SqlDbType.Int, document.DocTypeId, ParameterDirection.Input);
+                dbProvider.SetParameter("CodeNumber", SqlDbType.NVarChar, document.CodeNumber, ParameterDirection.Input);
+                dbProvider.SetParameter("CodeNotation", SqlDbType.NVarChar, document.CodeNotation, ParameterDirection.Input);
+                dbProvider.SetParameter("IssuedDate", SqlDbType.Date, document.IssuedDate, ParameterDirection.Input);
+                dbProvider.SetParameter("Subject", SqlDbType.NVarChar, document.Subject, ParameterDirection.Input);
+                dbProvider.SetParameter("LanguageId", SqlDbType.Int, document.LanguageId, ParameterDirection.Input);
+                dbProvider.SetParameter("PageAmount", SqlDbType.Int, document.PageAmount, ParameterDirection.Input);
+                dbProvider.SetParameter("Description", SqlDbType.NVarChar, document.Description, ParameterDirection.Input);
+                dbProvider.SetParameter("InforSign", SqlDbType.NVarChar, document.InforSign, ParameterDirection.Input);
+                dbProvider.SetParameter("Keyword", SqlDbType.NVarChar, document.Keyword, ParameterDirection.Input);
+                dbProvider.SetParameter("Mode", SqlDbType.NVarChar, document.Mode, ParameterDirection.Input);
+                dbProvider.SetParameter("ConfidenceLevelId", SqlDbType.Int, document.ConfidenceLevelId, ParameterDirection.Input);
+                dbProvider.SetParameter("Autograph", SqlDbType.NVarChar, document.Autograph, ParameterDirection.Input);
+                dbProvider.SetParameter("FormatId", SqlDbType.Int, document.FormatId, ParameterDirection.Input);
+                dbProvider.SetParameter("ComputerFileId", SqlDbType.Int, document.ComputerFileId, ParameterDirection.Input);
+                dbProvider.SetParameter("CreatedDate", SqlDbType.Date, document.CreatedDate, ParameterDirection.Input);
+                dbProvider.SetParameter("CreatedBy", SqlDbType.NVarChar, document.CreatedBy, ParameterDirection.Input);
+                dbProvider.SetParameter("Signature", SqlDbType.Int, document.Signature);
+                dbProvider.SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output);
+                dbProvider.SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output);
+                dbProvider.ExcuteNonQuery();
+
+                dbProvider.Complete();
+                dbProvider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage);
+
+                if (outCode != "0")
+                {
+                    result.Failed(outCode, outMessage);
+                }
+                else
+                {
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
         }
 
         public ReturnResult<Document> UpdateDocument(Document document)
         {
-            DbProvider dbProvider = new DbProvider();
+            DbProvider dbProvider;
             string outCode = String.Empty;
             string outMessage = String.Empty;
-            dbProvider.SetQuery("DOCUMENT_UPDATE", CommandType.StoredProcedure)
-                .SetParameter("DocumentId", SqlDbType.Int, document.DocumentCode, ParameterDirection.Input)
-                .SetParameter("DocumentCode", SqlDbType.NVarChar, document.DocumentCode, ParameterDirection.Input)
-                .SetParameter("DocOrdinal", SqlDbType.Int, document.DocOrdinal, ParameterDirection.Input)
-                .SetParameter("FileId", SqlDbType.Int, document.FileId, ParameterDirection.Input)
-                .SetParameter("DocTypeId", SqlDbType.Int, document.DocTypeId, ParameterDirection.Input)
-                .SetParameter("CodeNumber", SqlDbType.NVarChar, document.CodeNumber, ParameterDirection.Input)
-                .SetParameter("CodeNotation", SqlDbType.NVarChar, document.CodeNotation, ParameterDirection.Input)
-                .SetParameter("IssuedDate", SqlDbType.Date, document.IssuedDate, ParameterDirection.Input)
-                .SetParameter("Subject", SqlDbType.NVarChar, document.Subject, ParameterDirection.Input)
-                .SetParameter("LanguageId", SqlDbType.Int, document.LanguageId, ParameterDirection.Input)
-                .SetParameter("PageAmount", SqlDbType.Int, document.PageAmount, ParameterDirection.Input)
-                .SetParameter("Description", SqlDbType.NVarChar, document.Description, ParameterDirection.Input)
-                .SetParameter("InforSign", SqlDbType.NVarChar, document.InforSign, ParameterDirection.Input)
-                .SetParameter("Keyword", SqlDbType.NVarChar, document.Keyword, ParameterDirection.Input)
-                .SetParameter("Mode", SqlDbType.NVarChar, document.Mode, ParameterDirection.Input)
-                .SetParameter("ConfidenceLevelId", SqlDbType.Int, document.ConfidenceLevelId, ParameterDirection.Input)
-                .SetParameter("Autograph", SqlDbType.NVarChar, document.Autograph, ParameterDirection.Input)
-                .SetParameter("Format", SqlDbType.Int, document.FormatId, ParameterDirection.Input)
-                .SetParameter("ComputerFileId", SqlDbType.Int, document.ComputerFileId, ParameterDirection.Input)
-                .SetParameter("CreatedDate", SqlDbType.Date, document.CreatedDate, ParameterDirection.Input)
-                .SetParameter("UpdatedDate", SqlDbType.Date, document.UpdatedDate, ParameterDirection.Input)
-                .SetParameter("UpdatedBy", SqlDbType.NVarChar, document.UpdatedBy, ParameterDirection.Input)
-                .SetParameter("IsDeleted", SqlDbType.NVarChar, document.IsDeleted, ParameterDirection.Input)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .ExcuteNonQuery()
-                .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
-
-            return new ReturnResult<Document>()
+            ReturnResult<Document> result = new ReturnResult<Document>();
+            try
             {
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-            };
+                dbProvider = new DbProvider();
+
+                dbProvider.SetQuery("DOCUMENT_UPDATE", CommandType.StoredProcedure)
+                    .SetParameter("DocumentId", SqlDbType.Int, document.DocumentCode, ParameterDirection.Input)
+                    .SetParameter("DocumentCode", SqlDbType.NVarChar, document.DocumentCode, ParameterDirection.Input)
+                    .SetParameter("DocOrdinal", SqlDbType.Int, document.DocOrdinal, ParameterDirection.Input)
+                    .SetParameter("FileId", SqlDbType.Int, document.FileId, ParameterDirection.Input)
+                    .SetParameter("DocTypeId", SqlDbType.Int, document.DocTypeId, ParameterDirection.Input)
+                    .SetParameter("CodeNumber", SqlDbType.NVarChar, document.CodeNumber, ParameterDirection.Input)
+                    .SetParameter("CodeNotation", SqlDbType.NVarChar, document.CodeNotation, ParameterDirection.Input)
+                    .SetParameter("IssuedDate", SqlDbType.Date, document.IssuedDate, ParameterDirection.Input)
+                    .SetParameter("Subject", SqlDbType.NVarChar, document.Subject, ParameterDirection.Input)
+                    .SetParameter("LanguageId", SqlDbType.Int, document.LanguageId, ParameterDirection.Input)
+                    .SetParameter("PageAmount", SqlDbType.Int, document.PageAmount, ParameterDirection.Input)
+                    .SetParameter("Description", SqlDbType.NVarChar, document.Description, ParameterDirection.Input)
+                    .SetParameter("InforSign", SqlDbType.NVarChar, document.InforSign, ParameterDirection.Input)
+                    .SetParameter("Keyword", SqlDbType.NVarChar, document.Keyword, ParameterDirection.Input)
+                    .SetParameter("Mode", SqlDbType.NVarChar, document.Mode, ParameterDirection.Input)
+                    .SetParameter("ConfidenceLevelId", SqlDbType.Int, document.ConfidenceLevelId, ParameterDirection.Input)
+                    .SetParameter("Autograph", SqlDbType.NVarChar, document.Autograph, ParameterDirection.Input)
+                    .SetParameter("Format", SqlDbType.Int, document.FormatId, ParameterDirection.Input)
+                    .SetParameter("ComputerFileId", SqlDbType.Int, document.ComputerFileId, ParameterDirection.Input)
+                    .SetParameter("CreatedDate", SqlDbType.Date, document.CreatedDate, ParameterDirection.Input)
+                    .SetParameter("UpdatedDate", SqlDbType.Date, document.UpdatedDate, ParameterDirection.Input)
+                    .SetParameter("UpdatedBy", SqlDbType.NVarChar, document.UpdatedBy, ParameterDirection.Input)
+                    .SetParameter("IsDeleted", SqlDbType.NVarChar, document.IsDeleted, ParameterDirection.Input)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                    .ExcuteNonQuery()
+                    .Complete();
+
+                dbProvider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage);
+
+                if (outCode != "0")
+                {
+                    result.Failed(outCode, outMessage);
+                }
+                else
+                {
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
         }
 
         public ReturnResult<Document> DeleteDocument(Document document)

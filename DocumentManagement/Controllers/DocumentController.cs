@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Common.Common;
 using DocumentManagement.BUS;
+using DocumentManagement.Common;
 using DocumentManagement.Models.Entity.Document;
 using DocumentManagement.Models.Entity.Profile;
 using Microsoft.AspNetCore.Http;
@@ -30,10 +31,26 @@ namespace DocumentManagement.Controllers
             var result = documentBUS.GetDocumentById(documentId);
             return Ok(result);
         }
+
+        /// <summary>
+        /// thêm văn bản + insert chữ ký số
+        /// </summary>
+        /// <param name="document"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
         [HttpPost]
-        public IActionResult CreateDocument(Document document)
+        public IActionResult CreateDocument([FromBody] Document document, [FromQuery] string name = "", [FromQuery] string docPath = "")
         {
             DocumentBUS documentBUS = new DocumentBUS();
+            bool hasSignature = false;
+            if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(docPath))
+            {
+                hasSignature = FilesUtillities.InsertSignatureIntoDocument(name, docPath);
+            }
+            if (hasSignature)
+            {
+                document.Signature = 1;
+            }
             var result = documentBUS.CreateDocument(document);
             return Ok(result);
         }

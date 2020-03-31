@@ -25,5 +25,9 @@ namespace DocumentManagement.Models.Entity.ComputerFile
         public string Size { get; set; }
 
         public string FolderPath { get; set; }
+
+        public string ClientUrl { get; set; }
+
+        public int Status { get; set; }
     }
 }

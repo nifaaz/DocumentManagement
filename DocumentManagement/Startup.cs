@@ -75,8 +75,7 @@ namespace DocumentManagement
             app.UseMvc();
             app.UseFileServer(new FileServerOptions
             {
-                FileProvider = new PhysicalFileProvider(
-            Path.Combine(Directory.GetCurrentDirectory(), "FilesUpload")),
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "FilesUpload")),
                 RequestPath = "/FilesUpload",
                 EnableDirectoryBrowsing = true
             });

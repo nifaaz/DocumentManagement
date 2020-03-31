@@ -31,5 +31,10 @@ namespace DocumentManagement.Model.Entity.GearBox
         public int OrganID { get; set; }
         public DateTime StDate { get; set; }
         public DateTime EDate { get; set; }
+
+        /// <summary>
+        /// trạng thái hộp số : nếu = 1 => tất cả tài liệu trong hộp số đã được số hóa
+        /// </summary>
+        public int Status { get; set; }
     }
 }

@@ -52,6 +52,11 @@ namespace DocumentManagement.Controllers
             var result = gearBoxBUS.GetGearBoxByTabOfContID(condition);
             return Ok(result);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("{id}")]
         public IActionResult GetGearBoxByTabOfContID(string id)
