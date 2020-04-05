@@ -10,6 +10,7 @@ using DocumentManagement.Model;
 using System.Data;
 using DocumentManagement.BUS;
 using DocumentManagement.Services;
+using DocumentManagement.Models.DTO;
 
 namespace DocumentManagement.DAL
 {
@@ -262,5 +263,38 @@ namespace DocumentManagement.DAL
 
             return result;
         }
+
+        public ReturnResult<UserSelect2DTO> GetAllUser()
+        {
+            List<UserSelect2DTO> users = new List<UserSelect2DTO>();
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            int totalRows = 0;
+            try
+            {
+                dbProvider.SetQuery("USER_GET_ALL", CommandType.StoredProcedure)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetList<UserSelect2DTO>(out users)
+                .Complete();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<UserSelect2DTO>()
+            {
+                ItemList = users,
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+                TotalRows = totalRows
+            };
+        }
+
     }
 }

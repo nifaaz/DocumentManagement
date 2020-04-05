@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Common.Common;
 using DocumentManagement.Common;
 using DocumentManagement.DAL;
+using DocumentManagement.Models.DTO;
 using DocumentManagement.Models.Entity.User;
 
 namespace DocumentManagement.BUS
@@ -62,6 +63,12 @@ namespace DocumentManagement.BUS
         public ReturnResult<User> EditUser(User user)
         {
             return userDAL.EditUser(user);
+        }
+
+        public ReturnResult<UserSelect2DTO> GetAllUser()
+        {
+            var result = userDAL.GetAllUser();
+            return result;
         }
     }
 }

@@ -11,4 +11,10 @@ namespace DocumentManagement.Models.DTO
         public string Password { get; set; }
         public string PasswordSalt { get; set; }
     }
+
+    public class UserSelect2DTO
+    {
+        public string UserName { get; set; }
+        public int UserID { get; set; }
+    }
 }
