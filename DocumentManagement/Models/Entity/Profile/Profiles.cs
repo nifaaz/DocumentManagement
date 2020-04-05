@@ -102,8 +102,6 @@ namespace DocumentManagement.Models.Entity.Profile
         /// </summary>
         public string InfoSign { get; set; }
 
-
-
-
+        public int Status { get; set; }
     }
 }

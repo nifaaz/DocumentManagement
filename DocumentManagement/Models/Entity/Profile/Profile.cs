@@ -89,9 +89,8 @@ namespace DocumentManagement.Models.Entity.Profile
         public int PageNumber { get; set; }
         public string Format { get; set; }
         public int ProfileTypeId { get; set; }
-
-
         public string GearBoxTitle { get; set; }
-
+        public int TotalFiles { get; set; }
+        public int TotalFilesCompleted { get; set; }
     }
 }

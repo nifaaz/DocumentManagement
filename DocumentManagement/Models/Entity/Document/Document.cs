@@ -17,7 +17,7 @@ namespace DocumentManagement.Models.Entity.Document
         /// </summary>
         public int DocOrdinal { get; set; }
         /// <summary>
-        /// Mã hồ sơ
+        /// Id hồ sơ
         /// </summary>
         public int FileId { get; set; }
         public int DocTypeId { get; set; }
@@ -75,5 +75,13 @@ namespace DocumentManagement.Models.Entity.Document
         public string UpdatedBy { get; set; }
         
         public int ProfileId { get; set; }
+
+        public string ServerPath { get; set; }
+
+        public int Status { get; set; }
+        public int Signature { get; set; }
+        public int Confirmed { get; set; }
+
+        public string FileName { get; set; }
     }
 }

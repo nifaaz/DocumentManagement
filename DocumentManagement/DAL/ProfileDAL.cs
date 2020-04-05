@@ -45,22 +45,44 @@ namespace DocumentManagement.DAL
             DbProvider dbProvider = new DbProvider();
             string outCode = String.Empty;
             string outMessage = String.Empty;
-            var list = new List<ComputerFile>();
-            dbProvider.SetQuery("COMPUTER_GET_BY_PROFILE_ID", CommandType.StoredProcedure)
-                .SetParameter("ProfileId", SqlDbType.NVarChar, profileId, ParameterDirection.Input)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .GetList<ComputerFile>(out list)
-                .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
-
-            return new ReturnResult<ComputerFile>()
+            List<ComputerFile> list;
+            ReturnResult<ComputerFile> result = new ReturnResult<ComputerFile>();
+            try
             {
-                ItemList = list,
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-            };
+                list = new List<ComputerFile>();
+                dbProvider.SetQuery("COMPUTER_GET_BY_PROFILE_ID", CommandType.StoredProcedure)
+                   .SetParameter("ProfileId", SqlDbType.NVarChar, profileId, ParameterDirection.Input)
+                   .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                   .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                   .GetList<ComputerFile>(out list)
+                   .Complete();
+                dbProvider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage);
+
+                if (list.Count == 0)
+                {
+                    result.Failed("NE", "Không có file nào tồn tại trong hồ sơ, vui lòng thử lại.");
+                }
+                else
+                {
+                    if (outCode != "0")
+                    {
+                        result.Failed(outCode, outMessage);
+                    }
+                    else
+                    {
+                        result.ItemList = list;
+                        result.Item = list[0];
+                        result.ErrorCode = "0";
+                        result.ErrorMessage = "";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
         }
         
         public ReturnResult<Profiles> GetPagingWithSearchResults(BaseCondition<Profiles> condition)
@@ -189,16 +211,75 @@ namespace DocumentManagement.DAL
             var result = new ReturnResult<Profile>();
             try
             {
-                provider.SetQuery("PROFILE_GET_BY_GEAR_BOX_ID", System.Data.CommandType.StoredProcedure)
-                    .SetParameter("GearBoxId", System.Data.SqlDbType.Int, gearBoxId ?? String.Empty)
-                    .SetParameter("ErrorCode", System.Data.SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
-                    .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output)
+                provider.SetQuery("PROFILE_GET_BY_GEAR_BOX_ID", CommandType.StoredProcedure)
+                    .SetParameter("GearBoxId",SqlDbType.Int, gearBoxId ?? String.Empty)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
                     .GetList<Profile>(out list)
+                    .Complete();
+
+                provider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage);
+
+                if (outCode != "0")
+                {
+                    result.Failed(outCode, outMessage);
+                }
+                else
+                {
+                    if (list.Count > 0)
+                    {
+                        List<Profile> lstFilter = list.Where(item => item.TotalFiles > 0).ToList();
+                        if (lstFilter.Count > 0)
+                        {
+                            result.ItemList = lstFilter;
+                            result.Item = lstFilter[0]; // chỉ lấy 1 hồ sơ có trong hộp số
+                            result.ErrorCode = "0";
+                            result.ErrorMessage = "";
+                        }
+                        else
+                        {
+                            List<Profile> lstFileCompleted = list.Where(item => item.TotalFilesCompleted > 0).ToList();
+                            if (lstFileCompleted.Count == list.Count)
+                            {
+                                result.Failed("CO", "Toàn bộ tài liệu trong hộp số đã được số hóa. Vui lòng chọn hộp số khác.");
+                            }
+                            //result.Failed("EN", "Không tồn tại hồ sơ trong hộp số. Vui lòng thử lại hoặc chọn hộp số khác.");
+                        }
+                    }
+                    else
+                    {
+                        result.Failed("EN", "Không tồn tại hồ sơ trong hộp số. Vui lòng thử lại hoặc chọn hộp số khác.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
+        }
+        public ReturnResult<Profiles> GetProfileByGearBoxID(int gearBoxID)
+        {
+            DbProvider provider = new DbProvider();
+            List<Profiles> list = new List<Profiles>();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            string totalRecords = String.Empty;
+            var result = new ReturnResult<Profiles>();
+            try
+            {
+                provider.SetQuery("PROFILE_GET_BY_GEAR_BOX_ID", CommandType.StoredProcedure)
+                    .SetParameter("GearBoxId", SqlDbType.Int, gearBoxID)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                    .GetList<Profiles>(out list)
                     .Complete();
 
                 if (list.Count > 0)
                 {
                     result.ItemList = list;
+                    result.Item = list[0];
                 }
                 provider.GetOutValue("ErrorCode", out outCode)
                            .GetOutValue("ErrorMessage", out outMessage);
@@ -221,30 +302,6 @@ namespace DocumentManagement.DAL
                 result.ErrorMessage = ex.Message;
             }
             return result;
-        }
-        public ReturnResult<Profiles> GetProfileByGearBoxID(int gearBoxID)
-        {
-            List<Profiles> profileList = new List<Profiles>();
-            DbProvider dbProvider = new DbProvider();
-            string outCode = String.Empty;
-            string outMessage = String.Empty;
-            int totalRows = 0;
-            dbProvider.SetQuery("PROFILE_GET_BY_GearBoxID", CommandType.StoredProcedure)
-                .SetParameter("HopSoID", SqlDbType.Int, gearBoxID, ParameterDirection.Input)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 255, ParameterDirection.Output)
-                .GetList<Profiles>(out profileList)
-                .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
-
-            return new ReturnResult<Profiles>()
-            {
-                ItemList = profileList,
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-                TotalRows = totalRows
-            };
         }
         public ReturnResult<Profiles> SearchProfile(string searchStr)
         {

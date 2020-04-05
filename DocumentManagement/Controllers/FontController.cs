@@ -33,7 +33,7 @@ namespace DocumentManagement.Controlleresult
         }
 
         [HttpPost]
-        public IActionResult GetFontWithPaging([FromBody] BaseCondition<Font> condition)
+        public async Task<IActionResult> GetFontWithPaging([FromBody] BaseCondition<Font> condition)
         {
             try
             {

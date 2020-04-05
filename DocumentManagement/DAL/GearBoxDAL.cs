@@ -88,6 +88,12 @@ namespace DocumentManagement.DAL
             }
             return result;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <modified>Tú</modified>
         public ReturnResult<GearBox> GetGearBoxByTabOfContID(string id)
         {
             DbProvider provider = new DbProvider();
@@ -98,31 +104,38 @@ namespace DocumentManagement.DAL
             var result = new ReturnResult<GearBox>();
             try
             {
-                provider.SetQuery("GEARBOX_GET_BY_TABLE_OF_CONTENT_ID", System.Data.CommandType.StoredProcedure)
-                    .SetParameter("Id", System.Data.SqlDbType.NVarChar, id ?? String.Empty)
-                    .SetParameter("ErrorCode", System.Data.SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
-                    .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output).GetList<GearBox>(out list).Complete();
-                if (list.Count > 0)
-                {
-                    result.ItemList = list;
-                }
+                provider.SetQuery("GEARBOX_GET_BY_TABLE_OF_CONTENT_ID", CommandType.StoredProcedure)
+                    .SetParameter("Id", SqlDbType.NVarChar, id ?? String.Empty)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                    .GetList<GearBox>(out list)
+                    .Complete();
+               
                 provider.GetOutValue("ErrorCode", out outCode)
                            .GetOutValue("ErrorMessage", out outMessage);
 
                 if (outCode != "0")
                 {
-                    result.ErrorCode = outCode;
-                    result.ErrorMessage = outMessage;
+                    result.Failed(outCode, outMessage);
                 }
                 else
                 {
-                    result.ErrorCode = "";
+                    if (list.Count > 0)
+                    {
+                        List<GearBox> lstGearBox = list.Where(item => item.Status == 0).ToList();
+                        result.ItemList = lstGearBox;
+                    }
+                    else
+                    {
+                        result.ItemList = null;
+                    }
+                    result.ErrorCode = "0";
                     result.ErrorMessage = "";
                 }
             }
             catch (Exception ex)
             {
-                result.ErrorMessage = ex.Message;
+                result.Failed("-1", ex.Message);
             }
             return result;
         }
@@ -375,8 +388,8 @@ namespace DocumentManagement.DAL
                     .SetParameter("TieuDeHopSo", SqlDbType.NVarChar, gearBox.GearBoxTitle, 50, ParameterDirection.Input)
                     .SetParameter("MucLucHoSoID", SqlDbType.Int, gearBox.TabOfContID, ParameterDirection.Input)
                     .SetParameter("GhiChu", SqlDbType.NVarChar, gearBox.Note, 300, ParameterDirection.Input)
-                    .SetParameter("NgayBatDau", SqlDbType.NVarChar, gearBox.StDate.ToString(), 100, ParameterDirection.Input)
-                    .SetParameter("NgayKetThuc", SqlDbType.NVarChar, gearBox.EDate.ToString(), 100, ParameterDirection.Input)
+                    //.SetParameter("NgayBatDau", SqlDbType.NVarChar, gearBox.StDate.ToString(), 100, ParameterDirection.Input)
+                    //.SetParameter("NgayKetThuc", SqlDbType.NVarChar, gearBox.EDate.ToString(), 100, ParameterDirection.Input)
                     .SetParameter("NgayCapNhat", SqlDbType.NVarChar, gearBox.UpdateTime.ToString(), 100, ParameterDirection.Input)
                     .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                     .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
@@ -414,8 +427,8 @@ namespace DocumentManagement.DAL
                 .SetParameter("TieuDeHopSo", SqlDbType.NVarChar, gearBox.GearBoxTitle, 50, ParameterDirection.Input)
                 .SetParameter("MucLucHoSoID", SqlDbType.Int, gearBox.TabOfContID, ParameterDirection.Input)
                 .SetParameter("GhiChu", SqlDbType.NVarChar, gearBox.Note, 300, ParameterDirection.Input)
-                .SetParameter("NgayBatDau", SqlDbType.NVarChar, gearBox.StDate.ToString(), 100, ParameterDirection.Input)
-                .SetParameter("NgayKetThuc", SqlDbType.NVarChar, gearBox.EDate.ToString(), 100, ParameterDirection.Input)
+                //.SetParameter("NgayBatDau", SqlDbType.NVarChar, gearBox.StDate.ToString(), 100, ParameterDirection.Input)
+                //.SetParameter("NgayKetThuc", SqlDbType.NVarChar, gearBox.EDate.ToString(), 100, ParameterDirection.Input)
                 .SetParameter("NgayTao", SqlDbType.NVarChar, gearBox.CreateTime.ToString(), 100, ParameterDirection.Input)
                 .SetParameter("isDeleted", SqlDbType.Int, gearBox.isDeleted, ParameterDirection.Input)
                 .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)

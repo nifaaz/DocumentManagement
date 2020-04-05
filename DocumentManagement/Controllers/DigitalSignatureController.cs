@@ -42,22 +42,26 @@ namespace DocumentManagement.Controllers
         [HttpPost]
         public IActionResult Delete([FromQuery] int id, [FromQuery] string name)
         {
-            if (!string.IsNullOrEmpty(name))
+            ReturnResult<DigitalSignature> result = digitalSignatureBUS.Delete(id);
+            if (result.IsSuccess)
             {
-                string[] lstFile = Directory.GetFiles(Const.FILE_UPLOAD_DIGITAL_SIGNATURE);
-                if (lstFile.Length > 0)
+                if (!string.IsNullOrEmpty(name))
                 {
-                    foreach (var item in lstFile)
+                    string[] lstFile = Directory.GetFiles(Const.FILE_UPLOAD_DIGITAL_SIGNATURE);
+                    if (lstFile.Length > 0)
                     {
-                        if (Path.GetFileName(item) == name)
+                        foreach (var item in lstFile)
                         {
-                            System.IO.File.Delete(item);
-                            break;
+                            if (Path.GetFileName(item) == name)
+                            {
+                                System.IO.File.Delete(item);
+                                break;
+                            }
                         }
                     }
                 }
             }
-            return Ok(digitalSignatureBUS.Delete(id));
+            return Ok(result);
         }
 
 
@@ -72,8 +76,6 @@ namespace DocumentManagement.Controllers
             try
             {
                 IFormFile file = Request.Form.Files["file"]; // danh sách file
-                List<ComputerFile> lstFilesExists = new List<ComputerFile>();
-                List<ComputerFile> lstFileInfo = new List<ComputerFile>();
                 string overwrite = Request.Form["overwrite"].ToString();
                 string filePath = Path.Combine(Const.FILE_UPLOAD_DIGITAL_SIGNATURE, file.FileName);
                 int overwriteValue = 0;
@@ -121,6 +123,7 @@ namespace DocumentManagement.Controllers
                         FilesUtillities.CopyFileToPhysicalDiskSync(file, filePath);
                     }
                     digitalSignature.Path = filePath;
+                    digitalSignature.ServerPath = Const.DIGITAL_SIGNATURE_FOLDER + file.FileName;
                 }
                 
                 // send information
@@ -130,6 +133,41 @@ namespace DocumentManagement.Controllers
             catch (Exception ex)
             {
                 return Ok(ex);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult UpdateStatus ([FromQuery] int id)
+        {
+            return Ok(digitalSignatureBUS.UpdateStatus(id));
+        }
+
+        [HttpGet]
+        public IActionResult GetStatus ()
+        {
+            ReturnResult<int> status = new ReturnResult<int>();
+            try
+            {
+                var result = digitalSignatureBUS.GetAll();
+                //List<int> lstStatus;
+                //if (result.IsSuccess)
+                //{
+                //    lstStatus = result.ItemList.Select(item => item.Status)
+                //        .Distinct().ToList();
+                //    status.ItemList = lstStatus;
+                //    status.ErrorCode = "0";
+                //    status.ErrorMessage = "";
+                //}
+                //else
+                //{
+                //    status.Failed(result.ErrorCode, result.ErrorMessage);
+                //}
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                status.Failed("-1", ex.Message);
+                return Ok(status);
             }
         }
     }

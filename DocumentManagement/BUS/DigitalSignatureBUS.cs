@@ -59,5 +59,15 @@ namespace DocumentManagement.BUS
         {
             return digitalSignatureDAL.GetById(id);
         }
+
+        public ReturnResult<DigitalSignature> GetAll()
+        {
+            return digitalSignatureDAL.GetAll();
+        }
+
+        public ReturnResult<DigitalSignature> UpdateStatus(int id, int status = 0)
+        {
+            return digitalSignatureDAL.ChangeStatus(id, status);
+        }
     }
 }

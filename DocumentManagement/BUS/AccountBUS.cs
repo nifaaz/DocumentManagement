@@ -1,5 +1,6 @@
 ﻿using DocumentManagement.Common;
 using DocumentManagement.DAL;
+using DocumentManagement.Models.DTO;
 using DocumentManagement.Models.Entity.Account;
 using DocumentManagement.Models.Entity.User;
 using DocumentManagement.Services;
@@ -56,6 +57,10 @@ namespace DocumentManagement.BUS
             return AccountDAL.EditPassword(account);
         }
 
-        
+        public UserDTO GetUserToCheck(int UserID)
+        {
+            return AccountDAL.GetUserToCheck(UserID);
+        }
+
     }
 }

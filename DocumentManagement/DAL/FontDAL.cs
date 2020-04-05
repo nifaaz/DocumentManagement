@@ -320,7 +320,9 @@ namespace DocumentManagement.DAL
                     .SetParameter("PhongID", SqlDbType.Int, font.FontID, ParameterDirection.Input)
                     .SetParameter("PhongSo", SqlDbType.NChar, font.FontNumber, 50, ParameterDirection.Input)
                     .SetParameter("CoQuanID", SqlDbType.Int, font.OrganID, ParameterDirection.Input)
+                    .SetParameter("NgonNguID", SqlDbType.Int, font.LanguageId, ParameterDirection.Input)
                     .SetParameter("TenPhong", SqlDbType.NVarChar, font.FontName, 50, ParameterDirection.Input)
+                    .SetParameter("CongCu", SqlDbType.NVarChar, font.LookupTools, 50, ParameterDirection.Input)
                     .SetParameter("LichSu", SqlDbType.NVarChar, font.History, 500, ParameterDirection.Input)
                     .SetParameter("NgonNgu", SqlDbType.NVarChar, font.Lang, 50, ParameterDirection.Input)
                     .SetParameter("NgayCapNhat", SqlDbType.NVarChar, font.UpdateTime.ToString(), 50, ParameterDirection.Input)
@@ -358,9 +360,11 @@ namespace DocumentManagement.DAL
             try
             {
                 provider.SetQuery("[FONT_CREATE]", System.Data.CommandType.StoredProcedure)
-                 .SetParameter("PhongSo", SqlDbType.NVarChar, font.FontNumber, 10, ParameterDirection.Input)
+                .SetParameter("PhongSo", SqlDbType.NVarChar, font.FontNumber, 10, ParameterDirection.Input)
                 .SetParameter("CoQuanID", SqlDbType.Int, font.OrganID, ParameterDirection.Input)
+                .SetParameter("NgonNguID", SqlDbType.Int, font.LanguageId, ParameterDirection.Input)
                 .SetParameter("TenPhong", SqlDbType.NVarChar, font.FontName, 50, ParameterDirection.Input)
+                .SetParameter("CongCu", SqlDbType.NVarChar, font.LookupTools, 50, ParameterDirection.Input)
                 .SetParameter("LichSu", SqlDbType.NVarChar, font.History, 500, ParameterDirection.Input)
                 .SetParameter("GhiChu", SqlDbType.NVarChar, font.Note, 300, ParameterDirection.Input)
                 .SetParameter("NgayTao", SqlDbType.NVarChar, font.CreateTime.ToString(),100,ParameterDirection.Input)

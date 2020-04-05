@@ -15,5 +15,11 @@ namespace DocumentManagement.Models.Entity
         public string Path { get; set; }
 
         public string Base64String { get; set; } = "";
+        /// <summary>
+        /// lưu lại trạng thái
+        /// </summary>
+        public int Status { get; set; }
+
+        public string ServerPath { get; set; }
     }
 }

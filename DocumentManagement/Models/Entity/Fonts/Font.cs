@@ -29,5 +29,6 @@ namespace DocumentManagement.Model.Entity
         public string CopyNumber { get; set; }
         public string ArchivesTime { get; set; }
         public int PaperTotal { get; set; }
+        public int LanguageId { get; set; }
     }
 }

@@ -20,5 +20,7 @@ namespace DocumentManagement.Models.Entity.User
         public int RoleID { get; set; }
         public string UserRole { get; set; }
         public string RoleName { get; set; }
+        public string PasswordSalt { get; set; }
+        public string PasswordNew { get; set; }
     }
 }

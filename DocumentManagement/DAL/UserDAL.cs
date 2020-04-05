@@ -8,6 +8,8 @@ using DocumentManagement.Models.Entity.User;
 using DocumentManagement.DAL;
 using DocumentManagement.Model;
 using System.Data;
+using DocumentManagement.BUS;
+using DocumentManagement.Services;
 
 namespace DocumentManagement.DAL
 {
@@ -121,7 +123,11 @@ namespace DocumentManagement.DAL
 
         public ReturnResult<User> CreateUser(User user)
         {
-
+            AuthenticationHelper _authenticationHelper = new AuthenticationHelper();
+            string passwordSalt = _authenticationHelper.RamdomString(5);
+            string password = _authenticationHelper.GetMd5Hash(passwordSalt + user.PasswordNew);
+            user.Password = password;
+            user.PasswordSalt = passwordSalt;
             DbProvider provider = new DbProvider();
             var result = new ReturnResult<User>();
             string outCode = String.Empty;
@@ -132,6 +138,7 @@ namespace DocumentManagement.DAL
                 provider.SetQuery("USER_CREATE", System.Data.CommandType.StoredProcedure)
                     .SetParameter("UserName", SqlDbType.NVarChar, user.UserName, 50, ParameterDirection.Input)
                     .SetParameter("Password", SqlDbType.NVarChar, user.Password, 50, ParameterDirection.Input)
+                    .SetParameter("PasswordSalt", SqlDbType.NVarChar, user.PasswordSalt, 50, ParameterDirection.Input)
                     .SetParameter("NguoiTao", SqlDbType.NVarChar, user.CreateBy, 50, ParameterDirection.Input)
                     .SetParameter("NgayTao", SqlDbType.NVarChar, user.CreateDate.ToString(), 100, ParameterDirection.Input)
                     .SetParameter("Status", SqlDbType.Int, user.Status, ParameterDirection.Input)
@@ -165,6 +172,22 @@ namespace DocumentManagement.DAL
 
         public ReturnResult<User> EditUser(User user)
         {
+            AuthenticationHelper _authenticationHelper = new AuthenticationHelper();
+            if (user.PasswordNew != null && !user.PasswordNew.Equals(""))
+            {
+                string passwordSalt = _authenticationHelper.RamdomString(5);
+                string password = _authenticationHelper.GetMd5Hash(passwordSalt + user.PasswordNew);
+                user.Password = password;
+                user.PasswordSalt = passwordSalt;
+            }
+            else
+            {
+                var accountBusiness = new AccountBUS();
+                var userDTO = accountBusiness.GetUserToCheck(user.Id);
+                user.Password = userDTO.Password;
+                user.PasswordSalt = userDTO.PasswordSalt;
+            }
+
             ReturnResult<User> result;
             DbProvider db;
             try
@@ -175,6 +198,7 @@ namespace DocumentManagement.DAL
                     .SetParameter("UserID", SqlDbType.Int, user.Id, ParameterDirection.Input)
                     .SetParameter("UserName", SqlDbType.NVarChar, user.UserName, 50, ParameterDirection.Input)
                     .SetParameter("Password", SqlDbType.NVarChar, user.Password, 50, ParameterDirection.Input)
+                    .SetParameter("PasswordSalt", SqlDbType.NVarChar, user.PasswordSalt, 50, ParameterDirection.Input)
                     .SetParameter("NguoiCapNhat", SqlDbType.NVarChar, user.UpdatedBy, 50, ParameterDirection.Input)
                     .SetParameter("NgayCapNhat", SqlDbType.NVarChar, user.UpdatedDate.ToString(), 100, ParameterDirection.Input)
                     .SetParameter("status", SqlDbType.Int, user.Status, ParameterDirection.Input)
@@ -238,7 +262,5 @@ namespace DocumentManagement.DAL
 
             return result;
         }
-
-
     }
 }

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using iTextSharp.text.pdf;
+using System.Web;
 
 namespace DocumentManagement.Controllers
 {
@@ -39,12 +40,14 @@ namespace DocumentManagement.Controllers
             var result = profileBUS.GetProfileByID(profileId);
             return Ok(result);
         }
+
         [HttpGet("{gearboxID}")]
         public IActionResult GetProfileByGeaBoxID(int gearboxID)
         {
             var result = profileBUS.GetProfileByGearBoxID(gearboxID);
             return Ok(result);
         }
+
         // For select2
         [HttpGet]
         [Route("{id}")]
@@ -110,7 +113,7 @@ namespace DocumentManagement.Controllers
                 List<ComputerFile> lstFilesExists = new List<ComputerFile>();
                 List<ComputerFile> lstFileInfo = new List<ComputerFile>();
 
-                string path = Libs.GetFullPathDirectoryFileUpload();
+                //string path = Libs.GetFullPathDirectoryFileUpload();
 
                 #region
                 //string clientPath = Path.Combine(path, "pdffile");
@@ -124,8 +127,8 @@ namespace DocumentManagement.Controllers
                 //string directoryPathFileUpload = Const.FILE_UPLOAD_DIR + profile.FileCode;
                 #endregion
 
-
-                string directoryPathFileUpload = Path.Combine(path, profile.FileCode);
+                string directoryPathFileUpload = Const.FILE_UPLOAD_DIR + profile.FileCode;
+                //string directoryPathFileUpload = Path.Combine(path, profile.FileCode);
                 var profileCheck = profileBUS.GetProfileByFileCode(profile.FileCode);
                 if (Directory.Exists(directoryPathFileUpload) || profile.FileCode == profileCheck.Item.FileCode)
                 {
@@ -229,7 +232,8 @@ namespace DocumentManagement.Controllers
                                     Url = fileUrl,
                                     PageNumber = GetNumberOfPdfPages(fileUrl),
                                     CreatedBy = profile.CreatedBy,
-                                    FolderPath = directoryPathFileUpload
+                                    FolderPath = directoryPathFileUpload,
+                                    ClientUrl = Const.FILE_SERVER_FOLDER + profile.FileCode + "/" + file.FileName
                                 });
                             }
                         }
@@ -268,9 +272,9 @@ namespace DocumentManagement.Controllers
 
                 string path = Libs.GetFullPathDirectoryFileUpload();
 
-                //string directoryPathFileUpload = Const.FILE_UPLOAD_DIR + profile.FileCode;
+                string directoryPathFileUpload = Const.FILE_UPLOAD_DIR + profile.FileCode;
 
-                string directoryPathFileUpload = Path.Combine(path, profile.FileCode);
+                //string directoryPathFileUpload = Path.Combine(path, profile.FileCode);
                 if (!Directory.Exists(directoryPathFileUpload))
                 {
                     // FileCode changed
@@ -365,7 +369,8 @@ namespace DocumentManagement.Controllers
                                             Url = fileUrl,
                                             PageNumber = GetNumberOfPdfPages(fileUrl),
                                             CreatedBy = profile.CreatedBy,
-                                            FolderPath = directoryPathFileUpload
+                                            FolderPath = directoryPathFileUpload,
+                                            ClientUrl = Const.FILE_SERVER_FOLDER + profile.FileCode + "/" + HttpUtility.HtmlEncode(fileName)
                                         });
                                     }
                                 }
@@ -463,7 +468,8 @@ namespace DocumentManagement.Controllers
                                             Url = fileUrl,
                                             PageNumber = GetNumberOfPdfPages(fileUrl),
                                             CreatedBy = profile.CreatedBy,
-                                            FolderPath = directoryPathFileUpload
+                                            FolderPath = directoryPathFileUpload,
+                                            ClientUrl = Const.FILE_SERVER_FOLDER + profile.FileCode + "/" + HttpUtility.HtmlEncode(fileName)
                                         });
                                     }
                                 }
@@ -621,12 +627,23 @@ namespace DocumentManagement.Controllers
                 lstProfileTypes = profileBUS.GetAllProfileTypes().ItemList
             });
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult GetListFilesByProfileId([FromBody] BaseCondition<Profiles> condition)
         {
             var result = profileBUS.GetListFilesByProfileId(condition);
             return Ok(result);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="profileId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("{profileId}")]
         public IActionResult GetComputerFileByProfileId(string profileId)
@@ -634,6 +651,12 @@ namespace DocumentManagement.Controllers
             var result = profileBUS.GetComputerFileByProfileId(profileId);
             return Ok(result);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult GetDocumentsByProfileId (BaseCondition<Profiles> condition)
         {
