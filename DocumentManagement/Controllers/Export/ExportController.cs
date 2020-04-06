@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Common.Common;
 using DocumentManagement.BUS;
 using DocumentManagement.Common.CoreExport;
+using DocumentManagement.Models.DTO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,20 +14,33 @@ using Microsoft.Extensions.FileProviders;
 
 namespace DocumentManagement.Controllers.Export
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ExportController : ControllerBase
     {
         private static readonly ExportBUS exportBUS = ExportBUS.GetExportBUSInstance;
-        private IHostingEnvironment _hostingEnvironment;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
         public ExportController(IHostingEnvironment environment)
         {
-            _hostingEnvironment = environment;
+            this._hostingEnvironment = environment;
         }
 
         [HttpPost]
-        public IActionResult GetExportWithPaging([FromBody] BaseCondition<DocumentManagement.Models.Entity.Export> condition)
+        public async Task<IActionResult> GetDataStatisticsPagingWithSearchResults([FromBody] BaseCondition<FilterDTO> condition)
+        {
+            try
+            {
+                return Ok(exportBUS.GetDataStatisticsPagingWithSearchResults(condition));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetExportWithPaging([FromBody] BaseCondition<DocumentManagement.Models.Entity.Export> condition)
         {
             try
             {
@@ -39,21 +53,21 @@ namespace DocumentManagement.Controllers.Export
         }
 
         // GET: Export Gear Box
-        [HttpPost]
-        public FileResult FontExport([FromBody] BaseCondition<DocumentManagement.Models.Entity.Export> condition)
+        [HttpGet]
+        public async Task<FileResult> ExportExcel()
         {
             //
-            List<DocumentManagement.Models.Entity.Export> lstFont = new List<DocumentManagement.Models.Entity.Export>();
+            List<DataStatisticsDTO> dataStatisticsDTOs = new List<DataStatisticsDTO>();
             try
             {
-                lstFont = GetData(condition);
+                dataStatisticsDTOs = GetData();
             }
             catch (Exception)
             {
-                lstFont = null;
+                dataStatisticsDTOs = null;
             }
             string sWebRootFolder = _hostingEnvironment.ContentRootPath + "\\FilesUpload";
-            CreateExport(lstFont, sWebRootFolder);
+            CreateExport(dataStatisticsDTOs, sWebRootFolder);
             string fPath = sWebRootFolder + "\\" + "ThongKeTongQuat.xlsx";
             FileInfo fi = new FileInfo(fPath);
             IFileProvider provider = new PhysicalFileProvider(sWebRootFolder);
@@ -64,17 +78,17 @@ namespace DocumentManagement.Controllers.Export
             return File(readStream, mimeType, fileName);
             //return File(fPath, System.Net.Mime.MediaTypeNames.Application.Octet, "ThongKeTongQuat" + fi.Extension);
         }
-        private List<DocumentManagement.Models.Entity.Export> GetData([FromBody] BaseCondition<DocumentManagement.Models.Entity.Export> condition)
+        private List<DataStatisticsDTO> GetData()
         {
-            List<DocumentManagement.Models.Entity.Export> lstFont = new List<DocumentManagement.Models.Entity.Export>();
-            var result = exportBUS.GetPagingWithSearchResults(condition);
+            List<DataStatisticsDTO> dataStatisticsDTOs = new List<DataStatisticsDTO>();
+            var result = exportBUS.GetDataStatisticss();
             if (result.ItemList != null)
             {
-                lstFont = result.ItemList;
+                dataStatisticsDTOs = result.ItemList;
             }
-            return lstFont;
+            return dataStatisticsDTOs;
         }
-        public void CreateExport(List<DocumentManagement.Models.Entity.Export> lst, string sWebRootFolder)
+        public void CreateExport(List<DataStatisticsDTO> lst, string sWebRootFolder)
         {
             //Khởi tạo tham số đầu vào
             List<ProperTiesName> lstProperty = new List<ProperTiesName>();
@@ -83,9 +97,9 @@ namespace DocumentManagement.Controllers.Export
             lstProperty.Add(new ProperTiesName { PropsName = "GearBoxCode", WidthSize = 50 });
             lstProperty.Add(new ProperTiesName { PropsName = "ProfileCode", WidthSize = 20 });
             lstProperty.Add(new ProperTiesName { PropsName = "FileName", WidthSize = 25 });
-            lstProperty.Add(new ProperTiesName { PropsName = "updateDate", WidthSize = 30 });
+            lstProperty.Add(new ProperTiesName { PropsName = "UpdateDate", WidthSize = 30 });
             //Tạo đối tượng dùng để Export
-            ExportCore<DocumentManagement.Models.Entity.Export> exh = new ExportCore<DocumentManagement.Models.Entity.Export>(4)
+            ExportCore<DataStatisticsDTO> exh = new ExportCore<DataStatisticsDTO>(4)
             {
                 FileName = "ThongKeTongQuat",
                 LstObj = lst,

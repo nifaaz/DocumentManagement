@@ -13,7 +13,7 @@ namespace DocumentManagement.BUS
 {
     public class ExportBUS
     {
-        private ExportDAL ExportDAL = ExportDAL.GetExportDALInstance;
+        private ExportDAL exportDAL = ExportDAL.GetExportDALInstance;
         private ExportBUS() { }
 
         private static volatile ExportBUS _instance;
@@ -42,7 +42,19 @@ namespace DocumentManagement.BUS
         }
         public ReturnResult<Export> GetPagingWithSearchResults(BaseCondition<Export> condition)
         {
-            var result = ExportDAL.GetPagingWithSearchResults(condition);
+            var result = exportDAL.GetPagingWithSearchResults(condition);
+            return result;
+        }
+
+        public ReturnResult<DataStatisticsDTO> GetDataStatisticsPagingWithSearchResults(BaseCondition<FilterDTO> condition)
+        {
+            var result = exportDAL.GetDataStatisticsPagingWithSearchResults(condition);
+            return result;
+        }
+
+        public ReturnResult<DataStatisticsDTO> GetDataStatisticss()
+        {
+            var result = exportDAL.GetDataStatisticss();
             return result;
         }
     }
