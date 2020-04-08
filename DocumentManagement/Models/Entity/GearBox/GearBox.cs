@@ -18,8 +18,6 @@ namespace DocumentManagement.Model.Entity.GearBox
         public int NumDoc { get; set; }
         public int DocCount { get; set; }
         public string ProfileCode { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
         public DateTime CreateTime { get; set; }
         public DateTime UpdateTime { get; set; }
         public string Note { get; set; }

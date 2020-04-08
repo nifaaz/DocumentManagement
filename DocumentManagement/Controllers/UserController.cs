@@ -73,5 +73,20 @@ namespace DocumentManagement.Controllers
                 throw;
             }
         }
+
+        //get all user
+        [HttpGet]
+        public IActionResult GetAllUser()
+        {
+            try
+            {
+                var result = userBUS.GetAllUser();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

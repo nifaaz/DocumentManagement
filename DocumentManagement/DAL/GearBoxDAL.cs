@@ -415,6 +415,7 @@ namespace DocumentManagement.DAL
         }
         public ReturnResult<GearBox> InsertGearBox(GearBox gearBox)
         {
+            gearBox.Status = CommonConst.QUEUE;
             DbProvider provider = new DbProvider();
             var result = new ReturnResult<GearBox>();
             string outCode = String.Empty;
@@ -427,6 +428,7 @@ namespace DocumentManagement.DAL
                 .SetParameter("TieuDeHopSo", SqlDbType.NVarChar, gearBox.GearBoxTitle, 50, ParameterDirection.Input)
                 .SetParameter("MucLucHoSoID", SqlDbType.Int, gearBox.TabOfContID, ParameterDirection.Input)
                 .SetParameter("GhiChu", SqlDbType.NVarChar, gearBox.Note, 300, ParameterDirection.Input)
+                .SetParameter("Status", SqlDbType.Int, gearBox.Status, ParameterDirection.Input)
                 //.SetParameter("NgayBatDau", SqlDbType.NVarChar, gearBox.StDate.ToString(), 100, ParameterDirection.Input)
                 //.SetParameter("NgayKetThuc", SqlDbType.NVarChar, gearBox.EDate.ToString(), 100, ParameterDirection.Input)
                 .SetParameter("NgayTao", SqlDbType.NVarChar, gearBox.CreateTime.ToString(), 100, ParameterDirection.Input)
