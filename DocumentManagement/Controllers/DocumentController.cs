@@ -25,8 +25,10 @@ namespace DocumentManagement.Controllers
         }
         [HttpGet]
         [Route("{documentId}")]
+        
         public IActionResult GetDocumentById(int documentId)
         {
+            //Response.Headers.Add("Cache-Control", "no-cache, no-store");
             DocumentBUS documentBUS = new DocumentBUS();
             var result = documentBUS.GetDocumentById(documentId);
             return Ok(result);

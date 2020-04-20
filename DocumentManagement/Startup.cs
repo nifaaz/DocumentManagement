@@ -79,6 +79,12 @@ namespace DocumentManagement
                 RequestPath = "/FilesUpload",
                 EnableDirectoryBrowsing = true
             });
+
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                await next.Invoke();
+            });
         }
     }
 }
