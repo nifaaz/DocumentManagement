@@ -83,5 +83,7 @@ namespace DocumentManagement.Models.Entity.Document
         public int Confirmed { get; set; }
 
         public string FileName { get; set; }
+
+        public string ClientUrl { get; set; }
     }
 }

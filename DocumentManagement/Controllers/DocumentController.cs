@@ -56,9 +56,18 @@ namespace DocumentManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateDocument(Document document)
+        public IActionResult UpdateDocument([FromBody] Document document, [FromQuery] string name = "", [FromQuery] string docPath = "")
         {
             DocumentBUS documentBUS = new DocumentBUS();
+            bool hasSignature = false;
+            if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(docPath))
+            {
+                hasSignature = FilesUtillities.InsertSignatureIntoDocument(name, docPath);
+            }
+            if (hasSignature)
+            {
+                document.Signature = 1;
+            }
             var result = documentBUS.UpdateDocument(document);
             return Ok(result);
         }

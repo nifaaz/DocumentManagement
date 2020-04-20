@@ -8,9 +8,9 @@ namespace DocumentManagement.Models.Entity.Profile
     public class Profile
     {
         // Hồ sơ ID
-        public int ProfileID { get; set; }
+        //public int ProfileID { get; set; }
         // Hộp số ID
-        public int GearBoxID { get; set; }
+        //public int GearBoxID { get; set; }
         //Mã hồ sơ
         public string ProfileCode { get; set; }
         // Tiêu đề hồ sơ
@@ -47,7 +47,7 @@ namespace DocumentManagement.Models.Entity.Profile
         /// <summary>
         /// mã hộp 
         /// </summary>
-        public string GearBoxId { get; set; }
+        public int GearBoxId { get; set; }
         /// <summary>
         /// mục lục 
         /// </summary>
@@ -92,5 +92,7 @@ namespace DocumentManagement.Models.Entity.Profile
         public string GearBoxTitle { get; set; }
         public int TotalFiles { get; set; }
         public int TotalFilesCompleted { get; set; }
+
+        public int Status { get; set; }
     }
 }

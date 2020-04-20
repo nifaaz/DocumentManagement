@@ -22,7 +22,8 @@ namespace DocumentManagement.Models.Entity.Profile
         /// <summary>
         /// mã phông, 
         /// </summary>
-        public string OrganId { get; set; }
+        /// tund modified data type of organ id
+        public int OrganId { get; set; }
         /// <summary>
         /// mã hộp 
         /// </summary>
@@ -81,7 +82,7 @@ namespace DocumentManagement.Models.Entity.Profile
         // Hồ sơ ID
         public int ProfileID { get; set; }
         // Hộp số ID
-        public int GearBoxID { get; set; }
+        //public int GearBoxID { get; set; }
         //Mã hồ sơ
         public string ProfileCode { get; set; }
         // Tiêu đề hồ sơ
@@ -103,5 +104,12 @@ namespace DocumentManagement.Models.Entity.Profile
         public string InfoSign { get; set; }
 
         public int Status { get; set; }
+
+        public int FontId { get; set; }
+        public int TableOfContentId { get; set; }
+
+        public string FontName { get; set; }
+        public string OrganName { get; set; }
+        public string TableOfContentName { get; set; }
     }
 }

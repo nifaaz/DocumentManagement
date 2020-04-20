@@ -96,12 +96,16 @@ namespace DocumentManagement.Models.Entity.Document
         public int ConfidenceLevelId { get; set; }
         public int FormatId { get; set; }
         public int DocTypeId { get;set; }
-        public string ComputerFileId { get; set; }
+        public int ComputerFileId { get; set; }
         public string ComputerFileName { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }
+
+        public string ClientUrl { get; set; }
+
+        public int Signature { get; set; }
     }
 }

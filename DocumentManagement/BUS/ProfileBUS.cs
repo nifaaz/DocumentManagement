@@ -77,21 +77,7 @@ namespace DocumentManagement.BUS
             var result = profileDAL.GetProfileByGearBoxId(gearBoxID);
             return result;
         }
-        public ReturnResult<Profiles> CreateProfile(Profiles profile)
-        {
-            var result = profileDAL.CreateProfile(profile);
-            return result;
-        }
-        public ReturnResult<Profiles> DeleteProfile(int profileId)
-        {
-            var result = profileDAL.DeleteProfile(profileId);
-            return result;
-        }
-        public ReturnResult<Profiles> UpdateProfile(Profiles profile)
-        {
-            var result = profileDAL.UpdateProfile(profile);
-            return result;
-        }
+       
 
         // viết lại profile từ đây
         public ReturnResult<Profiles> ProfilesGetSearchWithPaging (BaseCondition<Profiles> condition)

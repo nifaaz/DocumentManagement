@@ -61,7 +61,7 @@ namespace DocumentManagement.DAL
 
                 if (list.Count == 0)
                 {
-                    result.Failed("NE", "Không có file nào tồn tại trong hồ sơ, vui lòng thử lại.");
+                    result.Failed("NE", "Đã hết file trong hồ sơ, vui lòng chọn một hồ sơ khác.");
                 }
                 else
                 {
@@ -229,23 +229,27 @@ namespace DocumentManagement.DAL
                 {
                     if (list.Count > 0)
                     {
-                        List<Profile> lstFilter = list.Where(item => item.TotalFiles > 0).ToList();
-                        if (lstFilter.Count > 0)
-                        {
-                            result.ItemList = lstFilter;
-                            result.Item = lstFilter[0]; // chỉ lấy 1 hồ sơ có trong hộp số
-                            result.ErrorCode = "0";
-                            result.ErrorMessage = "";
-                        }
-                        else
-                        {
-                            List<Profile> lstFileCompleted = list.Where(item => item.TotalFilesCompleted > 0).ToList();
-                            if (lstFileCompleted.Count == list.Count)
-                            {
-                                result.Failed("CO", "Toàn bộ tài liệu trong hộp số đã được số hóa. Vui lòng chọn hộp số khác.");
-                            }
-                            //result.Failed("EN", "Không tồn tại hồ sơ trong hộp số. Vui lòng thử lại hoặc chọn hộp số khác.");
-                        }
+                        //List<Profile> lstFilter = list.Where(item => item.TotalFiles > 0).ToList();
+                        //if (lstFilter.Count > 0)
+                        //{
+                        //    result.ItemList = lstFilter;
+                        //    result.Item = lstFilter[0]; // chỉ lấy 1 hồ sơ có trong hộp số
+                        //    result.ErrorCode = "0";
+                        //    result.ErrorMessage = "";
+                        //}
+                        //else
+                        //{
+                        //    List<Profile> lstFileCompleted = list.Where(item => item.TotalFilesCompleted > 0).ToList();
+                        //    if (lstFileCompleted.Count == list.Count)
+                        //    {
+                        //        result.Failed("CO", "Toàn bộ tài liệu trong hộp số đã được số hóa. Vui lòng chọn hộp số khác.");
+                        //    }
+                        //    //result.Failed("EN", "Không tồn tại hồ sơ trong hộp số. Vui lòng thử lại hoặc chọn hộp số khác.");
+                        //}
+                        result.ItemList = list;
+                        result.Item = null; 
+                        result.ErrorCode = "0";
+                        result.ErrorMessage = "";
                     }
                     else
                     {
@@ -327,75 +331,7 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Profiles> CreateProfile(Profiles profile)
-        {
-            DbProvider dbProvider = new DbProvider();
-            string outCode = String.Empty;
-            string outMessage = String.Empty;
-            dbProvider.SetQuery("PROFILE_CREATE", CommandType.StoredProcedure)
-                .SetParameter("HopSoID", SqlDbType.Int, profile.GearBoxID, ParameterDirection.Input)
-                .SetParameter("TieuDeHoSo", SqlDbType.NVarChar, profile.ProfileTitle, 255, ParameterDirection.Input)
-                .SetParameter("TenHoSo", SqlDbType.NVarChar, profile.ProfileName, 255, ParameterDirection.Input)
-                .SetParameter("NgayTao", SqlDbType.DateTime, profile.CreateTime, ParameterDirection.Input)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .ExcuteNonQuery()
-                .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<Profiles>()
-            {
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-            };
-        }
-
-        public ReturnResult<Profiles> UpdateProfile(Profiles profile)
-        {
-            DbProvider dbProvider = new DbProvider();
-            string outCode = String.Empty;
-            string outMessage = String.Empty;
-            dbProvider.SetQuery("PROFILE_UPDATE", CommandType.StoredProcedure)
-                .SetParameter("HoSoID", SqlDbType.Int, profile.ProfileID, ParameterDirection.Input)
-                .SetParameter("HopSoID", SqlDbType.Int, profile.GearBoxID, ParameterDirection.Input)
-                .SetParameter("TieuDeHoSo", SqlDbType.Int, profile.ProfileTitle, ParameterDirection.Input)
-                .SetParameter("TenHoSo", SqlDbType.Int, profile.ProfileName, ParameterDirection.Input)
-                .SetParameter("NgayCapNhat", SqlDbType.DateTime, profile.UpdateTime, ParameterDirection.Input)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .ExcuteNonQuery()
-                .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
-
-            return new ReturnResult<Profiles>()
-            {
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-            };
-        }
-
-        public ReturnResult<Profiles> DeleteProfile(int profileId)
-        {
-            DbProvider dbProvider = new DbProvider();
-            string outCode = String.Empty;
-            string outMessage = String.Empty;
-            dbProvider.SetQuery("PROFILE_DELETE", CommandType.StoredProcedure)
-                .SetParameter("HoSoID", SqlDbType.Int, profileId, ParameterDirection.Input)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                .ExcuteNonQuery()
-                .Complete();
-            dbProvider.GetOutValue("ErrorCode", out outCode)
-                       .GetOutValue("ErrorMessage", out outMessage);
-
-            return new ReturnResult<Profiles>()
-            {
-                ErrorCode = outCode,
-                ErrorMessage = outMessage,
-            };
-        }
         // viết lại api cho profile từ đây
         public ReturnResult<Profiles> ProfilesGetSearchWithPaging (BaseCondition<Profiles> condition)
         {
@@ -458,6 +394,9 @@ namespace DocumentManagement.DAL
                 }
 
                 db.SetQuery("PROFILES_ADD_NEW", CommandType.StoredProcedure);
+                db.SetParameter("FontId", SqlDbType.Int, profiles.FontId);
+                db.SetParameter("OrganId", SqlDbType.Int, profiles.OrganId);
+                db.SetParameter("TableOfContentId", SqlDbType.Int, profiles.TableOfContentId);
                 db.SetParameter("GearBoxId", SqlDbType.Int, profiles.GearBoxId);
                 db.SetParameter("ProfileType", SqlDbType.Int, profiles.ProfileTypeId);
                 db.SetParameter("FileCode", SqlDbType.NVarChar, profiles.FileCode, 50);
@@ -531,6 +470,9 @@ namespace DocumentManagement.DAL
 
                 db.SetQuery("PROFILES_UPDATE", CommandType.StoredProcedure);
                 db.SetParameter("ProfileId", SqlDbType.Int, profiles.ProfileId);
+                db.SetParameter("FontId", SqlDbType.Int, profiles.FontId);
+                db.SetParameter("OrganId", SqlDbType.Int, profiles.OrganId);
+                db.SetParameter("TableOfContentId", SqlDbType.Int, profiles.TableOfContentId);
                 db.SetParameter("GearBoxId", SqlDbType.Int, profiles.GearBoxId);
                 db.SetParameter("ProfileType", SqlDbType.Int, profiles.ProfileTypeId);
                 db.SetParameter("FileCode", SqlDbType.NVarChar, profiles.FileCode, 50);

@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using iTextSharp.text.pdf;
 using System.Web;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DocumentManagement.Controllers
 {
@@ -42,6 +43,7 @@ namespace DocumentManagement.Controllers
         }
 
         [HttpGet("{gearboxID}")]
+        //[Authorize]
         public IActionResult GetProfileByGeaBoxID(int gearboxID)
         {
             var result = profileBUS.GetProfileByGearBoxID(gearboxID);
@@ -56,26 +58,7 @@ namespace DocumentManagement.Controllers
             var result = profileBUS.GetProfileByGearBoxId(id);
             return Ok(result);
         }
-        [HttpPost]
-        public IActionResult CreateProfile(Profiles profile)
-        {
-            var result = profileBUS.CreateProfile(profile);
-            return Ok(result);
-        }
 
-        [HttpPost]
-        public IActionResult UpdateProfile(Profiles profile)
-        {
-            var result = profileBUS.UpdateProfile(profile);
-            return Ok(result);
-        }
-
-        [HttpPost]
-        public IActionResult DeleteProfile(int profileId)
-        {
-            var result = profileBUS.DeleteProfile(profileId);
-            return Ok(result);
-        }
 
         public int GetNumberOfPdfPages(string pathDocument)
         {
