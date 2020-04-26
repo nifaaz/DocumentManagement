@@ -39,7 +39,7 @@ namespace DocumentManagement.DAL
                 _instance = value;
             }
         }
-        public ReturnResult<TableOfContents> GetPagingWithSearchResults(BaseCondition<TableOfContents> condition)
+        public async Task<ReturnResult<TableOfContents>> GetPagingWithSearchResults(BaseCondition<TableOfContents> condition)
         {
             DbProvider provider = new DbProvider();
             List<TableOfContents> list = new List<TableOfContents>();
@@ -85,7 +85,7 @@ namespace DocumentManagement.DAL
             return result;
         }
 
-        public ReturnResult<TableOfContDTO> GetAllTableOfContents()
+        public async Task<ReturnResult<TableOfContDTO>> GetAllTableOfContents()
         {
             List<TableOfContDTO> tableOfContList = new List<TableOfContDTO>();
             DbProvider dbProvider = new DbProvider();
@@ -140,7 +140,7 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<TableOfContents> GetTableOfContentsByID(int tablleOfContentsID)
+        public async Task<ReturnResult<TableOfContents>> GetTableOfContentsByID(int tablleOfContentsID)
         {
             TableOfContents tableOfContentsList = new TableOfContents();
             DbProvider dbProvider = new DbProvider();
@@ -372,7 +372,7 @@ namespace DocumentManagement.DAL
         }
 
         //Phi
-        public ReturnResult<TableOfContSelect2> GetAllTabSelect2()
+        public async Task<ReturnResult<TableOfContSelect2>> GetAllTabSelect2()
         {
             List<TableOfContSelect2> tableOfContSelect2s = new List<TableOfContSelect2>();
             DbProvider dbProvider = new DbProvider();

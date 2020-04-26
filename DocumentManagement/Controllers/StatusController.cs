@@ -15,9 +15,9 @@ namespace DocumentManagement.Controllers
         private static CommonStatusBUS commonStatusBUS = CommonStatusBUS.GetCommonStatusBUSInstance;
 
         [HttpGet]
-        public IActionResult GetAllStatus()
+        public async Task<IActionResult> GetAllStatus()
         {
-            var rs = commonStatusBUS.GetAllStatus();
+            var rs = await commonStatusBUS.GetAllStatus();
             return Ok(rs);
         }
     }

@@ -19,7 +19,7 @@ namespace DocumentManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> LogActivityGetSearchWithPaging([FromBody] BaseCondition<LogActivityDTO> condition)
         {
-            return Ok(logActivityBUS.GetSearchLogWithPaging(condition));
+            return Ok(await logActivityBUS.GetSearchLogWithPaging(condition));
         }
     }
 }

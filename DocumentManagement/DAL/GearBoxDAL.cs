@@ -43,7 +43,7 @@ namespace DocumentManagement.DAL
             }
         }
         
-        public ReturnResult<GearBox> GetPagingWithSearchResults(BaseCondition<GearBox> condition)
+        public async Task<ReturnResult<GearBox>> GetPagingWithSearchResults(BaseCondition<GearBox> condition)
         {
             DbProvider provider = new DbProvider();
             List<GearBox> list = new List<GearBox>();
@@ -94,7 +94,7 @@ namespace DocumentManagement.DAL
         /// <param name="id"></param>
         /// <returns></returns>
         /// <modified>Tú</modified>
-        public ReturnResult<GearBox> GetGearBoxByTabOfContID(string id)
+        public async Task<ReturnResult<GearBox>> GetGearBoxByTabOfContID(string id)
         {
             DbProvider provider = new DbProvider();
             List<GearBox> list = new List<GearBox>();
@@ -163,7 +163,7 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         } 
-        public ReturnResult<GearBox> GetAllGearBox()
+        public async Task<ReturnResult<GearBox>> GetAllGearBox()
         {
             List<GearBox> GearBoxList = new List<GearBox>();
             DbProvider dbProvider = new DbProvider();
@@ -210,7 +210,7 @@ namespace DocumentManagement.DAL
             };
         }
 
-        public ReturnResult<GearBox> GetGearBoxByID(int gearBoxID)
+        public async Task<ReturnResult<GearBox>> GetGearBoxByID(int gearBoxID)
         {
             var result = new ReturnResult<GearBox>();
             GearBox item = new GearBox();
@@ -244,7 +244,7 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Profiles> GetProfileByGearBoxID(BaseCondition<Profiles> condition)
+        public async Task<ReturnResult<Profiles>> GetProfileByGearBoxID(BaseCondition<Profiles> condition)
         {
             List<Profiles> profiles = new List<Profiles>();
             DbProvider dbProvider = new DbProvider();
@@ -291,7 +291,7 @@ namespace DocumentManagement.DAL
             return result;
         }
 
-        public ReturnResult<GearBox> GetGearBoxByTableOfContentsID(BaseCondition<GearBox> condition)
+        public async Task<ReturnResult<GearBox>> GetGearBoxByTableOfContentsID(BaseCondition<GearBox> condition)
         {
             List<GearBox> gearBoxes = new List<GearBox>();
             DbProvider dbProvider = new DbProvider();
@@ -485,7 +485,7 @@ namespace DocumentManagement.DAL
             };
         }
 
-        public ReturnResult<FontSelect2> GetFontsByOrganIDSelect2(int organID)
+        public async Task<ReturnResult<FontSelect2>> GetFontsByOrganIDSelect2(int organID)
         {
             List<FontSelect2> fons = new List<FontSelect2>();
             DbProvider dbProvider = new DbProvider();
@@ -501,7 +501,7 @@ namespace DocumentManagement.DAL
             dbProvider.GetOutValue("ErrorCode", out outCode)
                        .GetOutValue("ErrorMessage", out outMessage);
 
-            return new ReturnResult<FontSelect2>()
+            return new  ReturnResult<FontSelect2>()
             {
                 ItemList = fons,
                 ErrorCode = outCode,
@@ -510,7 +510,7 @@ namespace DocumentManagement.DAL
             };
         }
 
-        public ReturnResult<TableOfContSelect2> GetTableOfContentsByFontIDSelect2(int fontID)
+        public async Task<ReturnResult<TableOfContSelect2>> GetTableOfContentsByFontIDSelect2(int fontID)
         {
             List<TableOfContSelect2> tableOfContSelect2s = new List<TableOfContSelect2>();
             DbProvider dbProvider = new DbProvider();

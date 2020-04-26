@@ -42,9 +42,9 @@ namespace DocumentManagement.BUS
                 _instance = value;
             }
         }
-        public ReturnResult<GearBox> GetPagingWithSearchResults(BaseCondition<GearBox> condition)
+        public async Task<ReturnResult<GearBox>> GetPagingWithSearchResults(BaseCondition<GearBox> condition)
         {
-            var result = gearBoxDAL.GetPagingWithSearchResults(condition);
+            var result = await gearBoxDAL.GetPagingWithSearchResults(condition);
             return result;
         }
         public ReturnResult<GearBox> GearBoxExport()
@@ -52,15 +52,15 @@ namespace DocumentManagement.BUS
             var result = gearBoxDAL.GearBoxExport();
             return result;
         }
-        public ReturnResult<GearBox> GetGearBoxByTabOfContID(string id)
+        public async Task<ReturnResult<GearBox>> GetGearBoxByTabOfContID(string id)
         {
-            var result = gearBoxDAL.GetGearBoxByTabOfContID(id);
+            var result = await gearBoxDAL.GetGearBoxByTabOfContID(id);
             return result;
         }
         
-        public ReturnResult<GearBox> GetAllGearBox()
+        public async Task<ReturnResult<GearBox>> GetAllGearBox()
         {
-            var result = gearBoxDAL.GetAllGearBox();
+            var result =await gearBoxDAL.GetAllGearBox();
             return result;
         }
         public ReturnResult<GearBox> GearBoxSearch(string serachStr)
@@ -68,19 +68,19 @@ namespace DocumentManagement.BUS
             var result = gearBoxDAL.GearBoxSearch(serachStr);
             return result;
         }
-        public ReturnResult<GearBox> GetGearBoxByID(int gearBoxID)
+        public async Task<ReturnResult<GearBox>> GetGearBoxByID(int gearBoxID)
         {
-            var result = gearBoxDAL.GetGearBoxByID(gearBoxID);
+            var result = await gearBoxDAL.GetGearBoxByID(gearBoxID);
             return result;
         }
-        public ReturnResult<GearBox> GetGearBoxByTabOfContID(BaseCondition<GearBox> condition)
+        public async Task<ReturnResult<GearBox>> GetGearBoxByTabOfContID(BaseCondition<GearBox> condition)
         {
-            var result = gearBoxDAL.GetGearBoxByTableOfContentsID(condition);
+            var result = await gearBoxDAL.GetGearBoxByTableOfContentsID(condition);
             return result;
         }
-        public ReturnResult<Profiles> GetProfileByGearBoxID(BaseCondition<Profiles> condition)
+        public async Task<ReturnResult<Profiles>> GetProfileByGearBoxID(BaseCondition<Profiles> condition)
         {
-            var result = gearBoxDAL.GetProfileByGearBoxID(condition);
+            var result =await gearBoxDAL.GetProfileByGearBoxID(condition);
             return result;
         }
         public ReturnResult<GearBox> CreateGearBox(GearBox gearBox)
@@ -109,15 +109,15 @@ namespace DocumentManagement.BUS
             return rs;
         }
 
-        public ReturnResult<FontSelect2> GetFontsByOrganIDSelect2(int organID)
+        public async Task<ReturnResult<FontSelect2>> GetFontsByOrganIDSelect2(int organID)
         {
-            var rs = gearBoxDAL.GetFontsByOrganIDSelect2(organID);
+            var rs = await gearBoxDAL.GetFontsByOrganIDSelect2(organID);
             return rs;
         }
 
-        public ReturnResult<TableOfContSelect2> GetTableOfContentsByFontIDSelect2(int fontID)
+        public async Task<ReturnResult<TableOfContSelect2>> GetTableOfContentsByFontIDSelect2(int fontID)
         {
-            var rs = gearBoxDAL.GetTableOfContentsByFontIDSelect2(fontID);
+            var rs =await gearBoxDAL.GetTableOfContentsByFontIDSelect2(fontID);
             return rs;
         }
 

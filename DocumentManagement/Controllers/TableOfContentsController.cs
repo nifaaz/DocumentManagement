@@ -19,14 +19,14 @@ namespace DocumentManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> GetPagingWithSearchResults([FromBody]BaseCondition<TableOfContents> condition)
         {
-            var result = tableOfContentsBUS.GetPagingWithSearchResults(condition);
+            var result = await tableOfContentsBUS.GetPagingWithSearchResults(condition);
             return Ok(result);
         }
 
         [HttpGet]
-        public IActionResult GetAllTableOfContents()
+        public async Task<IActionResult> GetAllTableOfContents()
         {
-            var result = tableOfContentsBUS.GetAllTableOfContents();
+            var result = await tableOfContentsBUS.GetAllTableOfContents();
             return Ok(result);
         }
         [HttpGet]
@@ -36,9 +36,9 @@ namespace DocumentManagement.Controllers
             return Ok(result);
         }
         [HttpGet("{tableOfContentsID}")]
-        public IActionResult GetTableOfContentsByID(int tableOfContentsID)
+        public async Task<IActionResult> GetTableOfContentsByID(int tableOfContentsID)
         {
-            var result = tableOfContentsBUS.GetTableOfContentsByID(tableOfContentsID);
+            var result = await tableOfContentsBUS.GetTableOfContentsByID(tableOfContentsID);
             return Ok(result);
         }
         [HttpGet("{storageID}")]
@@ -75,7 +75,7 @@ namespace DocumentManagement.Controllers
             tableOfContentsModify.StorageID = TableOfContents.StorageID;
             tableOfContentsModify.RepositoryID = TableOfContents.RepositoryID;
             tableOfContentsModify.FontID = TableOfContents.FontID;
-            tableOfContentsModify.TabOfContCode = TableOfContents.TabOfContCode;
+            tableOfContentsModify.TabOfContCode = "";
             tableOfContentsModify.TabOfContNumber = TableOfContents.TabOfContNumber;
             tableOfContentsModify.Note = TableOfContents.Note;
             DateTime currentDate = new DateTime();
@@ -93,7 +93,7 @@ namespace DocumentManagement.Controllers
             tableOfContentsModify.StorageID = TableOfContents.StorageID;
             tableOfContentsModify.RepositoryID = TableOfContents.RepositoryID;
             tableOfContentsModify.FontID = TableOfContents.FontID;
-            tableOfContentsModify.TabOfContCode = TableOfContents.TabOfContCode;
+            tableOfContentsModify.TabOfContCode = "";
             tableOfContentsModify.TabOfContNumber = TableOfContents.TabOfContNumber;
             tableOfContentsModify.Note = TableOfContents.Note;
             DateTime currentDate = new DateTime();
@@ -105,9 +105,9 @@ namespace DocumentManagement.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllTabSelect2()
+        public async Task<IActionResult> GetAllTabSelect2()
         {
-            var rs = tableOfContentsBUS.GetAllTabSelect2();
+            var rs = await tableOfContentsBUS.GetAllTabSelect2();
             return Ok(rs.ItemList);
         }
     }

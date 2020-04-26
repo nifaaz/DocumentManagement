@@ -40,7 +40,7 @@ namespace DocumentManagement.DAL
                 _instance = value;
             }
         }
-        public ReturnResult<Export> GetPagingWithSearchResults(BaseCondition<Export> condition)
+        public async Task<ReturnResult<Export>> GetPagingWithSearchResults(BaseCondition<Export> condition)
         {
             DbProvider provider = new DbProvider();
             List<Export> list = new List<Export>();
@@ -87,7 +87,7 @@ namespace DocumentManagement.DAL
         }
 
 
-        public ReturnResult<DataStatisticsDTO> GetDataStatisticsPagingWithSearchResults(BaseCondition<FilterDTO> condition)
+        public async Task<ReturnResult<DataStatisticsDTO>> GetDataStatisticsPagingWithSearchResults(BaseCondition<FilterDTO> condition)
         {
             DbProvider provider = new DbProvider();
             List<DataStatisticsDTO> dataStatisticsDTOs = new List<DataStatisticsDTO>();
@@ -133,7 +133,7 @@ namespace DocumentManagement.DAL
             return result;
         }
 
-        public ReturnResult<DataStatisticsDTO> GetDataStatisticss()
+        public async Task<ReturnResult<DataStatisticsDTO>> GetDataStatisticss()
         {
             List<DataStatisticsDTO> dataStatisticsDTOs = new List<DataStatisticsDTO>();
             DbProvider dbProvider = new DbProvider();

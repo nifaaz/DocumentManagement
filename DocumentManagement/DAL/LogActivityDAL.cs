@@ -36,7 +36,7 @@ namespace DocumentManagement.DAL
             }
         }
 
-        public ReturnResult<LogActivityDTO> GetSearchLogWithPaging(BaseCondition<LogActivityDTO> condition)
+        public async Task<ReturnResult<LogActivityDTO>> GetSearchLogWithPaging(BaseCondition<LogActivityDTO> condition)
         {
             DbProvider provider = new DbProvider();
             List<LogActivityDTO> list = new List<LogActivityDTO>();

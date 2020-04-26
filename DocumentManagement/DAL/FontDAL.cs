@@ -39,7 +39,7 @@ namespace DocumentManagement.DAL
                 _instance = value;
             }
         }
-        public ReturnResult<Font> GetFontWithPaging(BaseCondition<Font> condition)
+        public async Task<ReturnResult<Font>> GetFontWithPaging(BaseCondition<Font> condition)
         {
             DbProvider provider = new DbProvider();
             List<Font> list = new List<Font>();
@@ -115,7 +115,7 @@ namespace DocumentManagement.DAL
                 ErrorMessage = outMessage,
             };
         }
-        public ReturnResult<FontDTO> GetAllFont()
+        public async Task<ReturnResult<FontDTO>> GetAllFont()
         {
             List<FontDTO> fontList = new List<FontDTO>();
             DbProvider dbProvider = new DbProvider();
@@ -192,7 +192,7 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Font> GetFontByID(int PhongID)
+        public async Task<ReturnResult<Font>> GetFontByID(int PhongID)
         {
             var result = new ReturnResult<Font>();
             Font item = new Font();
@@ -226,7 +226,7 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
-        public ReturnResult<Font> GetFontByCoQuanID(BaseCondition<Font> condition)
+        public async Task<ReturnResult<Font>> GetFontByCoQuanID(BaseCondition<Font> condition)
         {
             List<Font> fonts = new List<Font>();
             DbProvider dbProvider = new DbProvider();
@@ -398,7 +398,7 @@ namespace DocumentManagement.DAL
         }
 
         //
-        public ReturnResult<FontSelect2> GetAllFontSelect2()
+        public async Task<ReturnResult<FontSelect2>> GetAllFontSelect2()
         {
             List<FontSelect2> fontSelect2s = new List<FontSelect2>();
             DbProvider dbProvider = new DbProvider();

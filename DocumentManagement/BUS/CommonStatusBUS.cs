@@ -37,9 +37,9 @@ namespace DocumentManagement.BUS
                 _instance = value;
             }
         }
-        public ReturnResult<CommonStatusDTO> GetAllStatus()
+        public async Task<ReturnResult<CommonStatusDTO>> GetAllStatus()
         {
-            var result = commonStatusDAL.GetAllStatus();
+            var result = await commonStatusDAL.GetAllStatus();
             return result;
         }
 

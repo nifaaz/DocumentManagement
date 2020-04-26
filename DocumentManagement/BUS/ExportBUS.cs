@@ -40,21 +40,21 @@ namespace DocumentManagement.BUS
                 _instance = value;
             }
         }
-        public ReturnResult<Export> GetPagingWithSearchResults(BaseCondition<Export> condition)
+        public async Task<ReturnResult<Export>> GetPagingWithSearchResults(BaseCondition<Export> condition)
         {
-            var result = exportDAL.GetPagingWithSearchResults(condition);
+            var result = await exportDAL.GetPagingWithSearchResults(condition);
             return result;
         }
 
-        public ReturnResult<DataStatisticsDTO> GetDataStatisticsPagingWithSearchResults(BaseCondition<FilterDTO> condition)
+        public async Task<ReturnResult<DataStatisticsDTO>> GetDataStatisticsPagingWithSearchResults(BaseCondition<FilterDTO> condition)
         {
-            var result = exportDAL.GetDataStatisticsPagingWithSearchResults(condition);
+            var result = await exportDAL.GetDataStatisticsPagingWithSearchResults(condition);
             return result;
         }
 
-        public ReturnResult<DataStatisticsDTO> GetDataStatisticss()
+        public async Task<ReturnResult<DataStatisticsDTO>> GetDataStatisticss()
         {
-            var result = exportDAL.GetDataStatisticss();
+            var result = await exportDAL.GetDataStatisticss();
             return result;
         }
     }

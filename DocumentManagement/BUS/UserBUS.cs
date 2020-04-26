@@ -39,9 +39,9 @@ namespace DocumentManagement.BUS
 
         }
 
-        public ReturnResult<User> UserGetSearchWithPaging(BaseCondition<User> condition)
+        public async Task<ReturnResult<User>> UserGetSearchWithPaging(BaseCondition<User> condition)
         {
-            return userDAL.GetSearchUserWithPaging(condition);
+            return await userDAL.GetSearchUserWithPaging(condition);
         }
 
         public ReturnResult<User> GetUserByID (int id)

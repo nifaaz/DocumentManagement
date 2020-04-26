@@ -29,13 +29,30 @@ namespace DocumentManagement.Controllers.Export
         [HttpPost]
         public async Task<IActionResult> GetDataStatisticsPagingWithSearchResults([FromBody] BaseCondition<FilterDTO> condition)
         {
-            try
+            DateTime now = DateTime.Now;
+            var startDate = new DateTime(now.Year, now.Month, 1);
+            var endDate = startDate.AddMonths(1).AddDays(-1);
+            var filterItem = new FilterItem();
+            filterItem.field = "vb.NgayCapNhat";
+            filterItem.op = "and_date_between";
+            if (condition.FilterRuleList.Count() == 0)
             {
-                return Ok(exportBUS.GetDataStatisticsPagingWithSearchResults(condition));
+                filterItem.value = startDate.ToString() + "-" + endDate.ToString();
+                condition.FilterRuleList.Add(filterItem);
+                return Ok(await exportBUS.GetDataStatisticsPagingWithSearchResults(condition));
             }
-            catch (Exception ex)
+            else
             {
-                return Ok(ex);
+                var qfilteritem = condition.FilterRuleList.FirstOrDefault();
+                var filters = qfilteritem.value.Split("/");
+                condition.FilterRuleList[0].value = Convert.ToDateTime(filters[0]).ToString();
+                condition.FilterRuleList[0].value = condition.FilterRuleList[0].value + "-" + Convert.ToDateTime(filters[1]).ToString();
+                filterItem.value = condition.FilterRuleList[0].value.ToString();
+                var condi = new BaseCondition<FilterDTO>();
+                condi.FilterRuleList.Add(filterItem);
+                condi.PageIndex = 1;
+                condi.PageSize = 5;
+                return Ok(await exportBUS.GetDataStatisticsPagingWithSearchResults(condi));
             }
         }
 
@@ -44,7 +61,7 @@ namespace DocumentManagement.Controllers.Export
         {
             try
             {
-                return Ok(exportBUS.GetPagingWithSearchResults(condition));
+                return Ok(await exportBUS.GetPagingWithSearchResults(condition));
             }
             catch (Exception ex)
             {
@@ -54,13 +71,13 @@ namespace DocumentManagement.Controllers.Export
 
         // GET: Export Gear Box
         [HttpGet]
-        public async Task<FileResult> ExportExcel()
+        public async Task<FileResult> ExportExcel(DateTime? fromDate, DateTime? toDate)
         {
             //
             List<DataStatisticsDTO> dataStatisticsDTOs = new List<DataStatisticsDTO>();
             try
             {
-                dataStatisticsDTOs = GetData();
+                dataStatisticsDTOs = await GetData(fromDate,toDate);
             }
             catch (Exception)
             {
@@ -78,15 +95,40 @@ namespace DocumentManagement.Controllers.Export
             return File(readStream, mimeType, fileName);
             //return File(fPath, System.Net.Mime.MediaTypeNames.Application.Octet, "ThongKeTongQuat" + fi.Extension);
         }
-        private List<DataStatisticsDTO> GetData()
+        private async Task<List<DataStatisticsDTO>> GetData(DateTime? fromDate, DateTime? toDate)
         {
             List<DataStatisticsDTO> dataStatisticsDTOs = new List<DataStatisticsDTO>();
-            var result = exportBUS.GetDataStatisticss();
+            var result = await exportBUS.GetDataStatisticss();
             if (result.ItemList != null)
             {
                 dataStatisticsDTOs = result.ItemList;
             }
+            if (!String.IsNullOrEmpty(fromDate.ToString()) && dataStatisticsDTOs != null)
+            {
+                if (CheckConvertDate(fromDate.ToString())){
+                    dataStatisticsDTOs = dataStatisticsDTOs.Where(x => x.UpdateDate >= fromDate).ToList();
+                }
+            }
+            if (!String.IsNullOrEmpty(toDate.ToString()) && dataStatisticsDTOs != null)
+            {
+                if (CheckConvertDate(toDate.ToString()))
+                {
+                    dataStatisticsDTOs = dataStatisticsDTOs.Where(x => x.UpdateDate <= toDate).ToList();
+                }
+            }
             return dataStatisticsDTOs;
+        }
+        private bool CheckConvertDate(string str)
+        {
+            try
+            {
+                Convert.ToDateTime(str);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
         public void CreateExport(List<DataStatisticsDTO> lst, string sWebRootFolder)
         {

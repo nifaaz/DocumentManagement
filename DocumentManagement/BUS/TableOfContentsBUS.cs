@@ -40,19 +40,19 @@ namespace DocumentManagement.BUS
                 _instance = value;
             }
         }
-        public ReturnResult<TableOfContents> GetPagingWithSearchResults(BaseCondition<TableOfContents> condition)
+        public async Task<ReturnResult<TableOfContents>> GetPagingWithSearchResults(BaseCondition<TableOfContents> condition)
         {
-            var result = tableOfContentsDAL.GetPagingWithSearchResults(condition);
+            var result = await tableOfContentsDAL.GetPagingWithSearchResults(condition);
             return result;
         }
-        public ReturnResult<TableOfContDTO> GetAllTableOfContents()
+        public async Task<ReturnResult<TableOfContDTO>> GetAllTableOfContents()
         {
-            var result = tableOfContentsDAL.GetAllTableOfContents();
+            var result = await tableOfContentsDAL.GetAllTableOfContents();
             return result;
         }
-        public ReturnResult<TableOfContents> GetTableOfContentsByID(int TableOfContentsID)
+        public async Task<ReturnResult<TableOfContents>> GetTableOfContentsByID(int TableOfContentsID)
         {
-            var rs = tableOfContentsDAL.GetTableOfContentsByID(TableOfContentsID);
+            var rs = await tableOfContentsDAL.GetTableOfContentsByID(TableOfContentsID);
             return rs;
         }
         public ReturnResult<TableOfContents> GetTableOfContentsByStorageID(int storageID)
@@ -91,9 +91,9 @@ namespace DocumentManagement.BUS
             return rs;
         }
 
-        public ReturnResult<TableOfContSelect2> GetAllTabSelect2()
+        public async Task<ReturnResult<TableOfContSelect2>> GetAllTabSelect2()
         {
-            var result = tableOfContentsDAL.GetAllTabSelect2();
+            var result = await tableOfContentsDAL.GetAllTabSelect2();
             return result;
         }
     }

@@ -41,7 +41,7 @@ namespace DocumentManagement.DAL
             }
         }
 
-        public ReturnResult<User> GetSearchUserWithPaging (BaseCondition<User> condition)
+        public async Task<ReturnResult<User>> GetSearchUserWithPaging (BaseCondition<User> condition)
         {
             DbProvider provider = new DbProvider();
             List<User> list = new List<User>();

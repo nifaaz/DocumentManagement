@@ -18,9 +18,9 @@ namespace DocumentManagement.Controllers
         readonly UserBUS userBUS = UserBUS.GetUserBUSInstance;
 
         [HttpPost]
-        public IActionResult UserGetSearchWithPaging ([FromBody] BaseCondition<User> condition)
+        public async Task<IActionResult> UserGetSearchWithPaging ([FromBody] BaseCondition<User> condition)
         {
-            ReturnResult<User> result = userBUS.UserGetSearchWithPaging(condition);
+            ReturnResult<User> result = await userBUS.UserGetSearchWithPaging(condition);
             return Ok(result);
         }
 
@@ -60,12 +60,12 @@ namespace DocumentManagement.Controllers
 
         //get all role
         [HttpGet]
-        public IActionResult GetAllRole()
+        public async Task<IActionResult> GetAllRole()
         {
             try
             {
                 RoleBUS roleBUS = new RoleBUS();
-                var result = roleBUS.GetAllRole();
+                var result = await roleBUS.GetAllRole();
                 return Ok(result);
             }
             catch (Exception ex)

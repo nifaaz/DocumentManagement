@@ -599,14 +599,15 @@ namespace DocumentManagement.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllProfileTypeAndGearBox ()
+        public async Task<IActionResult> GetAllProfileTypeAndGearBox ()
         {
             //ProfileNew profileNew = new ProfileNew();
             //profileNew.lstGearBox = gearBoxBUS.GetAllGearBox().ItemList;
             //profileNew.lstProfileTypes = profileBUS.GetAllProfileTypes().ItemList;
+            var gearBoxs = await gearBoxBUS.GetAllGearBox();
             return Ok(new ProfileNew()
             {
-                lstGearBox = gearBoxBUS.GetAllGearBox().ItemList,
+                lstGearBox =gearBoxs.ItemList,
                 lstProfileTypes = profileBUS.GetAllProfileTypes().ItemList
             });
         }

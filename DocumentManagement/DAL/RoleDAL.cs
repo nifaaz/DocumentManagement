@@ -216,7 +216,7 @@ namespace DocumentManagement.DAL
 
 
         // get All Role
-        public ReturnResult<RoleDTO> GetAllRole ()
+        public async Task<ReturnResult<RoleDTO>> GetAllRole ()
         {
             List<RoleDTO> roleDTOs = new List<RoleDTO>();
             DbProvider dbProvider = new DbProvider();

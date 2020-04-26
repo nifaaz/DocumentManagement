@@ -23,7 +23,7 @@ namespace DocumentManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> GetPagingWithSearchResults([FromBody]BaseCondition<GearBox> condition)
         {
-            var result = gearBoxBUS.GetPagingWithSearchResults(condition);
+            var result = await gearBoxBUS.GetPagingWithSearchResults(condition);
             return Ok(result);
         }
 
@@ -34,22 +34,22 @@ namespace DocumentManagement.Controllers
             return Ok(result);
         }
         [HttpGet]
-        public IActionResult GetAllGearBox()
+        public async Task<IActionResult> GetAllGearBox()
         {
-            var result = gearBoxBUS.GetAllGearBox();
+            var result = await gearBoxBUS.GetAllGearBox();
             return Ok(result);
         }
         [HttpGet("{gearBoxID}")]
-        public IActionResult GetGearBoxByID(int gearBoxID)
+        public async Task<IActionResult> GetGearBoxByID(int gearBoxID)
         {
-            var result = gearBoxBUS.GetGearBoxByID(gearBoxID);
+            var result = await gearBoxBUS.GetGearBoxByID(gearBoxID);
             return Ok(result);
         }
         [HttpPost]
 
-        public IActionResult GetGearBoxByTabOfContID([FromBody]BaseCondition<GearBox> condition)
+        public async Task<IActionResult> GetGearBoxByTabOfContID([FromBody]BaseCondition<GearBox> condition)
         {
-            var result = gearBoxBUS.GetGearBoxByTabOfContID(condition);
+            var result = await gearBoxBUS.GetGearBoxByTabOfContID(condition);
             return Ok(result);
         }
         /// <summary>
@@ -59,17 +59,17 @@ namespace DocumentManagement.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("{id}")]
-        public IActionResult GetGearBoxByTabOfContID(string id)
+        public async Task<IActionResult> GetGearBoxByTabOfContID(string id)
         {
-            var result = gearBoxBUS.GetGearBoxByTabOfContID(id);
+            var result = await gearBoxBUS.GetGearBoxByTabOfContID(id);
             return Ok(result);
         }
 
         
         [HttpPost]
-        public IActionResult GetProfileByGearBoxID([FromBody]BaseCondition<Profiles> condition)
+        public async Task<IActionResult> GetProfileByGearBoxID([FromBody]BaseCondition<Profiles> condition)
         {
-            var result = gearBoxBUS.GetProfileByGearBoxID(condition);
+            var result = await gearBoxBUS.GetProfileByGearBoxID(condition);
             return Ok(result);
         }
 
@@ -137,16 +137,16 @@ namespace DocumentManagement.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetFontsByOrganIDSelect2([FromQuery] int organID)
+        public async Task<IActionResult> GetFontsByOrganIDSelect2([FromQuery] int organID)
         {
-            var fonts = gearBoxBUS.GetFontsByOrganIDSelect2(organID);
+            var fonts = await gearBoxBUS.GetFontsByOrganIDSelect2(organID);
             return Ok(fonts.ItemList);
         }
 
         [HttpGet]
-        public IActionResult GetTableOfContentsByFontIDSelect2([FromQuery] int fontID)
+        public async Task<IActionResult> GetTableOfContentsByFontIDSelect2([FromQuery] int fontID)
         {
-            var tableOfContents = gearBoxBUS.GetTableOfContentsByFontIDSelect2(fontID);
+            var tableOfContents =await gearBoxBUS.GetTableOfContentsByFontIDSelect2(fontID);
             return Ok(tableOfContents.ItemList);
         }
 

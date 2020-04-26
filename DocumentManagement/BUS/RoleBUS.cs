@@ -58,9 +58,9 @@ namespace DocumentManagement.BUS
         }
 
         //get all role
-        public ReturnResult<RoleDTO> GetAllRole()
+        public async Task<ReturnResult<RoleDTO>> GetAllRole()
         {
-            var result = RoleDAL.GetAllRole();
+            var result = await RoleDAL.GetAllRole();
             return result;
         }
     }

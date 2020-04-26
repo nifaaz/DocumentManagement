@@ -39,18 +39,18 @@ namespace DocumentManagement.BUS
                 _instance = value;
             }
         }
-        public ReturnResult<Font> GetFontWithPaging(BaseCondition<Font> condition)
+        public async Task<ReturnResult<Font>> GetFontWithPaging(BaseCondition<Font> condition)
         {
-            return fontDAL.GetFontWithPaging(condition);
+            return await fontDAL.GetFontWithPaging(condition);
         }
         public ReturnResult<Font> GetPagingWithSearchResults(BaseCondition<Font> condition)
         {
             var result = fontDAL.GetPagingWithSearchResults(condition);
             return result;
         }
-        public ReturnResult<FontDTO> GetAllFont()
+        public async Task<ReturnResult<FontDTO>> GetAllFont()
         {
-            var result = fontDAL.GetAllFont();
+            var result = await fontDAL.GetAllFont();
             return result;
         }
         public ReturnResult<Font> FontExport()
@@ -58,14 +58,14 @@ namespace DocumentManagement.BUS
             var result = fontDAL.FontExport();
             return result;
         }
-        public ReturnResult<Font> GetFontByID(int fontID)
+        public async Task<ReturnResult<Font>> GetFontByID(int fontID)
         {
-            var rs = fontDAL.GetFontByID(fontID);
+            var rs =await fontDAL.GetFontByID(fontID);
             return rs;
         }
-        public ReturnResult<Font> GetFontByCoQuanID(BaseCondition<Font> condition)
+        public async Task<ReturnResult<Font>> GetFontByCoQuanID(BaseCondition<Font> condition)
         {
-            var rs = fontDAL.GetFontByCoQuanID(condition);
+            var rs = await fontDAL.GetFontByCoQuanID(condition);
             return rs;
         }
         public ReturnResult<Font> FontSearch(string searchStr)
@@ -89,9 +89,9 @@ namespace DocumentManagement.BUS
             return rs;
         }
 
-        public ReturnResult<FontSelect2> GetAllFontSelect2()
+        public async Task<ReturnResult<FontSelect2>> GetAllFontSelect2()
         {
-            var result = fontDAL.GetAllFontSelect2();
+            var result = await fontDAL.GetAllFontSelect2();
             return result;
         }
     }

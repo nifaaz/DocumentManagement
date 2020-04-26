@@ -38,9 +38,9 @@ namespace DocumentManagement.BUS
 
         }
 
-        public ReturnResult<LogActivityDTO> GetSearchLogWithPaging(BaseCondition<LogActivityDTO> condition)
+        public async Task<ReturnResult<LogActivityDTO>> GetSearchLogWithPaging(BaseCondition<LogActivityDTO> condition)
         {
-            return logActivityDAL.GetSearchLogWithPaging(condition);
+            return await logActivityDAL.GetSearchLogWithPaging(condition);
         }
 
     }

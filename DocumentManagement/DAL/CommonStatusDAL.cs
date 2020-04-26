@@ -37,7 +37,7 @@ namespace DocumentManagement.DAL
                 _instance = value;
             }
         }
-        public ReturnResult<CommonStatusDTO> GetAllStatus()
+        public async Task<ReturnResult<CommonStatusDTO>> GetAllStatus()
         {
             List<CommonStatusDTO> statuss = new List<CommonStatusDTO>();
             DbProvider dbProvider = new DbProvider();

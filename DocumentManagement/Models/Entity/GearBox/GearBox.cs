@@ -10,6 +10,7 @@ namespace DocumentManagement.Model.Entity.GearBox
         public int GearBoxID { get; set; }
         public int TabOfContID { get; set; }
         public string TabOfContCode { get; set; }
+        public string TabOfContNumber { get; set; }
         public string TableOfContName { get; set; }
         public string GearBoxName { get; set; }
         public string GearBoxTitle { get; set; }

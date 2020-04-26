@@ -37,7 +37,7 @@ namespace DocumentManagement.Controlleresult
         {
             try
             {
-                return Ok(fontBUS.GetFontWithPaging(condition));
+                return Ok(await fontBUS.GetFontWithPaging(condition));
             }
             catch (Exception ex)
             {
@@ -45,11 +45,11 @@ namespace DocumentManagement.Controlleresult
             }
         }
         [HttpGet]
-        public IActionResult GetAllFont()
+        public async Task<IActionResult> GetAllFont()
         {
             try
             {
-                 return Ok(fontBUS.GetAllFont());
+                 return Ok(await fontBUS.GetAllFont());
             }
             catch (Exception ex)
             {
@@ -72,16 +72,16 @@ namespace DocumentManagement.Controlleresult
         }
         [HttpGet]
         [Route("{id}")]
-        public IActionResult GetFontByID(int id)
+        public async Task<IActionResult> GetFontByID(int id)
         {
-                return Ok(fontBUS.GetFontByID(id));
+                return Ok(await fontBUS.GetFontByID(id));
         }
         [HttpPost]
-        public IActionResult GetFontByCoQuanID([FromBody]BaseCondition<Font> condition)
+        public async Task<IActionResult> GetFontByCoQuanID([FromBody]BaseCondition<Font> condition)
         {
             try
             {
-                var result = fontBUS.GetFontByCoQuanID(condition);
+                var result = await fontBUS.GetFontByCoQuanID(condition);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -137,9 +137,9 @@ namespace DocumentManagement.Controlleresult
         }
 
         [HttpGet]
-        public IActionResult GetAllFontSelect2()
+        public async Task<IActionResult> GetAllFontSelect2()
         {
-            var rs = fontBUS.GetAllFontSelect2();
+            var rs = await fontBUS.GetAllFontSelect2();
             return Ok(rs.ItemList);
         }
     }
