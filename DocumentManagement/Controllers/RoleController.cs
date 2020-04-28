@@ -73,6 +73,14 @@ namespace DocumentManagement.Controllers
             return Ok(roleBUS.GetRoleByID(id));
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetRoleByUserName(string id)
+        {
+            RoleBUS roleBUS = new RoleBUS();
+            return Ok(await roleBUS.GetRoleByUserName(id));
+        }
+
         //get all role
         [HttpGet]
         public async Task<IActionResult> GetAllRole ()

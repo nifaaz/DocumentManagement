@@ -283,5 +283,40 @@ namespace DocumentManagement.DAL
             };
         }
 
+        public async Task<ReturnResult<Role>> GetRoleByUserName(string userName)
+        {
+            var result = new ReturnResult<Role>();
+            Role item = new Role();
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            int totalRows = 0;
+            try
+            {
+                dbProvider.SetQuery("ROLE_GET_BY_USERNAME", CommandType.StoredProcedure)
+               .SetParameter("UserName", SqlDbType.NVarChar, userName, 30, ParameterDirection.Input)
+               .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+               .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+               .GetSingle<Role>(out item)
+               .Complete();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<Role>()
+            {
+                Item = item,
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+                TotalRows = totalRows
+            };
+        }
+
     }
 }

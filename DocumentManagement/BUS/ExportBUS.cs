@@ -4,6 +4,7 @@ using DocumentManagement.DAL;
 using DocumentManagement.Model.Entity;
 using DocumentManagement.Models.DTO;
 using DocumentManagement.Models.Entity;
+using DocumentManagement.Models.Entity.Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +56,18 @@ namespace DocumentManagement.BUS
         public async Task<ReturnResult<DataStatisticsDTO>> GetDataStatisticss()
         {
             var result = await exportDAL.GetDataStatisticss();
+            return result;
+        }
+
+        public async Task<ReturnResult<Profiles>> GetDataExportProfile(BaseCondition<Profiles> condition)
+        {
+            var result = await exportDAL.GetDataExportProfile(condition);
+            return result;
+        }
+
+        public async Task<ReturnResult<Profiles>> GetDataProfiles()
+        {
+            var result = await exportDAL.GetDataProfiles();
             return result;
         }
     }

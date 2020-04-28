@@ -41,6 +41,11 @@ namespace DocumentManagement.BUS
             var rs = RoleDAL.GetRoleByID(id);
             return rs;
         }
+        public async Task<ReturnResult<Role>> GetRoleByUserName(string userName)
+        {
+            var rs = await RoleDAL.GetRoleByUserName(userName);
+            return rs;
+        }
 
         public ReturnResult<Role> DeleteRole(int id)
         {
