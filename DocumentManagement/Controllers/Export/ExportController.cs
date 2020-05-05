@@ -57,7 +57,7 @@ namespace DocumentManagement.Controllers.Export
                 filterItem.value = condition.FilterRuleList[0].value.ToString();
                 var condi = new BaseCondition<FilterDTO>();
                 condi.FilterRuleList.Add(filterItem);
-                condi.PageIndex = 1;
+                condi.PageIndex = condition.PageIndex;
                 condi.PageSize = 5;
                 return Ok(await exportBUS.GetDataStatisticsPagingWithSearchResults(condi));
             }

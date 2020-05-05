@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Common.Common;
 using DocumentManagement.BUS;
 using DocumentManagement.Common.CoreExport;
+using DocumentManagement.Models.DTO;
 using DocumentManagement.Models.Entity.Profile;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -27,7 +28,7 @@ namespace DocumentManagement.Controllers.Export
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetDataExportProfile([FromBody] BaseCondition<Profiles> condition)
+        public async Task<IActionResult> GetDataExportProfile([FromBody] BaseCondition<ExportProfileDTO> condition)
         {
             DateTime now = DateTime.Now;
             var startDate = new DateTime(now.Year, now.Month, 1);
@@ -55,9 +56,9 @@ namespace DocumentManagement.Controllers.Export
                     condition.FilterRuleList[0].value = condition.FilterRuleList[0].value + "-" + Convert.ToDateTime(filters[1]).ToString();
                 }
                 filterItem.value = condition.FilterRuleList[0].value.ToString();
-                var condi = new BaseCondition<Profiles>();
+                var condi = new BaseCondition<ExportProfileDTO>();
                 condi.FilterRuleList.Add(filterItem);
-                condi.PageIndex = 1;
+                condi.PageIndex = condition.PageIndex;
                 condi.PageSize = 5;
                 return Ok(await exportBUS.GetDataExportProfile(condi));
             }
@@ -68,7 +69,7 @@ namespace DocumentManagement.Controllers.Export
         public async Task<FileResult> ExportProfile(DateTime? fromDate, DateTime? toDate)
         {
             //
-            List<Profiles> lstProfile = new List<Profiles>();
+            List<ExportProfileDTO> lstProfile = new List<ExportProfileDTO>();
             try
             {
                 lstProfile = await GetData(fromDate, toDate);
@@ -89,10 +90,10 @@ namespace DocumentManagement.Controllers.Export
             return File(readStream, mimeType, fileName);
             //return File(fPath, System.Net.Mime.MediaTypeNames.Application.Octet, "DanhSachHoSo" + fi.Extension);
         }
-        private async Task<List<Profiles>> GetData(DateTime? fromDate, DateTime? toDate)
+        private async Task<List<ExportProfileDTO>> GetData(DateTime? fromDate, DateTime? toDate)
         {
 
-            List<Profiles> profiles = new List<Profiles>();
+            List<ExportProfileDTO> profiles = new List<ExportProfileDTO>();
             var result = await exportBUS.GetDataProfiles();
             if (result.ItemList != null)
             {
@@ -127,7 +128,7 @@ namespace DocumentManagement.Controllers.Export
             }
         }
 
-        public void CreateExport(List<Profiles> lst, string sWebRootFolder)
+        public void CreateExport(List<ExportProfileDTO> lst, string sWebRootFolder)
         {
             //Khởi tạo tham số đầu vào
             List<ProperTiesName> lstProperty = new List<ProperTiesName>();
@@ -140,7 +141,7 @@ namespace DocumentManagement.Controllers.Export
             lstProperty.Add(new ProperTiesName { PropsName = "ProfileTypeName", WidthSize = 20 });
             lstProperty.Add(new ProperTiesName { PropsName = "Description", WidthSize = 30 });
             //Tạo đối tượng dùng để Export
-            ExportCore<Profiles> exh = new ExportCore<Profiles>(4)
+            ExportCore<ExportProfileDTO> exh = new ExportCore<ExportProfileDTO>(4)
             {
                 FileName = "DanhSachHoSo",
                 LstObj = lst,

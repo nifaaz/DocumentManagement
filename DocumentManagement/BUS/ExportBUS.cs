@@ -59,13 +59,13 @@ namespace DocumentManagement.BUS
             return result;
         }
 
-        public async Task<ReturnResult<Profiles>> GetDataExportProfile(BaseCondition<Profiles> condition)
+        public async Task<ReturnResult<ExportProfileDTO>> GetDataExportProfile(BaseCondition<ExportProfileDTO> condition)
         {
             var result = await exportDAL.GetDataExportProfile(condition);
             return result;
         }
 
-        public async Task<ReturnResult<Profiles>> GetDataProfiles()
+        public async Task<ReturnResult<ExportProfileDTO>> GetDataProfiles()
         {
             var result = await exportDAL.GetDataProfiles();
             return result;
