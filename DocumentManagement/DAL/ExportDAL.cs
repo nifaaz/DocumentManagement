@@ -227,5 +227,75 @@ namespace DocumentManagement.DAL
                 TotalRows = totalRows
             };
         }
+
+        public async Task<ReturnResult<ExportDocDTO>> GetDataExportDocument(BaseCondition<ExportDocDTO> condition)
+        {
+            DbProvider provider = new DbProvider();
+            List<ExportDocDTO> exportDocDTOs = new List<ExportDocDTO>();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            string totalRecords = String.Empty;
+            var result = new ReturnResult<ExportDocDTO>();
+            try
+            {
+                provider.SetQuery("GET_DATA_DOCUMENT", System.Data.CommandType.StoredProcedure)
+                    .SetParameter("InWhere", System.Data.SqlDbType.NVarChar, condition.IN_WHERE ?? String.Empty)
+                    .SetParameter("InSort", System.Data.SqlDbType.NVarChar, condition.IN_SORT ?? String.Empty)
+                    .SetParameter("StartRow", System.Data.SqlDbType.Int, condition.PageIndex)
+                    .SetParameter("PageSize", System.Data.SqlDbType.Int, condition.PageSize)
+                    .SetParameter("TotalRecords", System.Data.SqlDbType.Int, DBNull.Value, System.Data.ParameterDirection.Output)
+                    .SetParameter("ErrorCode", System.Data.SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output).GetList<ExportDocDTO>(out exportDocDTOs).Complete();
+
+                if (exportDocDTOs.Count > 0)
+                {
+                    result.ItemList = exportDocDTOs;
+                }
+                provider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage)
+                           .GetOutValue("TotalRecords", out string totalRows);
+
+                if (outCode != "0")
+                {
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
+                }
+                else
+                {
+                    result.ErrorCode = "";
+                    result.ErrorMessage = "";
+                    result.TotalRows = int.Parse(totalRows);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+
+        public async Task<ReturnResult<ExportDocDTO>> GetDataDocument()
+        {
+            List<ExportDocDTO> exportDocDTOs = new List<ExportDocDTO>();
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            int totalRows = 0;
+            dbProvider.SetQuery("DATA_DOCUMENT", CommandType.StoredProcedure)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetList<ExportDocDTO>(out exportDocDTOs)
+                .Complete();
+            dbProvider.GetOutValue("ErrorCode", out outCode)
+                       .GetOutValue("ErrorMessage", out outMessage);
+
+            return new ReturnResult<ExportDocDTO>()
+            {
+                ItemList = exportDocDTOs,
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+                TotalRows = totalRows
+            };
+        }
     }
 }

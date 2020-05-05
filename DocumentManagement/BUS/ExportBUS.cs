@@ -70,5 +70,18 @@ namespace DocumentManagement.BUS
             var result = await exportDAL.GetDataProfiles();
             return result;
         }
+
+        public async Task<ReturnResult<ExportDocDTO>> GetDataExportDocument(BaseCondition<ExportDocDTO> condition)
+        {
+            var result = await exportDAL.GetDataExportDocument(condition);
+            return result;
+        }
+
+        public async Task<ReturnResult<ExportDocDTO>> GetDataDocument()
+        {
+            var result = await exportDAL.GetDataDocument();
+            return result;
+        }
+
     }
 }
