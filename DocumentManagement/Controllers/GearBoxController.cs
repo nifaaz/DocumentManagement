@@ -76,18 +76,11 @@ namespace DocumentManagement.Controllers
         [HttpPost]
         public IActionResult CreateGearBox([FromBody]GearBox gearBox)
         {
-            try
-            {
-                gearBox.isDeleted = 0;
-                DateTime currentDate = DateTime.Now;
-                gearBox.CreateTime = currentDate;
-                var result = gearBoxBUS.CreateGearBox(gearBox);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            gearBox.isDeleted = 0;
+            DateTime currentDate = DateTime.Now;
+            gearBox.CreateTime = currentDate;
+            var result = gearBoxBUS.CreateGearBox(gearBox);
+            return Ok(result);
         }
 
         [HttpPost]

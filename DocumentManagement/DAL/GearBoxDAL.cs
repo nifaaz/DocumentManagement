@@ -421,42 +421,34 @@ namespace DocumentManagement.DAL
             string outCode = String.Empty;
             string outMessage = String.Empty;
             string totalRecords = String.Empty;
-            try
+            provider.SetQuery("[GearBox_INSERT]", System.Data.CommandType.StoredProcedure)
+            .SetParameter("MaHopSo", SqlDbType.NVarChar, gearBox.GearBoxCode, 50, ParameterDirection.Input)
+            .SetParameter("TieuDeHopSo", SqlDbType.NVarChar, gearBox.GearBoxTitle, 50, ParameterDirection.Input)
+            .SetParameter("MucLucHoSoID", SqlDbType.Int, gearBox.TabOfContID, ParameterDirection.Input)
+            .SetParameter("GhiChu", SqlDbType.NVarChar, gearBox.Note, 300, ParameterDirection.Input)
+            .SetParameter("Status", SqlDbType.Int, gearBox.Status, ParameterDirection.Input)
+            //.SetParameter("NgayBatDau", SqlDbType.NVarChar, gearBox.StDate.ToString(), 100, ParameterDirection.Input)
+            //.SetParameter("NgayKetThuc", SqlDbType.NVarChar, gearBox.EDate.ToString(), 100, ParameterDirection.Input)
+            .SetParameter("NgayTao", SqlDbType.NVarChar, gearBox.CreateTime.ToString(), 100, ParameterDirection.Input)
+            .SetParameter("isDeleted", SqlDbType.Int, gearBox.isDeleted, ParameterDirection.Input)
+            .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+            .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetSingle<GearBox>(out gearBox).Complete();
+
+            provider.GetOutValue("ErrorCode", out outCode)
+                        .GetOutValue("ErrorMessage", out outMessage);
+
+            if (outCode != "0" || outCode == "")
             {
-                provider.SetQuery("[GearBox_INSERT]", System.Data.CommandType.StoredProcedure)
-                .SetParameter("MaHopSo", SqlDbType.NVarChar, gearBox.GearBoxCode, 50, ParameterDirection.Input)
-                .SetParameter("TieuDeHopSo", SqlDbType.NVarChar, gearBox.GearBoxTitle, 50, ParameterDirection.Input)
-                .SetParameter("MucLucHoSoID", SqlDbType.Int, gearBox.TabOfContID, ParameterDirection.Input)
-                .SetParameter("GhiChu", SqlDbType.NVarChar, gearBox.Note, 300, ParameterDirection.Input)
-                .SetParameter("Status", SqlDbType.Int, gearBox.Status, ParameterDirection.Input)
-                //.SetParameter("NgayBatDau", SqlDbType.NVarChar, gearBox.StDate.ToString(), 100, ParameterDirection.Input)
-                //.SetParameter("NgayKetThuc", SqlDbType.NVarChar, gearBox.EDate.ToString(), 100, ParameterDirection.Input)
-                .SetParameter("NgayTao", SqlDbType.NVarChar, gearBox.CreateTime.ToString(), 100, ParameterDirection.Input)
-                .SetParameter("isDeleted", SqlDbType.Int, gearBox.isDeleted, ParameterDirection.Input)
-                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
-                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
-                    .GetSingle<GearBox>(out gearBox).Complete();
-
-                provider.GetOutValue("ErrorCode", out outCode)
-                          .GetOutValue("ErrorMessage", out outMessage);
-
-                if (outCode != "0" || outCode == "")
-                {
-                    result.ErrorCode = outCode;
-                    result.ErrorMessage = outMessage;
-                }
-                else
-                {
-                    result.Item = gearBox;
-                    result.ErrorCode = outCode;
-                    result.ErrorMessage = outMessage;
-                }
+                result.ErrorCode = outCode;
+                result.ErrorMessage = outMessage;
             }
-            catch (Exception ex)
+            else
             {
-                throw ex;
+                result.Item = gearBox;
+                result.ErrorCode = outCode;
+                result.ErrorMessage = outMessage;
             }
-
             return result;
         }
 
