@@ -75,20 +75,20 @@ namespace DocumentManagement.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetRoleByUserName(string id)
+        public IActionResult GetRoleByUserName(string id)
         {
             RoleBUS roleBUS = new RoleBUS();
-            return Ok(await roleBUS.GetRoleByUserName(id));
+            return Ok(roleBUS.GetRoleByUserName(id));
         }
 
         //get all role
         [HttpGet]
-        public async Task<IActionResult> GetAllRole ()
+        public IActionResult GetAllRole ()
         {
             try
             {
                 RoleBUS roleBUS = new RoleBUS();
-                var result = await roleBUS.GetAllRole();
+                var result = roleBUS.GetAllRole();
                 return Ok(result);
             }
             catch (Exception ex)

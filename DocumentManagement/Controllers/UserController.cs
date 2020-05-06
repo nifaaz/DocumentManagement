@@ -60,12 +60,12 @@ namespace DocumentManagement.Controllers
 
         //get all role
         [HttpGet]
-        public async Task<IActionResult> GetAllRole()
+        public IActionResult GetAllRole()
         {
             try
             {
                 RoleBUS roleBUS = new RoleBUS();
-                var result = await roleBUS.GetAllRole();
+                var result = roleBUS.GetAllRole();
                 return Ok(result);
             }
             catch (Exception ex)

@@ -41,9 +41,9 @@ namespace DocumentManagement.BUS
             var rs = RoleDAL.GetRoleByID(id);
             return rs;
         }
-        public async Task<ReturnResult<Role>> GetRoleByUserName(string userName)
+        public ReturnResult<Role> GetRoleByUserName(string userName)
         {
-            var rs = await RoleDAL.GetRoleByUserName(userName);
+            var rs = RoleDAL.GetRoleByUserName(userName);
             return rs;
         }
 
@@ -63,9 +63,9 @@ namespace DocumentManagement.BUS
         }
 
         //get all role
-        public async Task<ReturnResult<RoleDTO>> GetAllRole()
+        public ReturnResult<RoleDTO> GetAllRole()
         {
-            var result = await RoleDAL.GetAllRole();
+            var result = RoleDAL.GetAllRole();
             return result;
         }
     }

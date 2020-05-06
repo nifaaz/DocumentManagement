@@ -216,7 +216,7 @@ namespace DocumentManagement.DAL
 
 
         // get All Role
-        public async Task<ReturnResult<RoleDTO>> GetAllRole ()
+        public ReturnResult<RoleDTO> GetAllRole ()
         {
             List<RoleDTO> roleDTOs = new List<RoleDTO>();
             DbProvider dbProvider = new DbProvider();
@@ -283,7 +283,7 @@ namespace DocumentManagement.DAL
             };
         }
 
-        public async Task<ReturnResult<Role>> GetRoleByUserName(string userName)
+        public ReturnResult<Role> GetRoleByUserName(string userName)
         {
             var result = new ReturnResult<Role>();
             Role item = new Role();
