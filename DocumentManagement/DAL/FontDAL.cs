@@ -360,7 +360,7 @@ namespace DocumentManagement.DAL
             try
             {
                 provider.SetQuery("[FONT_CREATE]", System.Data.CommandType.StoredProcedure)
-                .SetParameter("PhongSo", SqlDbType.NVarChar, font.FontNumber, 10, ParameterDirection.Input)
+                .SetParameter("PhongSo", SqlDbType.NVarChar, font.FontNumber, 50, ParameterDirection.Input)
                 .SetParameter("CoQuanID", SqlDbType.Int, font.OrganID, ParameterDirection.Input)
                 .SetParameter("NgonNguID", SqlDbType.Int, font.LanguageId, ParameterDirection.Input)
                 .SetParameter("TenPhong", SqlDbType.NVarChar, font.FontName, 50, ParameterDirection.Input)
