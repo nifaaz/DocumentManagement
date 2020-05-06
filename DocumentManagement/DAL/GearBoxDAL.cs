@@ -105,7 +105,7 @@ namespace DocumentManagement.DAL
             try
             {
                 provider.SetQuery("GEARBOX_GET_BY_TABLE_OF_CONTENT_ID", CommandType.StoredProcedure)
-                    .SetParameter("Id", SqlDbType.NVarChar, id ?? String.Empty)
+                    .SetParameter("Id", SqlDbType.Int, int.Parse(id))
                     .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                     .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
                     .GetList<GearBox>(out list)
@@ -122,7 +122,7 @@ namespace DocumentManagement.DAL
                 {
                     if (list.Count > 0)
                     {
-                        List<GearBox> lstGearBox = list.Where(item => item.Status == 0).ToList();
+                        List<GearBox> lstGearBox = list.Where(item => item.Status == 3).ToList();
                         result.ItemList = lstGearBox;
                     }
                     else
