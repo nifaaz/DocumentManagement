@@ -9,7 +9,7 @@ namespace DocumentManagement.Models.DTO
     {
         public string FontName { get; set; }
         public int Status { get; set; }
-        public string TableOfName { get; set; }
+        public string TableOfNumber { get; set; }
         public string GearBoxCode { get; set; }
         public string ProfileCode { get; set; }
         public string FileName { get; set; }

@@ -152,7 +152,7 @@ namespace DocumentManagement.Controllers
                 return new TableOfContents()
                 {
                     TabOfContID = x.TabOfContID,
-                    TabOfContName = x.TabOfContName,
+                    TabOfContNumber = x.TabOfContNumber,
                 };
             }).Distinct().ToList();
             return Ok(tableOfContents);

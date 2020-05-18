@@ -141,11 +141,11 @@ namespace DocumentManagement.Controllers.Export
         {
             //Khởi tạo tham số đầu vào
             List<ProperTiesName> lstProperty = new List<ProperTiesName>();
-            lstProperty.Add(new ProperTiesName { PropsName = "FontName", WidthSize = 20 });
-            lstProperty.Add(new ProperTiesName { PropsName = "TableOfName", WidthSize = 20 });
-            lstProperty.Add(new ProperTiesName { PropsName = "GearBoxCode", WidthSize = 50 });
+            lstProperty.Add(new ProperTiesName { PropsName = "FontName", WidthSize = 30 });
+            lstProperty.Add(new ProperTiesName { PropsName = "TableOfNumber", WidthSize = 20 });
+            lstProperty.Add(new ProperTiesName { PropsName = "GearBoxCode", WidthSize = 20 });
             lstProperty.Add(new ProperTiesName { PropsName = "ProfileCode", WidthSize = 20 });
-            lstProperty.Add(new ProperTiesName { PropsName = "FileName", WidthSize = 25 });
+            lstProperty.Add(new ProperTiesName { PropsName = "FileName", WidthSize = 50 });
             lstProperty.Add(new ProperTiesName { PropsName = "UpdateDate", WidthSize = 30 });
             //Tạo đối tượng dùng để Export
             ExportCore<DataStatisticsDTO> exh = new ExportCore<DataStatisticsDTO>(4)
@@ -168,8 +168,8 @@ namespace DocumentManagement.Controllers.Export
             List<HeaderLocation> lstHeaderLocation = new List<HeaderLocation>()
             {
                 new HeaderLocation(1,1,20,"Thống kê dữ liệu"),
-                new HeaderLocation(2,1,20,"Tên phông"),new HeaderLocation(2,2,20,"Danh mục"),new HeaderLocation(2,3,50,"Mã hộp số"),
-                new HeaderLocation(2,4,20,"Mã hồ sơ"),new HeaderLocation(2,5,25,"Tên file"),new HeaderLocation(2,6,30,"Văn bản")
+                new HeaderLocation(2,1,30,"Tên phông"),new HeaderLocation(2,2,20,"Mục lục số"),new HeaderLocation(2,3,20,"Mã hộp số"),
+                new HeaderLocation(2,4,20,"Mã hồ sơ"),new HeaderLocation(2,5,50,"Tên file"),new HeaderLocation(2,6,30,"Văn bản")
                 ,new HeaderLocation(2,7,30,"Ngày cập nhật")
             };
             // tạo danh sách các ô bị merge(từ hàng , từ cột, đến hàng,đến cột)

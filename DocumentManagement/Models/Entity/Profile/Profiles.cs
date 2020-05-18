@@ -111,5 +111,6 @@ namespace DocumentManagement.Models.Entity.Profile
         public string FontName { get; set; }
         public string OrganName { get; set; }
         public string TableOfContentName { get; set; }
+        public string TableOfContentNumber { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace DocumentManagement.Models.DTO
 {
     public class TableOfContDTO
     {
-        public string TabOfContName { get; set; }
+        public string TabOfContNumber { get; set; }
         public int TabOfContID { get; set; }
     }
 
