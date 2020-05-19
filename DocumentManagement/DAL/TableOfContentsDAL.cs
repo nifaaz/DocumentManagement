@@ -311,6 +311,11 @@ namespace DocumentManagement.DAL
                     result.ErrorCode = "0";
                     result.ErrorMessage = "";
                 }
+                else if (errorCode.ToString() == "1")
+                {
+                    result.ErrorCode = "1";
+                    result.ErrorMessage = "Table Of Content Is Exists";
+                }
                 else
                 {
                     result.Failed(errorCode, errorMessage);
