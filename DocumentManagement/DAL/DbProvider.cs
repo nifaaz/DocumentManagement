@@ -50,8 +50,8 @@ namespace DocumentManagement.Model
         }
         public Db()
         {
-               _connectionString = "Data Source=27.73.250.14\\SQLEXPRESS,1433;Initial Catalog=SoHoa;User ID=DucNghiep;Password=123456";
-          //  _connectionString = "Data Source=DESKTOP-FJ46P29\\MSSQLSERVER2019;Initial Catalog=SoHoa;User ID=sa;Password=123456";
+               //_connectionString = "Data Source=27.70.92.59\\SQLEXPRESS,1433;Initial Catalog=SoHoa;User ID=DucNghiep;Password=123456";
+              _connectionString = "Server=W0109162866\\SQLEXPRESS;Database=SoHoa;Trusted_Connection=True;";
             _connection = new SqlConnection(_connectionString);
             if (_connection.State == ConnectionState.Closed)
             {

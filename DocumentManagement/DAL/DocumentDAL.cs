@@ -43,6 +43,38 @@ namespace DocumentManagement.DAL
                 ErrorMessage = outMessage,
             };
         }
+
+        public ReturnResult<Document> GetDocumentPaging(BaseCondition<DocumentSearch> condition)
+        {
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            int totalRecords = 0;
+            List<Document> documentList = new List<Document>();
+            dbProvider.SetQuery("DOCUMENT_GET_SEARCH", CommandType.StoredProcedure)
+                .SetParameter("FromRecord", SqlDbType.NVarChar, condition.FromRecord, ParameterDirection.Input)
+                .SetParameter("PageSize", SqlDbType.NVarChar, condition.PageSize, ParameterDirection.Input)
+                .SetParameter("InWhere", SqlDbType.NVarChar, condition.IN_WHERE, ParameterDirection.Input)
+                .SetParameter("InSort", SqlDbType.NVarChar, condition.IN_SORT, ParameterDirection.Input)
+                .SetParameter("TotalRecords", System.Data.SqlDbType.Int, DBNull.Value, System.Data.ParameterDirection.Output)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                .GetList<Document>(out documentList)
+                .Complete();
+            dbProvider.GetOutValue("ErrorMessage", out outMessage)
+                       .GetOutValue("ErrorCode", out outCode)
+                        .GetOutValue("TotalRecords", out totalRecords);
+
+
+            return new ReturnResult<Document>()
+            {
+                ItemList = documentList,
+                TotalRows = totalRecords,
+                ErrorCode = outCode,
+                ErrorMessage = outMessage,
+            };
+        }
+
         public ReturnResult<Document> GetAllDocument()
         {
             List<Document> documentList = new List<Document>();

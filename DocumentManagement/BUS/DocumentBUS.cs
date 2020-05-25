@@ -57,7 +57,11 @@ namespace DocumentManagement.BUS
             var result = DocumentDAL.GetListByProfileId(profile);
             return result;
         }
-        
 
+        public ReturnResult<Document> GetDocumentPaging(BaseCondition<DocumentSearch> condition)
+        {
+            var result = DocumentDAL.GetDocumentPaging(condition);
+            return result;
+        }
     }
 }

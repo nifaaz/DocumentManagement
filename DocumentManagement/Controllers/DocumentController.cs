@@ -91,6 +91,14 @@ namespace DocumentManagement.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        public IActionResult GetDocumentPaging(BaseCondition<DocumentSearch> condition)
+        {
+            DocumentBUS documentBUS = new DocumentBUS();
+            var result = documentBUS.GetDocumentPaging(condition);
+            return Ok(result);
+        }
+
         [HttpGet]
         public IActionResult GetListByProfileId(Profiles profile)
         {
