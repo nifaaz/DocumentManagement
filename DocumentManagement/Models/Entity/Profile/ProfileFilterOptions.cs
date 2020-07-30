@@ -9,6 +9,6 @@ namespace DocumentManagement.Models.Entity.Profile
     {
         public List<string> lstFileCode = new List<string>();
         public List<string> lstTitle = new List<string>();
-        public List<string> lstGearBoxTitle = new List<string>();
+        public List<string> lstGearBoxCode = new List<string>();
     }
 }

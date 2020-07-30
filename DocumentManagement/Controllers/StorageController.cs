@@ -4,15 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Common.Common;
 using DocumentManagement.BUS;
+using DocumentManagement.FrameWork;
 using DocumentManagement.Model.Entity.Storage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentManagement.Controllers
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class StorageController : ControllerBase
+    public class StorageController : BaseApiController
     {
         private static StorageBUS storageBUS = StorageBUS.GetStorageBUSInstance;
 

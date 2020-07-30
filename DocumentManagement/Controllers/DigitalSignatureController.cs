@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Common.Common;
 using DocumentManagement.BUS;
 using DocumentManagement.Common;
+using DocumentManagement.FrameWork;
 using DocumentManagement.Models.Entity;
 using DocumentManagement.Models.Entity.ComputerFile;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +21,7 @@ namespace DocumentManagement.Controllers
         private readonly DigitalSignatureBUS digitalSignatureBUS = DigitalSignatureBUS.GetDigitalSignatureBUSInstance;
 
         [HttpPost]
-        public IActionResult GetPaging (BaseCondition<DigitalSignature> condition)
+        public IActionResult GetPaging ([FromBody]BaseCondition<DigitalSignature> condition)
         {
             var result = digitalSignatureBUS.GetPaging(condition);
             
@@ -66,9 +67,9 @@ namespace DocumentManagement.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateSignature ()
+        public IActionResult CreateSignature ()
         {
-            object signature = Request.Form["signatureInfo"];
+            var signature = Request.Form["signatureInfo"];
             DigitalSignature digitalSignature = Libs.DeserializeObject<DigitalSignature>(signature.ToString());
             ReturnResult<DigitalSignature> result = new ReturnResult<DigitalSignature>();
             string fileNameExists = string.Empty;

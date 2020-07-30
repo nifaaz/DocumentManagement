@@ -8,12 +8,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using DocumentManagement.Model.Entity.OrganType;
 using DocumentManagement.Common;
+using DocumentManagement.FrameWork;
 
 namespace DocumentManagement.Controllers
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class OrganTypeController : ControllerBase
+    public class OrganTypeController : BaseApiController
     {
 
         private LoaiCoQuanBUS loaiCoQuanBUS = LoaiCoQuanBUS.GetLoaiCoQuanBUSInstance();

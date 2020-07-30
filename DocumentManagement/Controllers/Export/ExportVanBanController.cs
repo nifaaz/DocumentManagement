@@ -47,11 +47,11 @@ namespace DocumentManagement.Controllers.Export
                 var qfilteritem = condition.FilterRuleList.FirstOrDefault();
                 var filters = qfilteritem.value.Split("/");
                 condition.FilterRuleList[0].value = "";
-                if (!String.IsNullOrEmpty(filters[0].ToString()))
+                if (!string.IsNullOrEmpty(filters[0].ToString()))
                 {
                     condition.FilterRuleList[0].value = Convert.ToDateTime(filters[0]).ToString();
                 }
-                if (!String.IsNullOrEmpty(filters[1].ToString()))
+                if (!string.IsNullOrEmpty(filters[1].ToString()))
                 {
                     condition.FilterRuleList[0].value = condition.FilterRuleList[0].value + "-" + Convert.ToDateTime(filters[1]).ToString();
                 }
@@ -99,14 +99,14 @@ namespace DocumentManagement.Controllers.Export
             {
                 exportDocDTOs = result.ItemList;
             }
-            if (!String.IsNullOrEmpty(fromDate.ToString()) && exportDocDTOs != null)
+            if (!string.IsNullOrEmpty(fromDate.ToString()) && exportDocDTOs != null)
             {
                 if (CheckConvertDate(fromDate.ToString()))
                 {
                     exportDocDTOs = exportDocDTOs.Where(x => x.CreateTime >= fromDate).ToList();
                 }
             }
-            if (!String.IsNullOrEmpty(toDate.ToString()) && exportDocDTOs != null)
+            if (!string.IsNullOrEmpty(toDate.ToString()) && exportDocDTOs != null)
             {
                 if (CheckConvertDate(toDate.ToString()))
                 {

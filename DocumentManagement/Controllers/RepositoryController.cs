@@ -4,15 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Common.Common;
 using DocumentManagement.BUS;
+using DocumentManagement.FrameWork;
 using DocumentManagement.Model.Entity.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentManagement.Controllers
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class RepositoryController : ControllerBase
+    public class RepositoryController : BaseApiController
     {
         private static RepositoryBUS repositoryBUS = RepositoryBUS.GetRepositoryBUSInstance;
 

@@ -14,12 +14,11 @@ using Newtonsoft.Json;
 using iTextSharp.text.pdf;
 using System.Web;
 using Microsoft.AspNetCore.Authorization;
+using DocumentManagement.FrameWork;
 
 namespace DocumentManagement.Controllers
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class ProfileController : ControllerBase
+    public class ProfileController : BaseApiController
     {
         private static readonly ProfileBUS profileBUS = ProfileBUS.GetProfileBUSInstance;
         //private static readonly string FILE_UPLOAD_DIR = Environment.CurrentDirectory + @"\FilesUpload";
@@ -594,7 +593,7 @@ namespace DocumentManagement.Controllers
             {
                 lstFileCode = result.ItemList.Select(item => item.FileCode).Distinct().ToList(),
                 lstTitle = result.ItemList.Select(item => item.Title).Distinct().ToList(),
-                lstGearBoxTitle = result.ItemList.Select(item => item.GearBoxTitle).Distinct().ToList()
+                lstGearBoxCode = result.ItemList.Select(item => item.GearBoxCode).Distinct().ToList()
             });
         }
 

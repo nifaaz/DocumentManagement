@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Common.Common;
 using DocumentManagement.BUS;
 using DocumentManagement.Common;
+using DocumentManagement.FrameWork;
 using DocumentManagement.Models.Entity;
 using DocumentManagement.Models.Entity.Organ;
 using Microsoft.AspNetCore.Http;
@@ -12,9 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentManagement.Controllers
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class CoQuanController : ControllerBase
+    public class CoQuanController : BaseApiController
     {
         private CoQuanBUS coQuanBUS = CoQuanBUS.GetCoQuanBusInstance();
         /// <summary>

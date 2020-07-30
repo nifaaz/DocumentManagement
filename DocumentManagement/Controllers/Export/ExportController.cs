@@ -46,11 +46,11 @@ namespace DocumentManagement.Controllers.Export
                 var qfilteritem = condition.FilterRuleList.FirstOrDefault();
                 var filters = qfilteritem.value.Split("/");
                 condition.FilterRuleList[0].value = "";
-                if (!String.IsNullOrEmpty(filters[0].ToString()))
+                if (!string.IsNullOrEmpty(filters[0].ToString()))
                 {
                     condition.FilterRuleList[0].value = Convert.ToDateTime(filters[0]).ToString();
                 }
-                if (!String.IsNullOrEmpty(filters[1].ToString()))
+                if (!string.IsNullOrEmpty(filters[1].ToString()))
                 {
                     condition.FilterRuleList[0].value = condition.FilterRuleList[0].value + "-" + Convert.ToDateTime(filters[1]).ToString();
                 }
@@ -110,13 +110,13 @@ namespace DocumentManagement.Controllers.Export
             {
                 dataStatisticsDTOs = result.ItemList;
             }
-            if (!String.IsNullOrEmpty(fromDate.ToString()) && dataStatisticsDTOs != null)
+            if (!string.IsNullOrEmpty(fromDate.ToString()) && dataStatisticsDTOs != null)
             {
                 if (CheckConvertDate(fromDate.ToString())){
                     dataStatisticsDTOs = dataStatisticsDTOs.Where(x => x.UpdateDate >= fromDate).ToList();
                 }
             }
-            if (!String.IsNullOrEmpty(toDate.ToString()) && dataStatisticsDTOs != null)
+            if (!string.IsNullOrEmpty(toDate.ToString()) && dataStatisticsDTOs != null)
             {
                 if (CheckConvertDate(toDate.ToString()))
                 {

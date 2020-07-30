@@ -427,8 +427,6 @@ namespace DocumentManagement.DAL
             .SetParameter("MucLucHoSoID", SqlDbType.Int, gearBox.TabOfContID, ParameterDirection.Input)
             .SetParameter("GhiChu", SqlDbType.NVarChar, gearBox.Note, 300, ParameterDirection.Input)
             .SetParameter("Status", SqlDbType.Int, gearBox.Status, ParameterDirection.Input)
-            //.SetParameter("NgayBatDau", SqlDbType.NVarChar, gearBox.StDate.ToString(), 100, ParameterDirection.Input)
-            //.SetParameter("NgayKetThuc", SqlDbType.NVarChar, gearBox.EDate.ToString(), 100, ParameterDirection.Input)
             .SetParameter("NgayTao", SqlDbType.NVarChar, gearBox.CreateTime.ToString(), 100, ParameterDirection.Input)
             .SetParameter("isDeleted", SqlDbType.Int, gearBox.isDeleted, ParameterDirection.Input)
             .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)

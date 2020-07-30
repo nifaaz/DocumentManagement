@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DocumentManagement.BUS;
+using DocumentManagement.FrameWork;
 using DocumentManagement.Model.Entity;
 using DocumentManagement.Models.Entity.Role;
 using Microsoft.AspNetCore.Http;
@@ -10,9 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentManagement.Controlleresult
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class MenuController : ControllerBase
+    public class MenuController : BaseApiController
     {
         private static FontBUS fontBUS = FontBUS.GetFontBUSInstance;
         public IActionResult GetMenuByRoleId(Role role)

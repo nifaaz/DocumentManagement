@@ -8,12 +8,11 @@ using DocumentManagement.BUS;
 using DocumentManagement.Common;
 using DocumentManagement.Models.Entity.User;
 using Common.Common;
+using DocumentManagement.FrameWork;
 
 namespace DocumentManagement.Controllers
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : BaseApiController
     {
         readonly UserBUS userBUS = UserBUS.GetUserBUSInstance;
 

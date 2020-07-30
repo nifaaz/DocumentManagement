@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Common.Common;
 using DocumentManagement.BUS;
 using DocumentManagement.Common;
+using DocumentManagement.FrameWork;
 using DocumentManagement.Models.Entity.Account;
 using DocumentManagement.Models.Entity.Role;
 using Microsoft.AspNetCore.Http;
@@ -12,9 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentManagement.Controllers
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class RoleController : ControllerBase
+    public class RoleController : BaseApiController
     {
 
 

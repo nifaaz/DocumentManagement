@@ -4,15 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Common.Common;
 using DocumentManagement.BUS;
+using DocumentManagement.FrameWork;
 using DocumentManagement.Model.Entity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentManagement.Controlleresult
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class FontController : ControllerBase
+    public class FontController : BaseApiController
     {
 
         private FontBUS fontBUS = FontBUS.GetFontBUSInstance;

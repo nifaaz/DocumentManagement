@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Common.Common;
 using DocumentManagement.BUS;
+using DocumentManagement.FrameWork;
 using DocumentManagement.Model.Entity;
 using DocumentManagement.Model.Entity.GearBox;
 using DocumentManagement.Model.Entity.TableOfContens;
@@ -14,9 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentManagement.Controllers
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class GearBoxController : ControllerBase
+    public class GearBoxController : BaseApiController
     {
         private static GearBoxBUS gearBoxBUS = GearBoxBUS.GetGearBoxBUSInstance;
 

@@ -5,15 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using DocumentManagement.BUS;
 using DocumentManagement.Common;
+using DocumentManagement.FrameWork;
 using DocumentManagement.Models.Entity.ComputerFile;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentManagement.Controllers
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class ComputerFileController : ControllerBase
+    public class ComputerFileController : BaseApiController
     {
         
         public async Task<OkObjectResult> UploadFilesAsync([FromForm(Name = "files")]List<IFormFile> files)
