@@ -60,11 +60,19 @@ namespace DocumentManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetGearBoxByTabOfContID(string id)
         {
+            var result = await gearBoxBUS.GetGearBoxByTabOfContID(id, 3);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetGearBoxByTabOfContForEditID(string id)
+        {
             var result = await gearBoxBUS.GetGearBoxByTabOfContID(id);
             return Ok(result);
         }
 
-        
+
         [HttpPost]
         public async Task<IActionResult> GetProfileByGearBoxID([FromBody]BaseCondition<Profiles> condition)
         {

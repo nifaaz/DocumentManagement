@@ -52,7 +52,7 @@ namespace DocumentManagement.BUS
             var result = gearBoxDAL.GearBoxExport();
             return result;
         }
-        public async Task<ReturnResult<GearBox>> GetGearBoxByTabOfContID(string id)
+        public async Task<ReturnResult<GearBox>> GetGearBoxByTabOfContID(string id, int status = 0)
         {
             var result = await gearBoxDAL.GetGearBoxByTabOfContID(id);
             return result;

@@ -94,7 +94,7 @@ namespace DocumentManagement.DAL
         /// <param name="id"></param>
         /// <returns></returns>
         /// <modified>Tú</modified>
-        public async Task<ReturnResult<GearBox>> GetGearBoxByTabOfContID(string id)
+        public async Task<ReturnResult<GearBox>> GetGearBoxByTabOfContID(string id,int status  = 0)
         {
             DbProvider provider = new DbProvider();
             List<GearBox> list = new List<GearBox>();
@@ -122,7 +122,15 @@ namespace DocumentManagement.DAL
                 {
                     if (list.Count > 0)
                     {
-                        List<GearBox> lstGearBox = list.Where(item => item.Status == 3).ToList();
+                        var lstGearBox = new List<GearBox>();
+                        if (status == 0){
+                           lstGearBox = list;
+                        }
+                        else
+                        {
+                            lstGearBox = list.Where(item => item.Status == 3).ToList();
+                        }
+                        //
                         result.ItemList = lstGearBox;
                     }
                     else
