@@ -46,6 +46,8 @@ namespace DocumentManagement.Models.Entity.Profile
         public string Rights { get; set; }
 
         public string Language { get; set; }
+        public int LanguageId { get; set; }
+        public int PhysicalStateId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         /// <summary>

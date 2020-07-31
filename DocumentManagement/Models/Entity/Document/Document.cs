@@ -85,5 +85,9 @@ namespace DocumentManagement.Models.Entity.Document
         public string FileName { get; set; }
 
         public string ClientUrl { get; set; }
+
+        public string ProfileNumber { get; set; }
+        public string TypeName { get; set; }
+
     }
 }

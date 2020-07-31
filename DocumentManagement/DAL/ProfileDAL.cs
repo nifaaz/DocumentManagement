@@ -405,7 +405,8 @@ namespace DocumentManagement.DAL
                 db.SetParameter("Title", SqlDbType.NVarChar, profiles.Title, 1000);
                 db.SetParameter("Maintenance", SqlDbType.NVarChar, profiles.Maintenance, 200);
                 db.SetParameter("Rights", SqlDbType.NVarChar, profiles.Rights, 200);
-                db.SetParameter("Language", SqlDbType.NVarChar, profiles.Language, 50);
+                db.SetParameter("LanguageId", SqlDbType.Int, profiles.LanguageId);
+                db.SetParameter("PhysicalStateId", SqlDbType.Int, profiles.PhysicalStateId);
                 db.SetParameter("StartDate", SqlDbType.DateTime, profiles.StartDate != null ? profiles.StartDate : DateTime.Now);
                 db.SetParameter("EndDate", SqlDbType.DateTime, profiles.EndDate != null ? profiles.EndDate : DateTime.Now);
                 db.SetParameter("TotalDoc", SqlDbType.Int, profiles.TotalDoc);
@@ -414,7 +415,6 @@ namespace DocumentManagement.DAL
                 db.SetParameter("InforSign", SqlDbType.NVarChar, profiles.InforSign, 200);
                 db.SetParameter("SheetNumber", SqlDbType.Int, profiles.SheetNumber);
                 db.SetParameter("PageNumber", SqlDbType.Int, profiles.PageNumber);
-                db.SetParameter("Format", SqlDbType.NVarChar, profiles.Format, 50);
                 db.SetParameter("CreateBy", SqlDbType.NVarChar, profiles.CreatedBy);
                 db.SetParameter("JSONFILE", SqlDbType.NVarChar, JsonStringFiles);
                 db.SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output);
@@ -481,7 +481,7 @@ namespace DocumentManagement.DAL
                 db.SetParameter("Title", SqlDbType.NVarChar, profiles.Title, 1000);
                 db.SetParameter("Maintenance", SqlDbType.NVarChar, profiles.Maintenance, 200);
                 db.SetParameter("Rights", SqlDbType.NVarChar, profiles.Rights, 200);
-                db.SetParameter("Language", SqlDbType.NVarChar, profiles.Language, 50);
+                db.SetParameter("LanguageId", SqlDbType.Int, profiles.LanguageId);
                 db.SetParameter("StartDate", SqlDbType.DateTime, profiles.StartDate != null ? profiles.StartDate : DateTime.Now);
                 db.SetParameter("EndDate", SqlDbType.DateTime, profiles.EndDate != null ? profiles.EndDate : DateTime.Now);
                 db.SetParameter("TotalDoc", SqlDbType.Int, profiles.TotalDoc);
@@ -490,7 +490,7 @@ namespace DocumentManagement.DAL
                 db.SetParameter("InforSign", SqlDbType.NVarChar, profiles.InforSign, 200);
                 db.SetParameter("SheetNumber", SqlDbType.Int, profiles.SheetNumber);
                 db.SetParameter("PageNumber", SqlDbType.Int, profiles.PageNumber);
-                db.SetParameter("Format", SqlDbType.NVarChar, profiles.Format, 50);
+                db.SetParameter("PhysicalStateId", SqlDbType.Int, profiles.PhysicalStateId);
                 db.SetParameter("UpdateBy", SqlDbType.NVarChar, profiles.UpdatedBy);
                 db.SetParameter("JSONFILE", SqlDbType.NVarChar, JsonStringFiles);
                 db.SetParameter("JSONOVER", SqlDbType.NVarChar, JsonStringOverwrite);
