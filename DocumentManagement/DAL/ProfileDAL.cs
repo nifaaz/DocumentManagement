@@ -1,6 +1,7 @@
 ﻿using Common.Common;
 using DocumentManagement.Common;
 using DocumentManagement.Model;
+using DocumentManagement.Models.DTO;
 using DocumentManagement.Models.Entity.ComputerFile;
 using DocumentManagement.Models.Entity.Document;
 using DocumentManagement.Models.Entity.Profile;
@@ -278,6 +279,51 @@ namespace DocumentManagement.DAL
                     .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
                     .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
                     .GetList<Profiles>(out list)
+                    .Complete();
+
+                if (list.Count > 0)
+                {
+                    result.ItemList = list;
+                    result.Item = list[0];
+                }
+                provider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage);
+
+
+                if (outCode != "0")
+                {
+                    result.ErrorCode = outCode;
+                    result.ErrorMessage = outMessage;
+                }
+                else
+                {
+                    result.ErrorCode = "";
+                    result.ErrorMessage = "";
+
+                }
+            }
+            catch (Exception ex)
+            {
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+
+        public ReturnResult<ProfileDTO> GetFillDataByProfileID(int profileID)
+        {
+            DbProvider provider = new DbProvider();
+            List<ProfileDTO> list = new List<ProfileDTO>();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            string totalRecords = String.Empty;
+            var result = new ReturnResult<ProfileDTO>();
+            try
+            {
+                provider.SetQuery("PROFILE_GET_FILL_DATA_BY_ID", CommandType.StoredProcedure)
+                    .SetParameter("ProfileId", SqlDbType.Int, profileID)
+                    .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                    .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 4000, ParameterDirection.Output)
+                    .GetList<ProfileDTO>(out list)
                     .Complete();
 
                 if (list.Count > 0)

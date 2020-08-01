@@ -14,6 +14,7 @@ namespace DocumentManagement.Model.Entity.TableOfContens
         public string TabOfContCode { get; set; }
         public int StorageID { get; set; }
         public int FontID { get; set; }
+        public int OrganID { get; set; }
         public int RepositoryID { get; set; }
         public string CategoryCode { get; set; }
         public string Note { get; set; }

@@ -49,6 +49,14 @@ namespace DocumentManagement.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{profileID}")]
+        //[Authorize]
+        public IActionResult GetFillDataByProfileID(int profileID)
+        {
+            var result = profileBUS.GetFillDataByProfileID(profileID);
+            return Ok(result);
+        }
+
         // For select2
         [HttpGet]
         [Route("{id}")]

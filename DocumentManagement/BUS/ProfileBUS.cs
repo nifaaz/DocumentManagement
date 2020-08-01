@@ -1,6 +1,7 @@
 ﻿using Common.Common;
 using DocumentManagement.Common;
 using DocumentManagement.DAL;
+using DocumentManagement.Models.DTO;
 using DocumentManagement.Models.Entity.ComputerFile;
 using DocumentManagement.Models.Entity.Document;
 using DocumentManagement.Models.Entity.Profile;
@@ -69,6 +70,12 @@ namespace DocumentManagement.BUS
         public ReturnResult<Profiles> GetProfileByGearBoxID(int gearBoxID)
         {
             var result = profileDAL.GetProfileByGearBoxID(gearBoxID);
+            return result;
+        }
+
+        public ReturnResult<ProfileDTO> GetFillDataByProfileID(int gearBoxID)
+        {
+            var result = profileDAL.GetFillDataByProfileID(gearBoxID);
             return result;
         }
 
