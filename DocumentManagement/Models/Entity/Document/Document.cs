@@ -89,5 +89,6 @@ namespace DocumentManagement.Models.Entity.Document
         public string ProfileNumber { get; set; }
         public string TypeName { get; set; }
 
+        public string OrganizationIssued { get; set; }
     }
 }

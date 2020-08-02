@@ -120,6 +120,7 @@ namespace DocumentManagement.DAL
                 dbProvider.SetParameter("LanguageId", SqlDbType.Int, document.LanguageId, ParameterDirection.Input);
                 dbProvider.SetParameter("PageAmount", SqlDbType.Int, document.PageAmount, ParameterDirection.Input);
                 dbProvider.SetParameter("Description", SqlDbType.NVarChar, document.Description, ParameterDirection.Input);
+                dbProvider.SetParameter("OrganizationIssued", SqlDbType.NVarChar, document.OrganizationIssued, ParameterDirection.Input);
                 dbProvider.SetParameter("InforSign", SqlDbType.NVarChar, document.InforSign, ParameterDirection.Input);
                 dbProvider.SetParameter("Keyword", SqlDbType.NVarChar, document.Keyword, ParameterDirection.Input);
                 dbProvider.SetParameter("Mode", SqlDbType.NVarChar, document.Mode, ParameterDirection.Input);
@@ -178,6 +179,7 @@ namespace DocumentManagement.DAL
                     dbProvider.SetParameter("LanguageId", SqlDbType.Int, document.LanguageId, ParameterDirection.Input);
                     dbProvider.SetParameter("PageAmount", SqlDbType.Int, document.PageAmount, ParameterDirection.Input);
                     dbProvider.SetParameter("Description", SqlDbType.NVarChar, document.Description, ParameterDirection.Input);
+                    dbProvider.SetParameter("OrganizationIssued", SqlDbType.NVarChar, document.OrganizationIssued, ParameterDirection.Input);
                     dbProvider.SetParameter("InforSign", SqlDbType.NVarChar, document.InforSign, ParameterDirection.Input);
                     dbProvider.SetParameter("Keyword", SqlDbType.NVarChar, document.Keyword, ParameterDirection.Input);
                     dbProvider.SetParameter("Mode", SqlDbType.NVarChar, document.Mode, ParameterDirection.Input);

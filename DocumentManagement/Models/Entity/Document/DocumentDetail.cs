@@ -29,7 +29,7 @@ namespace DocumentManagement.Models.Entity.Document
         /// <summary>
         /// kiêu vản bản
         /// </summary>
-        public int TypeName { get; set; }
+        public string TypeName { get; set; }
         /// <summary>
         /// Số của văn bản
         /// </summary>
@@ -107,5 +107,7 @@ namespace DocumentManagement.Models.Entity.Document
         public string ClientUrl { get; set; }
 
         public int Signature { get; set; }
+
+        public string OrganizationIssued { get; set; }
     }
 }
