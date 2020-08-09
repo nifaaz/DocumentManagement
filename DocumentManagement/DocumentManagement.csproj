@@ -18,4 +18,8 @@
     <PackageReference Include="iTextSharp" Version="5.5.13.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="FilesUpload\" />
+  </ItemGroup>
+
 </Project>
