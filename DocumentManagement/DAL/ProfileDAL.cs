@@ -85,7 +85,43 @@ namespace DocumentManagement.DAL
             }
             return result;
         }
-        
+
+        public ReturnResult<ComputerFile> GetComputerFileById(int id)
+        {
+            var result = new ReturnResult<ComputerFile>();
+            ComputerFile profiles = new ComputerFile();
+            DbProvider dbProvider = new DbProvider();
+            string outCode = String.Empty;
+            string outMessage = String.Empty;
+            try
+            {
+                dbProvider.SetQuery("COMPUTER_GET_BY_ID", CommandType.StoredProcedure)
+                .SetParameter("ComputerFileId", SqlDbType.Int, id, ParameterDirection.Input)
+                .SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output)
+                .SetParameter("ErrorMessage", SqlDbType.NVarChar, DBNull.Value, 255, ParameterDirection.Output)
+                .GetSingle<ComputerFile>(out profiles)
+                .Complete();
+                dbProvider.GetOutValue("ErrorCode", out outCode)
+                           .GetOutValue("ErrorMessage", out outMessage);
+
+                if (outCode.ToString() != "0")
+                {
+                    result.Failed(outCode, outMessage);
+                }
+                else
+                {
+                    result.Item = profiles;
+                    result.ErrorCode = "0";
+                    result.ErrorMessage = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Failed("-1", ex.Message);
+            }
+            return result;
+        }
+
         public ReturnResult<Profiles> GetPagingWithSearchResults(BaseCondition<Profiles> condition)
         {
             DbProvider dbProvider = new DbProvider();

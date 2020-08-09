@@ -125,6 +125,12 @@ namespace DocumentManagement.BUS
         {
             return profileDAL.GetComputerFileByProfileId(profileId);
         }
+
+        public ReturnResult<ComputerFile> GetComputerFileById(int id)
+        {
+            return profileDAL.GetComputerFileById(id);
+        }
+
         public ReturnResult<Document> GetDocumentsByProfileId (BaseCondition<Profiles> condition)
         {
             return profileDAL.GetDocumentsByProfileId(condition);
