@@ -14,8 +14,8 @@ namespace DocumentManagement.Common
         public static readonly string CURRENT_DIRECTORY = Environment.CurrentDirectory;
         public static readonly string FILE_UPLOAD_DIGITAL_SIGNATURE = FILE_UPLOAD_DIR + @"SignaturesImage\";
         public static readonly string CLIENT_PATH_UPLOAD_FILE = @"http://localhost:4200/assets/pdf/";
-        public static readonly string FILE_SERVER_FOLDER = API_URL + @"/FilesUpload/";
+        public static readonly string FILE_SERVER_FOLDER = @"/FilesUpload/";
 
-        public static readonly string DIGITAL_SIGNATURE_FOLDER = API_URL + @"/FilesUpload/SignaturesImage/";
+        public static readonly string DIGITAL_SIGNATURE_FOLDER = @"/FilesUpload/SignaturesImage/";
     }
 }
