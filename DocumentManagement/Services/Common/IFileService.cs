@@ -12,5 +12,6 @@ namespace DocumentManagement.Services.Common
         HttpResponseMessage DownloadFile(string fileFolder,string fileName, string originalFileName);
         bool FileExist(string path);
         string GetContentType(string path);
+        void Delete(string folderName, string fileName);
     }
 }

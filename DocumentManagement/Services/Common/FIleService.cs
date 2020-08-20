@@ -39,6 +39,14 @@ namespace DocumentManagement.Services.Common
             return false;
         }
 
+        public void Delete(string folderPath, string fileName)
+        {
+            var filePath = Path.Combine(folderPath, fileName);
+            
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+        }
+
         public string GetContentType(string path)
         {
             var types = GetMimeTypes();

@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="4.5.3.2" />
+    <PackageReference Include="ExcelDataReader" Version="3.6.0" />
     <PackageReference Include="iTextSharp" Version="5.5.13.1" />
     <PackageReference Include="Microsoft.AspNetCore.App">
       <PrivateAssets Condition="'%(PackageReference.Version)' == ''">all</PrivateAssets>
@@ -19,7 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="FilesUpload\" />
+    <Folder Include="FilesUpload\FileImport\" />
+    <Folder Include="FilesUpload\ImportTemplate\" />
   </ItemGroup>
 
 </Project>
