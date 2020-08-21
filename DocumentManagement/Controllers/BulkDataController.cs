@@ -79,13 +79,14 @@ namespace DocumentManagement.Controllers
             IFormFile file = Request.Form.Files.FirstOrDefault();
             result.Item.ImportDataDTOs = new List<ImportDataDTO>();
             string directoryPathFileUpload = Path.Combine(Const.FILE_UPLOAD_DIR, Const.FILE_IMPORT);
-
             if (!_fileService.FileExist(directoryPathFileUpload))
             {
                 Directory.CreateDirectory(directoryPathFileUpload);
                 _fileService.Delete(directoryPathFileUpload, file.FileName);
             }
-
+            var dataValidations = new DataValidations();
+            dataValidations.IsCorrect = true;
+            dataValidations.dataValidationDTOs = new List<DataValidationDTO>();
             var fileExtension = file.FileName.Split('.');
             if (fileExtension.Length != 0)
             {
@@ -116,11 +117,12 @@ namespace DocumentManagement.Controllers
                                         column++;
                                         continue;
                                     }
-                                    else
+                                    else if(column != reader.RowCount)
                                     {
                                         var importData = GetImportDataDTO(reader, column);
-                                        if (importData != null && (!string.IsNullOrEmpty(importData.NameAndCompendium) || importData.Order != 0))
+                                        if (importData != null)
                                         {
+                                            DataValidation(column, importData, dataValidations);
                                             result.Item.ImportDataDTOs.Add(importData);
                                         }
                                     }
@@ -132,8 +134,7 @@ namespace DocumentManagement.Controllers
                     _fileService.Delete(directoryPathFileUpload, file.FileName);
                 }
             }
-
-            return Ok();
+            return Ok(dataValidations);
         }
         private void UpdateDataCustom(IExcelDataReader reader, int step = 0, ValidaImportDto validaImportDto = null)
         {
@@ -230,7 +231,44 @@ namespace DocumentManagement.Controllers
             return title;
         }
 
+        private DataValidations DataValidation(int column = 0, ImportDataDTO importDataDTO = null, DataValidations dataValidations = null)
+        {
+            if(string.IsNullOrEmpty(importDataDTO.NameAndCompendium) 
+                || string.IsNullOrEmpty(importDataDTO.Date) 
+                || importDataDTO.Order == 0 
+                || string.IsNullOrEmpty(importDataDTO.Symbol))
+            {
+                dataValidations.IsCorrect = false;
+                if (string.IsNullOrEmpty(importDataDTO.NameAndCompendium))
+                {
+                    AddDataValidations(column, importDataDTO, dataValidations, (int)Type.NameAndCompendium, importDataDTO.NameAndCompendium);
+                }
+                if (string.IsNullOrEmpty(importDataDTO.Date))
+                {
+                    AddDataValidations(column, importDataDTO, dataValidations, (int)Type.Date, importDataDTO.Date);
+                }
+                if (importDataDTO.Order == 0)
+                {
+                    AddDataValidations(column, importDataDTO, dataValidations, (int)Type.Order, importDataDTO.Order.ToString());
+                }
+                if (string.IsNullOrEmpty(importDataDTO.Symbol))
+                {
+                    AddDataValidations(column, importDataDTO, dataValidations, (int)Type.Symbol, importDataDTO.Symbol);
+                }
+            }
+            return dataValidations;
+        } 
 
+        private void AddDataValidations(int column, ImportDataDTO importDataDTO = null, DataValidations dataValidations = null, int dataType = 0, string value = "")
+        {
+            var dataValidation = new DataValidationDTO();
+            dataValidation.RowNumber = column;
+            dataValidation.IsCorrect = false;
+            dataValidation.DataType = dataType;
+            dataValidation.Value = value;
+            dataValidation.Message = NOT_EMPTY;
+            dataValidations.dataValidationDTOs.Add(dataValidation);
+        }
         enum Type
         {
             Order = 0,
@@ -242,5 +280,7 @@ namespace DocumentManagement.Controllers
             PageNumber = 7,
             Detail = 8
         }
+
+        private readonly string NOT_EMPTY = "Không được để trống";
     }
 }
