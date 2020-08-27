@@ -49,11 +49,13 @@ namespace DocumentManagement.DAL
                 provider.SetQuery("GET_LOG_OF_USER_ACTIVITY", System.Data.CommandType.StoredProcedure)
                     .SetParameter("InWhere", System.Data.SqlDbType.NVarChar, condition.IN_WHERE ?? String.Empty)
                     .SetParameter("InSort", System.Data.SqlDbType.NVarChar, condition.IN_SORT ?? String.Empty)
-                    .SetParameter("StartRow", System.Data.SqlDbType.Int, condition.PageIndex)
+                    .SetParameter("FromRecord", System.Data.SqlDbType.Int, condition.FromRecord)
                     .SetParameter("PageSize", System.Data.SqlDbType.Int, condition.PageSize)
                     .SetParameter("TotalRecords", System.Data.SqlDbType.Int, DBNull.Value, System.Data.ParameterDirection.Output)
                     .SetParameter("ErrorCode", System.Data.SqlDbType.NVarChar, DBNull.Value, 100, System.Data.ParameterDirection.Output)
-                    .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output).GetList<LogActivityDTO>(out list).Complete();
+                    .SetParameter("ErrorMessage", System.Data.SqlDbType.NVarChar, DBNull.Value, 4000, System.Data.ParameterDirection.Output)
+                    .GetList<LogActivityDTO>(out list)
+                    .Complete();
 
                 if (list.Count > 0)
                 {

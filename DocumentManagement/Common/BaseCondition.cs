@@ -262,6 +262,35 @@ namespace Common.Common
                                     result.Append(" AND CAST(" + item.field + " AS DATE) >= CAST('" + valueKillSqlInjection + "' AS DATE)");
                                 }
                             }
+                            else if (item.op == "or_date_between_custom")
+                            {
+                                if (valueKillSqlInjection.Contains("/"))
+                                {
+                                    string[] dateValues = new string[1];
+                                    dateValues = valueKillSqlInjection.Split('/');
+                                    string query = string.Empty;
+                                    for (int i = 0; i < dateValues.Length; i++)
+                                    {
+                                        if (!string.IsNullOrEmpty(dateValues[i]))
+                                        {
+                                            if (i == 0)
+                                            {
+                                                query = " OR ( CAST(" + item.field + " AS DATE) >= CAST('" + DateTime.Parse(dateValues[i]).ToString("yyyy/MM/dd") + "' AS DATE)";
+                                            }
+                                            else
+                                            {
+                                                query = query + " AND CAST(" + item.field + " AS DATE) <= CAST('" + DateTime.Parse(dateValues[i]).ToString("yyyy/MM/dd") + "' AS DATE)";
+                                            }
+                                        }
+                                    }
+                                    query = query + ")";
+                                    result.Append(query);
+                                }
+                                else
+                                {
+                                    result.Append(" AND CAST(" + item.field + " AS DATE) >= CAST('" + valueKillSqlInjection + "' AS DATE)");
+                                }
+                            }
 
                             else if (item.op == "not_equal_number")
                             {

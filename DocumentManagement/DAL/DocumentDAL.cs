@@ -128,7 +128,7 @@ namespace DocumentManagement.DAL
                 dbProvider.SetParameter("Autograph", SqlDbType.NVarChar, document.Autograph, ParameterDirection.Input);
                 dbProvider.SetParameter("FormatId", SqlDbType.Int, document.FormatId, ParameterDirection.Input);
                 dbProvider.SetParameter("ComputerFileId", SqlDbType.Int, document.ComputerFileId, ParameterDirection.Input);
-                dbProvider.SetParameter("CreatedDate", SqlDbType.Date, document.CreatedDate, ParameterDirection.Input);
+                dbProvider.SetParameter("CreatedDate", SqlDbType.Date, DateTime.Now, ParameterDirection.Input);
                 dbProvider.SetParameter("CreatedBy", SqlDbType.NVarChar, document.CreatedBy, ParameterDirection.Input);
                 dbProvider.SetParameter("Signature", SqlDbType.Int, document.Signature);
                 dbProvider.SetParameter("ErrorCode", SqlDbType.NVarChar, DBNull.Value, 100, ParameterDirection.Output);
@@ -188,7 +188,7 @@ namespace DocumentManagement.DAL
                     dbProvider.SetParameter("FormatId", SqlDbType.Int, document.FormatId, ParameterDirection.Input);
                     dbProvider.SetParameter("ComputerFileId", SqlDbType.Int, document.ComputerFileId, ParameterDirection.Input);
                     //dbProvider.SetParameter("CreatedDate", SqlDbType.Date, document.CreatedDate, ParameterDirection.Input);
-                    //dbProvider.SetParameter("UpdatedDate", SqlDbType.Date, document.UpdatedDate, ParameterDirection.Input);
+                    dbProvider.SetParameter("UpdatedDate", SqlDbType.Date, DateTime.Now, ParameterDirection.Input);
                     dbProvider.SetParameter("UpdatedBy", SqlDbType.NVarChar, document.UpdatedBy, ParameterDirection.Input);
                     //dbProvider.SetParameter("IsDeleted", SqlDbType.NVarChar, document.IsDeleted, ParameterDirection.Input);
                     dbProvider.SetParameter("Signature", SqlDbType.TinyInt, document.Signature, ParameterDirection.Input);
